@@ -48,7 +48,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/colorAccent"
                     android:contentDescription="@string/imageButton_comentar_description"
                     android:padding="12dp"
                     app:layout_constraintBottom_toBottomOf="@+id/editTextComentarAnuncio"
@@ -89,7 +88,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_admob"
-        android:elevation="9dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

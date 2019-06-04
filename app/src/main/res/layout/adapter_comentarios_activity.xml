@@ -4,38 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!--
-    <ImageView
-        android:id="@+id/imageView_foto_usuario_comentarios1"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/bg_caixa_txt"
-        android:contentDescription="TODO"
-        android:maxWidth="60dp"
-        android:maxHeight="60dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_max="wrap"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_max="wrap"
-        app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />-->
-
     <ImageView
         android:id="@+id/imv_content"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
+        android:contentDescription="@string/conteudo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bg_caixa_txt"
-        android:contentDescription="@string/conteudo" />
+        app:srcCompat="@drawable/bg_caixa_txt" />
 
     <View
         android:id="@+id/divider9"
@@ -71,11 +51,9 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
-
     <TextView
 
         android:id="@+id/textView_nome_usuario"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

@@ -1,18 +1,9 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.media.AudioAttributes;
-import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +11,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.adapter.AdapterComentarios;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
@@ -34,14 +24,11 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -77,6 +64,11 @@ public class ComentariosActivity extends AppCompatActivity {
             List<Comentario> listaComentarios = anuncioSelecionado.getListaComentarios();
             edtComentario = findViewById(R.id.editTextComentarAnuncio);
             ImageButton imbComentario = findViewById(R.id.imageButton_comentarAnuncio);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imbComentario.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+            }
+
             imbComentario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
