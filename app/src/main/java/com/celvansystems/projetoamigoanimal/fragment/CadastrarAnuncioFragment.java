@@ -662,7 +662,6 @@ public class CadastrarAnuncioFragment extends Fragment
                                 }*/
                                 //listaFotosRecuperadas.add(caminhoImagem);
                                 listaFotosRecuperadas.put(requisicao, caminhoImagem);
-
                             }
                         }
                     })
