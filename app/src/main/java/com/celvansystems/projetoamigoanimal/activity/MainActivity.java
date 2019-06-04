@@ -58,11 +58,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        configuraNavBar();
 
         setContentView(R.layout.activity_main);
 
         inicializarComponentes();
+
+        configuraNavBar();
 
         habilitaOpcoesNav();
         //Propagandas
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity
     private void configuraNavBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.lightgray));
+            imageViewPerfil.setElevation(25);
         }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

@@ -3,6 +3,7 @@ package com.celvansystems.projetoamigoanimal.fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -144,6 +146,15 @@ public class AnunciosFragment extends Fragment {
                 refreshRecyclerAnuncios();
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            LinearLayout llBotoes = view.findViewById(R.id.linearLayoutBotoes);
+            llBotoes.setElevation(20);
+            btnLocal.setElevation(10);
+            btnEspecie.setElevation(10);
+            btnLocal.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.lightgray));
+            btnEspecie.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.lightgray));
+        }
     }
 
     private boolean isListaAnunciosPopulada() {
@@ -357,6 +368,10 @@ public class AnunciosFragment extends Fragment {
             View viewSpinnerEspecie = getLayoutInflater().inflate(R.layout.dialog_spinner_especie, null);
             final Spinner spinnerEspecie = viewSpinnerEspecie.findViewById(R.id.spinnerFiltroEspecie);
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                spinnerEspecie.setElevation(30);
+            }
+
             ArrayList<String> especiesLista = Util.getEspeciesLista(view.getContext());
 
             //especies
@@ -424,7 +439,10 @@ public class AnunciosFragment extends Fragment {
             spinnerEstado = viewSpinner.findViewById(R.id.spinnerFiltroEstado);
             spinnerCidade = viewSpinner.findViewById(R.id.spinnerFiltroCidade);
 
-            //spinnerCidade.setVisibility(View.VISIBLE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                spinnerEstado.setElevation(30);
+                spinnerCidade.setElevation(30);
+            }
 
             ArrayList<String> cidadesLista = Util.getCidadesLista("AC", view.getContext());
 
