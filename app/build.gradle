@@ -10,6 +10,7 @@ android {
         versionName "1.11.399"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        android.defaultConfig.vectorDrawables.useSupportLibrary = true
         ndk {
             ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }

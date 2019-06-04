@@ -763,8 +763,10 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
             imvCurtirAnuncio = itemView.findViewById(R.id.imv_curtir_anuncio);
             edtComentar = itemView.findViewById(R.id.editText_comentar);
             imvMaisOpcoesAnuncios = itemView.findViewById(R.id.imv_mais_opcoes_anuncios);
+
+            imvCurtirAnuncio.bringToFront();
+            imvComentarAnuncio.bringToFront();
+            imvCompartilharAnuncio.bringToFront();
         }
     }
-
-
 }
