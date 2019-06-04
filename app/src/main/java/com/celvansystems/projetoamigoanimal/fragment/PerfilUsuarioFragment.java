@@ -3,6 +3,7 @@ package com.celvansystems.projetoamigoanimal.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -48,7 +49,6 @@ public class PerfilUsuarioFragment extends Fragment {
     private TextView txvTelefone;
     private TextView txvSexo;
     private TextView txvResumo;
-    private TextView txvSobreMim;
     private TextView txvPerfilHumano;
     private View layout;
 
@@ -82,8 +82,6 @@ public class PerfilUsuarioFragment extends Fragment {
         txvSexo = viewFragment.findViewById(R.id.textView_sexo);
         txvResumo = viewFragment.findViewById(R.id.textView_resumo);
         txvResumo.setVisibility(View.INVISIBLE);
-        txvSobreMim = viewFragment.findViewById(R.id.txvSobreMim);
-        txvSobreMim.setVisibility(View.INVISIBLE);
         txvPerfilHumano = viewFragment.findViewById(R.id.textView_perfil_humano);
 
         layout = viewFragment.findViewById(R.id.const_layout_anuncios);
@@ -92,6 +90,11 @@ public class PerfilUsuarioFragment extends Fragment {
         txvEmail.setText(getEmailUsuario());
 
         Button btnEditarperfil = viewFragment.findViewById(R.id.btn_editar_perfil);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btnEditarperfil.setElevation(50);
+        }
+
 
         btnEditarperfil.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,10 +1,12 @@
 package com.celvansystems.projetoamigoanimal.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +28,6 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
     private View layout;
     private ImageView imvDoacao;
 
-
     public DoacaoFragment() {
     }
 
@@ -35,11 +36,8 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_doacao, container, false);
-
         inializaComponentes();
-
         carregarFotoMarketing();
-
         return view;
     }
 
@@ -104,6 +102,14 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_2_REAIS);
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btnDoar2.setElevation(10);
+            btnDoar5.setElevation(10);
+            btnDoar10.setElevation(10);
+            CardView card = view.findViewById(R.id.cardView_doacao);
+            card.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.backgroundcolor));
+        }
     }
 
     @Override

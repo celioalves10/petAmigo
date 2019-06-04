@@ -10,7 +10,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".fragment.AnunciosFragment">
 
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/const_layout_meus_anuncios"
         android:layout_width="match_parent"
@@ -29,6 +28,7 @@
                 android:id="@+id/recyclerMeusAnuncios"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <android.support.design.widget.FloatingActionButton
@@ -40,9 +40,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="55dp"
             android:clickable="true"
-            android:elevation="50dp"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
             android:foregroundGravity="clip_horizontal|center"
             app:elevation="15dp"
             app:layout_anchorGravity="bottom|center"

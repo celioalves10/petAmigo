@@ -3,6 +3,7 @@ package com.celvansystems.projetoamigoanimal.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -147,6 +148,10 @@ public class MeusAnunciosFragment extends Fragment {
                 refreshRecyclerAnuncios();
             }
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fabCadastrar.setElevation(50);
+        }
     }
 
     @Override
