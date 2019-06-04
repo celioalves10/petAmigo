@@ -216,7 +216,7 @@ public class Usuario implements Serializable {
         this.genero = genero;
     }*/
 
-    /*public boolean isLoginCompleto() {
+    public boolean isLoginCompleto() {
 
         boolean retorno = false;
 
@@ -232,5 +232,5 @@ public class Usuario implements Serializable {
             e.printStackTrace();
         }
         return retorno;
-    }*/
+    }
 }
