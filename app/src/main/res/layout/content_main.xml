@@ -38,7 +38,7 @@
         android:id="@+id/constraintLayout_admob_detalhes_animal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_admob"
+        android:background="@xml/bg_admob"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -101,7 +101,7 @@
             android:contentDescription="@string/perfis"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/scrollView3"
-            app:srcCompat="@drawable/ic_foto_perfil" />
+            app:srcCompat="@xml/ic_foto_perfil" />
 
         <TextView
 

@@ -42,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider_meus_anuncios"
-        app:srcCompat="@drawable/ic_share_black_24dp" />
+        app:srcCompat="@xml/ic_share_black_24dp" />
 
     <ImageView
         android:id="@+id/imv_mais_opcoes_meus_anuncios"
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="@+id/imv_compartilhar_meus_anuncios"
         app:layout_constraintStart_toStartOf="@+id/imv_compartilhar_meus_anuncios"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+        app:srcCompat="@xml/ic_more_vert_black_24dp" />
 
     <ImageView
         android:id="@+id/imageView_bottom_meus_anuncios"
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/bg_img_card_gradient" />
+        app:srcCompat="@xml/bg_img_card_gradient" />
 
     <TextView
         android:id="@+id/txv_nome_meus_anuncios"
@@ -132,7 +132,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/bg_btn"
+        android:background="@xml/bg_btn"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/textIdade_meus_anuncios"
         app:layout_constraintEnd_toEndOf="parent"

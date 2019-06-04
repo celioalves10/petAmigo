@@ -19,7 +19,7 @@
             android:id="@+id/linearLayoutBotoes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_branco_gradient"
+            android:background="@xml/bg_branco_gradient"
             android:orientation="horizontal"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"

@@ -87,7 +87,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dividerPrincipal"
-            app:srcCompat="@drawable/ic_share_black_24dp" />
+            app:srcCompat="@xml/ic_share_black_24dp" />
 
         <ImageView
             android:id="@+id/imv_comentar_anuncio"
@@ -127,7 +127,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/bg_img_card_gradient" />
+            app:srcCompat="@xml/bg_img_card_gradient" />
 
         <TextView
             android:id="@+id/textIdade_meus_anuncios"
@@ -166,7 +166,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/bg_btn"
+            android:background="@xml/bg_btn"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/imv_comentar_anuncio"
             app:layout_constraintEnd_toEndOf="parent"
@@ -188,7 +188,7 @@
             android:padding="9dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_more_vert_black_24dp"
+            app:srcCompat="@xml/ic_more_vert_black_24dp"
             android:contentDescription="@string/mais_opcoes" />
 
     </android.support.constraint.ConstraintLayout>
@@ -268,7 +268,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_send_branco_24dp" />
+            app:srcCompat="@xml/ic_send_branco_24dp" />
 
         <EditText
             android:id="@+id/editText_comentar"

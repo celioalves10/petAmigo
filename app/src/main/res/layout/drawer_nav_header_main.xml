@@ -4,7 +4,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
+    android:background="@xml/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -27,7 +27,7 @@
         app:civ_shadow_radius="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_perfil_user" />
+        app:srcCompat="@xml/ic_perfil_user" />
 
     <TextView
         android:id="@+id/textview_nome_humano"

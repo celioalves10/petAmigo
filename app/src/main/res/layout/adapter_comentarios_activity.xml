@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bg_caixa_txt" />
+        app:srcCompat="@xml/bg_caixa_txt" />
 
     <View
         android:id="@+id/divider9"
@@ -23,7 +23,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/bg_caixa_txt"
+        android:background="@xml/bg_caixa_txt"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView_dataHora"
@@ -103,7 +103,7 @@
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginTop="1dp"
-        android:background="@drawable/bg_caixa_txt"
+        android:background="@xml/bg_caixa_txt"
         app:layout_constraintEnd_toEndOf="@+id/textView_dataHora"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textView_nome_usuario"

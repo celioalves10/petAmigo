@@ -22,7 +22,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/bg_caixa_txt"
+                    android:background="@xml/bg_caixa_txt"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
                     android:padding="4dp">
@@ -86,7 +86,7 @@
                         android:layout_marginRight="8dp"
                         android:layout_marginBottom="16dp"
                         android:autofillHints=""
-                        android:background="@drawable/bg_caixa_txt"
+                        android:background="@xml/bg_caixa_txt"
                         android:ems="10"
                         android:hint="@string/nome_do_animal"
                         android:inputType="textCapWords"
@@ -110,7 +110,7 @@
 
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_caixa_txt"
+                        android:background="@xml/bg_caixa_txt"
                         android:padding="12dp" />
 
                     <Spinner
@@ -120,7 +120,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_caixa_txt"
+                        android:background="@xml/bg_caixa_txt"
                         android:padding="12dp" />
                 </LinearLayout>
 
@@ -135,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_caixa_txt"
+                        android:background="@xml/bg_caixa_txt"
                         android:padding="12dp" />
 
                     <Spinner
@@ -145,7 +145,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_caixa_txt"
+                        android:background="@xml/bg_caixa_txt"
                         android:padding="12dp" />
 
                 </LinearLayout>
@@ -165,7 +165,7 @@
 
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_caixa_txt"
+                        android:background="@xml/bg_caixa_txt"
                         android:padding="12dp" />
 
                     <Spinner
@@ -175,7 +175,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/bg_caixa_txt"
+                        android:background="@xml/bg_caixa_txt"
                         android:padding="12dp" />
                 </LinearLayout>
 
@@ -193,7 +193,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
                         android:autofillHints=""
-                        android:background="@drawable/bg_caixa_txt"
+                        android:background="@xml/bg_caixa_txt"
                         android:ems="10"
                         android:hint="@string/raca"
                         android:inputType="textCapWords"
@@ -228,7 +228,7 @@
                             android:id="@+id/editText_cad_descrição"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:background="@drawable/bg_caixa_txt"
+                            android:background="@xml/bg_caixa_txt"
                             android:hint="@string/descricao_do_animal"
                             android:inputType="textMultiLine"
                             android:isScrollContainer="true"
@@ -245,7 +245,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="47dp"
-                            android:background="@drawable/bg_btn"
+                            android:background="@xml/bg_btn"
                             android:clickable="true"
                             android:focusable="true"
                             android:shadowColor="@color/black_overlay"

@@ -26,7 +26,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/bg_bt_redes_sociais"
+        android:background="@xml/bg_bt_redes_sociais"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView_telefone"
@@ -61,7 +61,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/bg_bt_redes_sociais"
+        android:background="@xml/bg_bt_redes_sociais"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txv_nome"
@@ -73,7 +73,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/bg_bt_redes_sociais"
+        android:background="@xml/bg_bt_redes_sociais"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txv_nome"
@@ -111,7 +111,7 @@
         app:civ_shadow_radius="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_foto_perfil" />
+        app:srcCompat="@xml/ic_foto_perfil" />
 
     <TextView
 
@@ -238,7 +238,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/bg_btn"
+        android:background="@xml/bg_btn"
         android:text="@string/editar_perfil"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
         app:layout_constraintEnd_toEndOf="parent"
@@ -265,7 +265,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_btn"
+            android:background="@xml/bg_btn"
             android:text="@string/enc_conta"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:visibility="visible"

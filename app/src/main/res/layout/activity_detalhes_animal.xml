@@ -64,7 +64,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/bg_img_card_gradient" />
+                            app:srcCompat="@xml/bg_img_card_gradient" />
 
                     </android.support.constraint.ConstraintLayout>
 
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="0dp"
                         android:layout_marginBottom="8dp"
-                        android:background="@drawable/bg_branco_gradient"
+                        android:background="@xml/bg_branco_gradient"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -90,7 +90,7 @@
                             android:contentDescription="@string/sobre"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/txv_estado"
-                            app:srcCompat="@drawable/ic_perfilpet" />
+                            app:srcCompat="@xml/ic_perfilpet" />
 
                         <ImageView
                             android:id="@+id/imv_descricao"
@@ -103,7 +103,7 @@
                             app:layout_constraintBottom_toTopOf="@+id/divider2"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_perfilpet" />
+                            app:srcCompat="@xml/ic_perfilpet" />
 
                         <TextView
                             android:id="@+id/txv_nome_meus_anuncios"
@@ -242,7 +242,7 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="180dp"
-                            android:background="@drawable/bg_btn"
+                            android:background="@xml/bg_btn"
                             android:clickable="true"
                             android:focusable="true"
                             android:shadowColor="@color/black_overlay"
@@ -299,7 +299,7 @@
                             android:layout_marginTop="4dp"
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="535dp"
-                            android:background="@drawable/bg_bt_redes_sociais"
+                            android:background="@xml/bg_bt_redes_sociais"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -312,7 +312,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="4dp"
                             android:layout_marginEnd="8dp"
-                            android:background="@drawable/bg_bt_redes_sociais"
+                            android:background="@xml/bg_bt_redes_sociais"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
@@ -325,7 +325,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
-                            android:background="@drawable/bg_bt_redes_sociais"
+                            android:background="@xml/bg_bt_redes_sociais"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
@@ -340,7 +340,7 @@
                             android:contentDescription="@string/localizacao"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/txv_genero"
-                            app:srcCompat="@drawable/ic_microchip" />
+                            app:srcCompat="@xml/ic_microchip" />
                     </android.support.constraint.ConstraintLayout>
 
                 </android.support.constraint.ConstraintLayout>
@@ -352,7 +352,7 @@
             android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_branco_gradient_invertido"
+            android:background="@xml/bg_branco_gradient_invertido"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_minha_conta"
-            android:icon="@drawable/ic_usuario"
+            android:icon="@xml/ic_usuario"
             android:title="@string/txt_minha_conta" />
         <!--item
             android:id="@+id/nav_config_notificacoes"
@@ -14,7 +14,7 @@
             android:title="@string/txt_config_notificar" /-->
         <item
             android:id="@+id/nav_meus_anuncios"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@xml/ic_menu_slideshow"
             android:title="@string/txt_meus_anuncios" />
     </group>
     <item
@@ -24,7 +24,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/pet_adote"
-                    android:icon="@drawable/ic_man_carrying_a_dog_with_a_belt_to_walk"
+                    android:icon="@xml/ic_man_carrying_a_dog_with_a_belt_to_walk"
                     android:title="@string/adotar_pet" />
                 <!--item
                     android:id="@+id/pet_procurado"
@@ -32,11 +32,11 @@
                     android:title="@string/txt_perdido" /-->
                 <item
                     android:id="@+id/pet_cad"
-                    android:icon="@drawable/ic_perfilpet"
+                    android:icon="@xml/ic_perfilpet"
                     android:title="@string/cadastrar_pet" />
                 <item
                     android:id="@+id/doacao"
-                    android:icon="@drawable/ic_ajudar_causa"
+                    android:icon="@xml/ic_ajudar_causa"
                     android:title="@string/txt_ajudar" />
                 <item
                     android:id="@+id/nav_sair"
@@ -51,7 +51,7 @@
                     <item
                         android:id="@+id/nav_share_app"
                         android:checkableBehavior="single"
-                        android:icon="@drawable/ic_menu_share"
+                        android:icon="@xml/ic_menu_share"
                         android:title="@string/txt_compartilhar_app" />
                     <!--item
                         android:checkableBehavior="single"
