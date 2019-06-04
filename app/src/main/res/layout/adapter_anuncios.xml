@@ -8,8 +8,7 @@
     android:clickable="true"
 
     android:focusableInTouchMode="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground">
+    android:focusable="true">
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
@@ -84,9 +83,7 @@
             android:layout_marginBottom="8dp"
             android:clickable="true"
             android:contentDescription="@string/todo"
-            android:elevation="40dp"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,9 +97,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
-            android:elevation="40dp"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
             android:padding="0dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -116,9 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:clickable="true"
-            android:elevation="40dp"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
             android:visibility="visible"
             app:layout_constraintEnd_toStartOf="@+id/imv_comentar_anuncio"
             app:layout_constraintTop_toTopOf="@+id/imv_comentar_anuncio"
@@ -175,7 +168,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_btn"
-            android:elevation="35dp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/imv_comentar_anuncio"
             app:layout_constraintEnd_toEndOf="parent"
@@ -243,6 +235,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
 
+            android:text="@string/curtidas"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/txv_num_curtidas"
             app:layout_constraintStart_toStartOf="parent"
@@ -272,7 +265,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/colorAccent"
             android:contentDescription="@string/comentar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -287,18 +279,17 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:autofillHints=""
             android:ems="10"
             android:hint="@string/txt_comentar"
             android:inputType="textShortMessage|textAutoCorrect|textMultiLine|textPersonName|textCapSentences|textAutoComplete"
-            android:maxLines="3"
             android:selectAllOnFocus="false"
             android:singleLine="false"
             android:visibility="visible"
+            tools:ignore="Autofill"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageButton_comentar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -135,7 +136,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
             myViewHolder.dataCadastro.setText(anuncio.getDataCadastro());
             myViewHolder.nome.setText(anuncio.getNome());
             myViewHolder.idade.setText(anuncio.getIdade());
-            myViewHolder.cidade.setText(anuncio.getCidade()+" - "+anuncio.getUf());
+            myViewHolder.cidade.setText(String.format("%s - %s", anuncio.getCidade(), anuncio.getUf()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -767,6 +768,15 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
             imvCurtirAnuncio.bringToFront();
             imvComentarAnuncio.bringToFront();
             imvCompartilharAnuncio.bringToFront();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imvCompartilharAnuncio.setElevation(40);
+                imvComentarAnuncio.setElevation(40);
+                imvCurtirAnuncio.setElevation(40);
+                imbComentarAnuncio.setBackgroundTintList(itemView.getContext().getResources().getColorStateList(R.color.colorAccent));
+                View divider = itemView.findViewById(R.id.dividerPrincipal);
+                divider.setElevation(35);
+            }
         }
     }
 }

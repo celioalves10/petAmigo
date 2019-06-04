@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -22,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.DetalhesAnimalActivity;
@@ -229,8 +229,9 @@ public class AdapterMeusAnuncios extends RecyclerView.Adapter<AdapterMeusAnuncio
         TextView cidade;
         ImageView foto;
         ImageView imvMaisOpcoesMeusAnuncios;
+        ImageView imvBottomMeusAnuncios;
         ImageView imvCompartilharMeusAnuncios;
-        View layout;
+        View layout, divider;
 
         MyViewHolder(View itemView) {
             super(itemView);
@@ -238,13 +239,30 @@ public class AdapterMeusAnuncios extends RecyclerView.Adapter<AdapterMeusAnuncio
             dataCadastro = itemView.findViewById(R.id.textDataCadastroMeusAnuncios);
             nome = itemView.findViewById(R.id.txv_nome_meus_anuncios);
             idade = itemView.findViewById(R.id.textIdade_meus_anuncios);
-            foto = itemView.findViewById(R.id.imganun_meus_anuncios);
+            foto = itemView.findViewById(R.id.img_meus_anuncios);
             cidade = itemView.findViewById(R.id.textCidadePrincipal_meus_anuncios);
             imvMaisOpcoesMeusAnuncios = itemView.findViewById(R.id.imv_mais_opcoes_meus_anuncios);
+            imvBottomMeusAnuncios = itemView.findViewById(R.id.imageView_bottom_meus_anuncios);
             imvCompartilharMeusAnuncios = itemView.findViewById(R.id.imv_compartilhar_meus_anuncios);
+
+            imvCompartilharMeusAnuncios.bringToFront();
+            imvMaisOpcoesMeusAnuncios.bringToFront();
 
             //Para a snackBar
             layout = itemView.findViewById(R.id.view_pager);
+            divider = itemView.findViewById(R.id.divider_meus_anuncios);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                foto.setElevation(2);
+                imvCompartilharMeusAnuncios.setElevation(40);
+                imvMaisOpcoesMeusAnuncios.setElevation(40);
+                imvBottomMeusAnuncios.setElevation(2);
+                nome.setElevation(5);
+                idade.setElevation(5);
+                cidade.setElevation(5);
+                dataCadastro.setElevation(5);
+                divider.setElevation(5);
+            }
         }
     }
 }

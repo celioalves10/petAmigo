@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frame_layout_cad_anuncio"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.CadastrarAnuncioFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:id="@+id/constraintLayout_cadastrar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center|top"
-        android:orientation="vertical"
-        android:padding="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.celvansystems.projetoamigoanimal.activity.MainActivity"
-        tools:showIn="@layout/fragment_cadastrar_anuncio">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -42,7 +30,8 @@
                     <HorizontalScrollView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        tools:ignore="UselessParent">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -62,7 +51,6 @@
                                 android:id="@+id/imageCad2"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="0dp"
                                 android:layout_weight="1"
                                 android:contentDescription="@string/todo"
                                 android:scaleType="centerCrop"
@@ -103,7 +91,7 @@
                         android:hint="@string/nome_do_animal"
                         android:inputType="textCapWords"
                         android:padding="10dp"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         tools:targetApi="o" />
 
 
@@ -209,7 +197,7 @@
                         android:ems="10"
                         android:hint="@string/raca"
                         android:inputType="textCapWords"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
                         tools:targetApi="o" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -240,18 +228,16 @@
                             android:id="@+id/editText_cad_descrição"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-
                             android:background="@drawable/bg_caixa_txt"
                             android:hint="@string/descricao_do_animal"
                             android:inputType="textMultiLine"
                             android:isScrollContainer="true"
                             android:lineSpacingExtra="3sp"
-                            android:nestedScrollingEnabled="true"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
                             android:scrollbarAlwaysDrawVerticalTrack="true"
                             android:scrollbars="vertical"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
 
                         <Button
                             android:id="@+id/btnCadAnuncio"
@@ -261,9 +247,7 @@
                             android:layout_marginBottom="47dp"
                             android:background="@drawable/bg_btn"
                             android:clickable="true"
-                            android:elevation="25dp"
                             android:focusable="true"
-                            android:foreground="?attr/selectableItemBackground"
                             android:shadowColor="@color/black_overlay"
                             android:shadowDx="@android:integer/config_shortAnimTime"
                             android:text="@string/cadastrar_anuncio"
@@ -277,6 +261,4 @@
             </LinearLayout>
         </ScrollView>
 
-    </LinearLayout>
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

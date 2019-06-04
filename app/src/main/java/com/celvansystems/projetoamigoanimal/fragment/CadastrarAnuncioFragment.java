@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -126,7 +127,7 @@ public class CadastrarAnuncioFragment extends Fragment
 
         storage = ConfiguracaoFirebase.getFirebaseStorage();
 
-        layout = viewFragment.findViewById(R.id.constraintLayout_cadastrar);
+        layout = viewFragment.findViewById(R.id.frame_layout_cad_anuncio);
 
         spnEspecie = viewFragment.findViewById(R.id.spinner_cad_Especie);
         spnSexo = viewFragment.findViewById(R.id.spinner_cad_Sexo);
@@ -141,6 +142,10 @@ public class CadastrarAnuncioFragment extends Fragment
         edtNome = viewFragment.findViewById(R.id.editText_cad_NomeAnimal);
 
         btnCadastrarAnuncio = viewFragment.findViewById(R.id.btnCadAnuncio);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btnCadastrarAnuncio.setElevation(25);
+            edtDescricao.setNestedScrollingEnabled(true);
+        }
 
         //imageviews
         imagem1 = viewFragment.findViewById(R.id.imageCad1);

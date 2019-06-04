@@ -303,5 +303,6 @@
     <string name="coment_excluido">Comentário excluído</string>
     <string name="sobre">Sobre</string>
     <string name="localizacao">Localização</string>
+    <string name="conteudo">conteúdo</string>
 
 </resources>

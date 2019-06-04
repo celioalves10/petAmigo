@@ -8,17 +8,14 @@
     android:layout_height="250dp"
     android:layout_marginBottom="49dp"
     android:clickable="true"
-    android:focusableInTouchMode="true"
     android:focusable="true"
-    android:foreground="?attr/selectableItemBackground">
-
+    android:focusableInTouchMode="true">
 
     <ImageView
-        android:id="@+id/imganun_meus_anuncios"
+        android:id="@+id/img_meus_anuncios"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:contentDescription="@string/txt_meus_anuncios"
-        android:elevation="2dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,9 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/txt_compartilhar"
-        android:elevation="40dp"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
         android:paddingLeft="20dp"
         android:paddingTop="8dp"
         android:paddingRight="20dp"
@@ -46,7 +41,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/divider_meus_anuncios"
         app:srcCompat="@drawable/ic_share_black_24dp" />
 
     <ImageView
@@ -56,23 +51,17 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/todo"
-        android:elevation="40dp"
-        android:foreground="?attr/selectableItemBackground"
-
-
         android:padding="24dp"
         app:layout_constraintEnd_toEndOf="@+id/imv_compartilhar_meus_anuncios"
         app:layout_constraintStart_toStartOf="@+id/imv_compartilhar_meus_anuncios"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
-
     <ImageView
-        android:id="@+id/imageView3_meus_anuncios"
+        android:id="@+id/imageView_bottom_meus_anuncios"
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:contentDescription="@string/txt_meus_anuncios"
-        android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -84,11 +73,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:elevation="5dp"
         android:text="@string/anuncios"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintBottom_toTopOf="@+id/divider_meus_anuncios"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_conversion_absoluteHeight="19dp"
         tools:layout_conversion_absoluteWidth="197dp" />
@@ -99,7 +87,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
-        android:elevation="5dp"
         android:text="@string/anuncios"
         android:textColor="@color/colorAccent"
         android:textSize="14sp"
@@ -114,7 +101,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
-        android:elevation="5dp"
         android:text="@android:string/dialog_alert_title"
         android:textColor="@color/colorAccent"
         android:textSize="14sp"
@@ -130,7 +116,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="4dp"
-        android:elevation="5dp"
         android:text="@android:string/dialog_alert_title"
         android:textColor="@color/colorAccent"
         android:textSize="12sp"
@@ -141,19 +126,16 @@
         tools:layout_conversion_absoluteWidth="197dp" />
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/divider_meus_anuncios"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/bg_btn"
-        android:elevation="35dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/textIdade_meus_anuncios"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-
 </android.support.constraint.ConstraintLayout>
-
