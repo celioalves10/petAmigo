@@ -549,6 +549,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     for (DataSnapshot usuarios : dataSnapshot.getChildren()) {
                         if (usuarios != null) {
                             if (usuarios.child("id").getValue() != null) {
+
                                 if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(uidTask)) {
                                     usuarioExists = true;
 
