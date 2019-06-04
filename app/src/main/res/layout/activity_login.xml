@@ -6,8 +6,7 @@
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_img_card_gradientbranco"
-    android:elevation="0dp"
+    android:background="@color/backgroundcolor"
     android:gravity="center"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -79,7 +78,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/bg_caixa_txt"
-                    android:elevation="20dp"
                     android:focusableInTouchMode="true"
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
@@ -151,7 +149,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:elevation="15dp"
                     android:padding="10dp"
                     android:shadowColor="@color/black_overlay"
                     android:shadowDx="15"
@@ -179,7 +176,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:elevation="15dp"
                     android:padding="10dp"
                     android:shadowColor="@color/black_overlay"
                     android:shadowDx="15"
@@ -206,7 +202,6 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_btn"
                     android:clickable="true"
-                    android:elevation="50dp"
                     android:focusable="true"
                     android:shadowColor="@color/black_overlay"
                     android:shadowDy="@android:integer/config_mediumAnimTime"
@@ -222,7 +217,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
                     android:layout_weight="1"
-                    android:elevation="2dp"
                     android:gravity="center"
                     android:textSize="15sp" />
 
@@ -233,7 +227,6 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:elevation="2dp"
                     android:textColor="@color/backgroundcolor"
                     android:textSize="15sp" />
 
@@ -253,10 +246,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/login_form" />
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
-
-
 </android.support.constraint.ConstraintLayout>
 

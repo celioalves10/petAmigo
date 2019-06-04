@@ -2,6 +2,7 @@ package com.celvansystems.projetoamigoanimal.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -87,8 +88,13 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
             textEstado.setText(anuncioSelecionado.getUf());
             textCidade.setText(anuncioSelecionado.getCidade());
             textRaca.setText(anuncioSelecionado.getRaca());
-
             textDescricao.setText(anuncioSelecionado.getDescricao());
+
+            //setElevation API >= 21
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                textDescricao.setElevation(50);
+                btnVerTelefone.setElevation(25);
+            }
 
             DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
                     .child("usuarios");

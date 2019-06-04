@@ -135,7 +135,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
             myViewHolder.dataCadastro.setText(anuncio.getDataCadastro());
             myViewHolder.nome.setText(anuncio.getNome());
             myViewHolder.idade.setText(anuncio.getIdade());
-            myViewHolder.cidade.setText(anuncio.getCidade());
+            myViewHolder.cidade.setText(anuncio.getCidade()+" - "+anuncio.getUf());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -67,8 +65,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -98,6 +94,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private CallbackManager callbackManager;
     private GoogleSignInClient mGoogleSignInClient;
     private View layout;
+    private LoginButton btnLoginFacebook;
+    private SignInButton btnLoginGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +130,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //txiLayout.setVisibility(View.INVISIBLE);
 
             Button btnLogin = findViewById(R.id.btnLogin);
+            btnLoginFacebook = findViewById(R.id.login_button_facebook);
+            btnLoginGoogle = findViewById(R.id.login_button_google);
+
             swtLoginCadastrar = findViewById(R.id.swtLoginCadastrar);
             TextView txvEsqueciSenha = findViewById(R.id.txtEsqueciSenha);
 
@@ -192,6 +193,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             });
 
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                btnLogin.setElevation(50);
+                btnLoginFacebook.setElevation(50);
+                btnLoginGoogle.setElevation(50);
+                mEmailView.setElevation(20);
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -223,17 +232,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         try {
             callbackManager = CallbackManager.Factory.create();
 
-            LoginButton loginButton = findViewById(R.id.login_button_facebook);
-            loginButton.setLoginText(getString(R.string.fazer_login_facebook));
-            //loginButton.setLoginBehavior(LoginBehavior.WEB_ONLY);
+            btnLoginFacebook.setLoginText(getString(R.string.fazer_login_facebook));
+            //btnLoginFacebook.setLoginBehavior(LoginBehavior.WEB_ONLY);
 
-            loginButton.setPermissions(Arrays.asList(
+            btnLoginFacebook.setPermissions(Arrays.asList(
                     "email", "public_profile"));
-            //loginButton.setReadPermissions(Arrays.asList(
+            //btnLoginFacebook.setReadPermissions(Arrays.asList(
             //       "email", "public_profile"));
 
             //Callback registration
-            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
 
@@ -362,9 +370,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
 
             //Google Login
-            SignInButton signInButton = findViewById(R.id.login_button_google);
-            signInButton.setSize(SignInButton.SIZE_WIDE);
-            signInButton.setOnClickListener(new View.OnClickListener() {
+            btnLoginGoogle.setSize(SignInButton.SIZE_WIDE);
+            btnLoginGoogle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //if (v.getId() == R.id.login_button_google) {
@@ -579,7 +586,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Util.setSnackBar(layout, "13-"+e.getMessage());
+            Util.setSnackBar(layout, "13-" + e.getMessage());
         }
     }
 

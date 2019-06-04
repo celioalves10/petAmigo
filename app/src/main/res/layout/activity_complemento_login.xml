@@ -45,12 +45,12 @@
             android:layout_marginTop="40dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/bg_caixa_txt"
+            android:contentDescription="@string/complemento"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
-            app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
-            android:contentDescription="@string/complemento" />
+            app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
         <Button
             android:id="@+id/btn_voltar_foto"
@@ -146,7 +146,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            app:layout_constraintTop_toBottomOf="@+id/textView12"
+            tools:ignore="Autofill" />
 
         <TextView
             android:id="@+id/textView12"
@@ -332,7 +333,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
-            android:autofillHints="" />
+            tools:ignore="Autofill" />
 
         <Button
             android:id="@+id/btn_volta_fone"
@@ -355,7 +356,6 @@
             android:layout_marginTop="48dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/btn_compartilhar"
-            android:elevation="15dp"
             android:text="@string/txt_proximo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -403,11 +403,13 @@
                     android:id="@+id/edt_data_nascimento"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:labelFor="@+id/edt_data_nascimento"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="Autofill" />
 
                 <Spinner
                     android:id="@+id/spinner_cad_sexo"
@@ -434,7 +436,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                     />
+                    tools:ignore="Autofill" />
 
                 <EditText
                     android:id="@+id/editText_cad_sobremim"
@@ -444,11 +446,12 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:ems="10"
-                    android:hint="Sobre Mim"
+                    android:hint="@string/sobre_mim"
                     android:inputType="textMultiLine"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editText_cad_profissao" />
+                    app:layout_constraintTop_toBottomOf="@+id/editText_cad_profissao"
+                    tools:ignore="Autofill" />
 
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
