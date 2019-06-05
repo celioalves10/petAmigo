@@ -52,6 +52,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
         implements Serializable {
 
     private List<Animal> anuncios;
+
     //Permissoes
     private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -60,7 +61,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
     /**
      * construtor
-     *
      * @param anuncios lista de animais
      */
     public AdapterAnuncios(List<Animal> anuncios) {
@@ -119,7 +119,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 //Acoes dos botoes
                 configuraAcoes(myViewHolder, anuncio);
                 //Texto da quantidade de comentarios
-                confuguraVisibilidadeCampoComentario(anuncio, myViewHolder);
+                configuraVisibilidadeCampoComentario(anuncio, myViewHolder);
             }
         }
     }
@@ -228,7 +228,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
      * @param anuncio      animal
      * @param myViewHolder myViewHolder
      */
-    private void confuguraVisibilidadeCampoComentario(Animal anuncio, MyViewHolder myViewHolder) {
+    private void configuraVisibilidadeCampoComentario(Animal anuncio, MyViewHolder myViewHolder) {
 
         try {
             //visibilidade do campo comentário
@@ -265,6 +265,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
             }
         });
 
+
         myViewHolder.imvComentarAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,6 +273,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                     Intent comentariosIntent = new Intent(v.getContext(), ComentariosActivity.class);
                     comentariosIntent.putExtra("anuncioSelecionado", anuncio);
                     v.getContext().startActivity(comentariosIntent);
+
                 } else {
                     Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
                 }

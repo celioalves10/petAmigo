@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.adapter.AdapterComentarios;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -176,8 +178,6 @@ public class ComentariosActivity extends AppCompatActivity {
                                                     usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
                                                     //usuario.setFoto(Objects.requireNonNull(comentarios.child("usuario").child("foto").getValue()).toString());
 
-                                                    // TODO: 05/03/2019 concluir atributos de usuario apos activity para cadastro de usuario
-                                                    //usuario.setFoto(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser().getPhotoUrl().toString());
                                                     coment.setUsuario(usuario);
                                                     comentsList.add(coment);
                                                 }
@@ -312,5 +312,9 @@ public class ComentariosActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

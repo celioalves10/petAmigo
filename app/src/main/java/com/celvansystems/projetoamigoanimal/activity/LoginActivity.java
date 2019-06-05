@@ -161,17 +161,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             });
 
-            /*swtLoginCadastrar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        txiNome.setVisibility(View.VISIBLE);
-                        txiLayout.setVisibility(View.VISIBLE);
-                    } else {
-                        txiNome.setVisibility(View.INVISIBLE);
-                        txiLayout.setVisibility(View.INVISIBLE);
-                    }
-                }
-            });*/
             txvEsqueciSenha.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,7 +181,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     tentarLogin();
                 }
             });
-
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 btnLogin.setElevation(50);
@@ -237,8 +225,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             btnLoginFacebook.setPermissions(Arrays.asList(
                     "email", "public_profile"));
-            //btnLoginFacebook.setReadPermissions(Arrays.asList(
-            //       "email", "public_profile"));
 
             //Callback registration
             btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -413,6 +399,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } catch (Exception e) {
             Util.setSnackBar(layout, "3-" + e.getMessage());
         }
+
+        //se o usuário estiver logado, vai direto pra main
+        if (ConfiguracaoFirebase.isUsuarioLogado()) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
     }
 
     @Override
@@ -522,71 +514,64 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void concluiCadastroUsuario(final FirebaseUser user) {
 
-        try {
-            final String uidTask = Objects.requireNonNull(user.getUid());
-            final String nomeTask = Objects.requireNonNull(user.getDisplayName());
-            final String fotoTask = Objects.requireNonNull(user.getPhotoUrl()).toString();
-            final String emailTask = Objects.requireNonNull(user.getEmail());
+        if (user != null) {
+            try {
+                final String uidTask = Objects.requireNonNull(user.getUid());
+                final String nomeTask = Objects.requireNonNull(user.getDisplayName());
+                final String fotoTask = Objects.requireNonNull(user.getPhotoUrl()).toString();
+                final String emailTask = Objects.requireNonNull(user.getEmail());
 
-            final DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
-                    .child("usuarios");
+                final DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
+                        .child("usuarios");
 
-            usuariosRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                usuariosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    boolean usuarioExists = false;
+                        boolean usuarioExists = false;
 
-                    //criando usuario...
-                    Usuario usuario = new Usuario();
-                    usuario.setId(Objects.requireNonNull(uidTask));
-                    usuario.setNome(Objects.requireNonNull(nomeTask));
-                    usuario.setFoto(Objects.requireNonNull(fotoTask));
-                    /*try {
-                        if(token != null) {
-                            usuario.setFoto(new URL("https://graph.facebook.com/" + token.getUserId() + "/picture?type=large").toString());
-                        } else {
-                            usuario.setFoto(Objects.requireNonNull(fotoTask));
-                        }
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }*/
-                    usuario.setEmail(Objects.requireNonNull(emailTask));
+                        //criando usuario...
+                        Usuario usuario = new Usuario();
+                        usuario.setId(Objects.requireNonNull(uidTask));
+                        usuario.setNome(Objects.requireNonNull(nomeTask));
+                        usuario.setFoto(Objects.requireNonNull(fotoTask));
+                        usuario.setEmail(Objects.requireNonNull(emailTask));
 
-                    for (DataSnapshot usuarios : dataSnapshot.getChildren()) {
-                        if (usuarios != null) {
-                            if (usuarios.child("id").getValue() != null) {
+                        for (DataSnapshot usuarios : dataSnapshot.getChildren()) {
+                            if (usuarios != null) {
+                                if (usuarios.child("id").getValue() != null) {
 
-                                if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(uidTask)) {
-                                    usuarioExists = true;
+                                    if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(uidTask)) {
+                                        usuarioExists = true;
 
-                                    if (Objects.requireNonNull(usuarios.child("loginCompleto").getValue()).toString()
-                                            .equalsIgnoreCase("true")) {
+                                        if (Objects.requireNonNull(usuarios.child("loginCompleto").getValue()).toString()
+                                                .equalsIgnoreCase("true")) {
 
-                                        //direciona para a tela principal
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                    } else {
-                                        startActivity(new Intent(LoginActivity.this, ComplementoLoginActivity.class));
+                                            //direciona para a tela principal
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        } else {
+                                            startActivity(new Intent(LoginActivity.this, ComplementoLoginActivity.class));
+                                        }
+                                        break;
                                     }
-                                    break;
                                 }
                             }
                         }
+                        if (!usuarioExists) {
+                            usuario.salvar();
+                            startActivity(new Intent(LoginActivity.this, ComplementoLoginActivity.class));
+                        }
                     }
-                    if (!usuarioExists) {
-                        usuario.salvar();
-                        startActivity(new Intent(LoginActivity.this, ComplementoLoginActivity.class));
-                    }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Util.setSnackBar(layout, "12-" + databaseError.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            Util.setSnackBar(layout, "13-" + e.getMessage());
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Util.setSnackBar(layout, "12-" + databaseError.getMessage());
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                Util.setSnackBar(layout, "13-" + e.getMessage());
+            }
         }
     }
 
@@ -595,98 +580,100 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //esconde o teclado
         hideKeyboard(getApplicationContext(), mPasswordView);
 
-        // Store values at the time of the login attempt.
-        final String email = mEmailView.getText().toString();
-        final String password = mPasswordView.getText().toString();
+        if (mEmailView != null && mPasswordView != null) {
+            // Store values at the time of the login attempt.
+            final String email = mEmailView.getText().toString();
+            final String password = mPasswordView.getText().toString();
 
-        //cadastrando...
-        if (swtLoginCadastrar.isChecked()) {
-
-            //if (txiNome.getText() != null && !txiNome.getText().toString().equalsIgnoreCase("")) {
-
-            authentication.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if (task.isSuccessful()) {
-
-                                swtLoginCadastrar.setChecked(false);
-                                Util.setSnackBar(layout, getString(R.string.cadastro_realizado));
-                                sendVerificationEmail();
-
-                                //FirebaseUser user = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
-
-                                //UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                //       .setDisplayName(txiNome.getText().toString()).build();
-
-                                ////if (user != null) {
-                                //     user.updateProfile(profileUpdates);
-                                // }
-
-                                //criando usuario...
-                                Usuario usuario = new Usuario();
-                                usuario.setId(Objects.requireNonNull(task.getResult()).getUser().getUid());
-                                // usuario.setNome(txiNome.getText().toString());
-                                usuario.setEmail(email);
-                                usuario.salvar();
-
-                            } else {
-                                String erroExcecao;
-                                try {
-                                    throw Objects.requireNonNull(task.getException());
-                                } catch (FirebaseAuthWeakPasswordException e) {
-                                    erroExcecao = getString(R.string.digite_senha_forte);
-                                } catch (FirebaseAuthInvalidCredentialsException e) {
-                                    erroExcecao = getString(R.string.digite_email_valido);
-                                } catch (FirebaseAuthUserCollisionException e) {
-                                    erroExcecao = getString(R.string.conta_cadastrada);
-                                } catch (FirebaseAuthInvalidUserException e) {
-                                    erroExcecao = getString(R.string.usuario_inexistente);
-                                } catch (Exception e) {
-                                    erroExcecao = getString(R.string.falha_cadastro_usuario) + e.getMessage();
-                                    e.printStackTrace();
-                                }
-                                Util.setSnackBar(layout, getString(R.string.erro) + erroExcecao);
-                            }
-                        }
-                    });
-            //} else {
-            // Util.setSnackBar(layout, getString(R.string.insira_seu_nome));
-            //}
-            //logando...
-        } else {
             if (!email.equalsIgnoreCase("") && !password.equalsIgnoreCase("")) {
-                //direciona para a activity principal
-                authentication.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
+                //cadastrando...
+                if (swtLoginCadastrar.isChecked()) {
 
-                                    // TODO: 20/02/2019 habilitar verificacao de e-mail no final. Não deletar o código
-                                    //if (checkIfEmailVerified()) {
+                    //if (txiNome.getText() != null && !txiNome.getText().toString().equalsIgnoreCase("")) {
 
-                                    //redirecionamento de acordo com o cadastro do usuario (completo ou incompleto)
-                                    String usuarioId = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getUid();
-                                    redireciona(usuarioId);
+                    authentication.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                /*} else {
-                                    Toast.makeText(LoginActivity.this, getString(R.string.email_nao_verificado),
-                                            Toast.LENGTH_SHORT).show();
-                                    //envia e-mail de verificacao
-                                    sendVerificationEmail();
-                                }*/
-                                    // TODO: 20/02/2019 a verificacao de e-mail termina aqui. Não deletar o código
-                                } else {
-                                    Util.setSnackBar(layout, getString(R.string.email_senha_invalido));
+                                    if (task.isSuccessful()) {
+
+                                        swtLoginCadastrar.setChecked(false);
+                                        Util.setSnackBar(layout, getString(R.string.cadastro_realizado));
+                                        sendVerificationEmail();
+
+                                        //FirebaseUser user = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
+
+                                        //UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        //       .setDisplayName(txiNome.getText().toString()).build();
+
+                                        ////if (user != null) {
+                                        //     user.updateProfile(profileUpdates);
+                                        // }
+
+                                        //criando usuario...
+                                        Usuario usuario = new Usuario();
+                                        usuario.setId(Objects.requireNonNull(task.getResult()).getUser().getUid());
+                                        // usuario.setNome(txiNome.getText().toString());
+                                        usuario.setEmail(email);
+                                        usuario.salvar();
+
+                                    } else {
+                                        String erroExcecao;
+                                        try {
+                                            throw Objects.requireNonNull(task.getException());
+                                        } catch (FirebaseAuthWeakPasswordException e) {
+                                            erroExcecao = getString(R.string.digite_senha_forte);
+                                        } catch (FirebaseAuthInvalidCredentialsException e) {
+                                            erroExcecao = getString(R.string.digite_email_valido);
+                                        } catch (FirebaseAuthUserCollisionException e) {
+                                            erroExcecao = getString(R.string.conta_cadastrada);
+                                        } catch (FirebaseAuthInvalidUserException e) {
+                                            erroExcecao = getString(R.string.usuario_inexistente);
+                                        } catch (Exception e) {
+                                            erroExcecao = getString(R.string.falha_cadastro_usuario) + e.getMessage();
+                                            e.printStackTrace();
+                                        }
+                                        Util.setSnackBar(layout, getString(R.string.erro) + erroExcecao);
+                                    }
                                 }
-                                showProgress(false);
-                                mImageBg_color.setVisibility(View.INVISIBLE);
-                            }
-                        });
-                showProgress(true);
-                mImageBg_color.setVisibility(View.VISIBLE);
+                            });
+                    //} else {
+                    // Util.setSnackBar(layout, getString(R.string.insira_seu_nome));
+                    //}
+                    //logando...
+                } else {
+
+                    //direciona para a activity principal
+                    authentication.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+
+                                        if (checkIfEmailVerified()) {
+
+                                            //redirecionamento de acordo com o cadastro do usuario (completo ou incompleto)
+                                            String usuarioId = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getUid();
+                                            redireciona(usuarioId);
+
+                                        } else {
+                                            Util.setSnackBar(layout, getString(R.string.email_nao_verificado));
+
+                                            //envia e-mail de verificacao
+                                            sendVerificationEmail();
+                                        }
+                                    } else {
+                                        Util.setSnackBar(layout, getString(R.string.email_senha_invalido));
+                                    }
+                                    showProgress(false);
+                                    mImageBg_color.setVisibility(View.INVISIBLE);
+                                }
+                            });
+                    showProgress(true);
+                    mImageBg_color.setVisibility(View.VISIBLE);
+
+                }
             } else {
                 Util.setSnackBar(layout, getString(R.string.email_senha_invalido));
             }

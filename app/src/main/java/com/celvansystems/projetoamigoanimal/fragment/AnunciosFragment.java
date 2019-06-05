@@ -219,19 +219,6 @@ public class AnunciosFragment extends Fragment {
     public void onStart() {
         super.onStart();
         txvSemAnuncios.setVisibility(View.INVISIBLE);
-
-        // Verifica se há conta do google logada.
-        /*GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(view.getContext());
-        if (account != null) {
-            Util.setSnackBar(layout, Objects.requireNonNull(getContext()).getString(R.string.usuario_google));
-        } else {
-            // Verifica se há conta do facebook logada
-            AccessToken token = AccessToken.getCurrentAccessToken();
-
-            if (token != null) {
-                Util.setSnackBar(layout, Objects.requireNonNull(getContext()).getString(R.string.usuario_facebook));
-            }
-        }*/
     }
 
     @Override

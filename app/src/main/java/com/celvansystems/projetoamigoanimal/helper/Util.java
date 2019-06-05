@@ -184,6 +184,11 @@ public class Util {
         return ctx.getResources().getStringArray(R.array.especies);
     }
 
+    /**
+     * retorna lista com as espécies
+     * @param ctx contexto
+     * @return
+     */
     public static ArrayList<String> getEspeciesLista(Context ctx) {
 
         String[] especies = ctx.getResources().getStringArray(R.array.especies);
@@ -193,6 +198,10 @@ public class Util {
         return especiesLista;
     }
 
+    /**
+     * retorna a data atual no formato brasileiro
+     * @return data
+     */
     @SuppressLint("SimpleDateFormat")
     public static String getDataAtualBrasil() {
         // configuraçao da data atual do Brasil
@@ -200,6 +209,11 @@ public class Util {
         return (new SimpleDateFormat("dd/MM/yyyy HH:mm").format(cal.getTime()));
     }
 
+    /**
+     * mostra SnackBar
+     * @param root view
+     * @param snackTitle texto
+     */
     public static void setSnackBar(View root, String snackTitle) {
         Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_LONG);
         snackbar.show();

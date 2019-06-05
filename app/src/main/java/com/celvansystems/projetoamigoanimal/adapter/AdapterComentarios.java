@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
-import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Comentario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,8 +55,6 @@ public class AdapterComentarios extends RecyclerView.Adapter<AdapterComentarios.
 
         if (comentarios != null) {
             final Comentario comentario = comentarios.get(i);
-
-            // TODO: 05/03/2019 após concluir desenvolvimento do cadastro do usuario, configurar restante dos atributos
 
             DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
                     .child("usuarios");
