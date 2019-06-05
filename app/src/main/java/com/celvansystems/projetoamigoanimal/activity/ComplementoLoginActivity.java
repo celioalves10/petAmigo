@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -121,6 +122,9 @@ public class ComplementoLoginActivity extends AppCompatActivity {
 
             imvFoto = findViewById(R.id.imv_foto_complemento);
             edtNome = findViewById(R.id.edt_cad_nome);
+            int maxLengthofEditText = 30;
+            edtNome.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLengthofEditText)});
+
             edtTelefone = findViewById(R.id.edt_cad_telefone);
             edtTelefone.addTextChangedListener(Mask.insert("(##)#########", edtTelefone));
             //edtDataNascimento = findViewById(R.id.edt_data_nascimento);

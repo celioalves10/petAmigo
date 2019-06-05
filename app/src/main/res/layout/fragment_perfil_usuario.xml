@@ -222,9 +222,10 @@
         android:id="@+id/layout_edit_nome"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="22dp"
         android:background="@color/common_google_signin_btn_text_light_pressed"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnEncerrarConta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -246,33 +247,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_email_cadastrado" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <Button
+        android:id="@+id/btnEncerrarConta"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@xml/bg_btn"
+        android:text="@string/enc_conta"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_resumo">
+        app:layout_constraintTop_toBottomOf="@+id/btn_editar_perfil" />
 
-        <Button
-            android:id="@+id/btnEncerrarConta"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@xml/bg_btn"
-            android:text="@string/enc_conta"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+
 
 </android.support.constraint.ConstraintLayout>

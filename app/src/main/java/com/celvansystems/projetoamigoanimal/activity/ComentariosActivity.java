@@ -59,7 +59,6 @@ public class ComentariosActivity extends AppCompatActivity {
         recyclercomentarios.setItemAnimator(null);
         anuncioSelecionado = (Animal) getIntent().getSerializableExtra("anuncioSelecionado");
 
-
         if (anuncioSelecionado != null) {
 
             //comentarios
