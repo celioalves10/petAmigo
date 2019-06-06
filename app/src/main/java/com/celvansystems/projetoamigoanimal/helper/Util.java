@@ -2,20 +2,17 @@ package com.celvansystems.projetoamigoanimal.helper;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioAttributes;
 import android.media.RingtoneManager;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
-
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
 import com.celvansystems.projetoamigoanimal.model.Animal;
@@ -28,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -185,9 +181,8 @@ public class Util {
     }
 
     /**
-     * retorna lista com as espécies
      * @param ctx contexto
-     * @return
+     * @return lista de espécies
      */
     public static ArrayList<String> getEspeciesLista(Context ctx) {
 
@@ -200,6 +195,7 @@ public class Util {
 
     /**
      * retorna a data atual no formato brasileiro
+     *
      * @return data
      */
     @SuppressLint("SimpleDateFormat")
@@ -211,7 +207,8 @@ public class Util {
 
     /**
      * mostra SnackBar
-     * @param root view
+     *
+     * @param root       view
      * @param snackTitle texto
      */
     public static void setSnackBar(View root, String snackTitle) {
@@ -233,76 +230,134 @@ public class Util {
         return retorno;
     }
 
-    public static void configuraNotificacoes(final Context ctx, final Animal anuncio){
+    public static void configuraNotificacoes(final Context ctx, final Animal anuncio) {
 
-        final DatabaseReference comentRef = ConfiguracaoFirebase.getFirebase()
-                .child("meus_animais")
-                .child(anuncio.getIdAnimal())
-                .child("comentarios");
+        if(ConfiguracaoFirebase.isUsuarioLogado()) {
 
-        comentRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            final String idUsuario = ConfiguracaoFirebase.getIdUsuario();
 
-                if (anuncio.getDonoAnuncio().equalsIgnoreCase(ConfiguracaoFirebase.getIdUsuario())) {
+            Log.d("INFO11", "uid firebase: " + idUsuario);
 
-                    Comentario coment = new Comentario();
-                    int size = anuncio.getListaComentarios().size();
-                    if(size > 0) {
-                        String texto = anuncio.getListaComentarios().get(size - 1).getTexto();
-                        coment.setTexto(texto);
+            Log.d("INFO11", "nome animal: " + anuncio.getNome());
 
-                        int sizeComentsNotificacoes = Util.comentariosNotificacoes.size();
-                        if ((sizeComentsNotificacoes == 0 || !Util.comentariosNotificacoes.get(sizeComentsNotificacoes - 1).equalsIgnoreCase(texto))
-                                && !anuncio.getDonoAnuncio().equalsIgnoreCase(ConfiguracaoFirebase.getIdUsuario())) {
-                            createNotificationMessage(ctx, ctx.getString(R.string.novo_comentario), coment.getTexto(), anuncio);
 
-                            //ultimoComentario = texto;
-                            Util.comentariosNotificacoes.add(texto);
-                        }
+            try {
+                Log.d("INFO11", "entrou no configura");
+
+                final DatabaseReference comentRef = ConfiguracaoFirebase.getFirebase()
+                        .child("meus_animais")
+                        .child(anuncio.getIdAnimal())
+                        .child("comentarios");
+
+                comentRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        //if (anuncio.getDonoAnuncio().equalsIgnoreCase(ConfiguracaoFirebase.getIdUsuario())) {
+
+
+                            Comentario coment = new Comentario();
+                            int size = anuncio.getListaComentarios().size();
+                            if(size > 0) {
+                                String texto = anuncio.getListaComentarios().get(size - 1).getTexto();
+                                coment.setTexto(texto);
+
+                                int sizeComentsNotificacoes = Util.comentariosNotificacoes.size();
+                                if ((sizeComentsNotificacoes == 0 || !Util.comentariosNotificacoes.get(sizeComentsNotificacoes - 1).equalsIgnoreCase(texto))
+                                        && anuncio.getDonoAnuncio().equalsIgnoreCase(ConfiguracaoFirebase.getIdUsuario())) {
+                                    createNotificationMessage(ctx, ctx.getString(R.string.novo_comentario), coment.getTexto(), anuncio);
+                                    Log.d("INFO11", "comando notificacao criada");
+
+                                    //ultimoComentario = texto;
+                                    Util.comentariosNotificacoes.add(texto);
+                                } else {
+                                    Log.d("INFO11", "else do ultimo IF");
+
+                                }
+                            }
+                        /*} else {
+                            Log.d("INFO11", "usuario diferente");
+                        }*/
                     }
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.d("INFO11", "database error onCanceled");
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("INFO11", "excecao configura");
             }
-        });
+        }
     }
 
     private static void createNotificationMessage(Context ctx, String Title, String Msg, Animal anuncio) {
 
-        int id = 15;
-        Intent intent = new Intent(ctx, ComentariosActivity.class);
-        intent.putExtra("anuncioSelecionado", anuncio);
-        PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+        try {
+            /*Log.d("INFO11", "create");
+            int id = 15;
+            Intent intent = new Intent(ctx, ComentariosActivity.class);
+            intent.putExtra("anuncioSelecionado", anuncio);
 
-        Notification.Builder b = new Notification.Builder(ctx);
+            PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
 
-        NotificationChannel mChannel = null;
+            Notification.Builder b = new Notification.Builder(ctx);
 
-        b.setAutoCancel(true)
-                .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                .setContentTitle(Title)
-                .setTicker(Title)
-                .setContentText(Msg)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setContentIntent(contentIntent);
+            NotificationChannel mChannel = null;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mChannel = new NotificationChannel("cid", "name", NotificationManager.IMPORTANCE_HIGH);
-            b.setChannelId("cid");
-            mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-                    .build());
+            b.setAutoCancel(true)
+                    .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                    .setContentTitle(Title)
+                    .setTicker(Title)
+                    .setContentText(Msg)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                    .setContentIntent(contentIntent);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Log.d("INFO11", "version O");
+                mChannel = new NotificationChannel("cid", "name", NotificationManager.IMPORTANCE_HIGH);
+                b.setChannelId("cid");
+                mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                        .build());
+            } else {
+                Log.d("INFO11", "version nao eh O");
+            }
+
+            NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationManager.createNotificationChannel(mChannel);
+            }
+
+            notificationManager.notify(id, b.build());*/
+
+            Log.d("INFO11", "create");
+
+            ////
+            int id = 15;
+            Intent intent = new Intent(ctx, ComentariosActivity.class);
+            intent.putExtra("anuncioSelecionado", anuncio);
+            PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+
+            Notification.Builder mBuilder = new Notification.Builder(ctx)
+                    .setAutoCancel(true)
+                    .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                    .setContentTitle(Title)
+                    .setTicker(Title)
+                    .setContentText(Msg)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                    .setContentIntent(contentIntent);
+
+            NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.notify(id, mBuilder.build());
+            Log.d("INFO11", "fim do create");
+            ////
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("INFO11", "excecao create");
         }
-
-        NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationManager.createNotificationChannel(mChannel);
-        }
-        notificationManager.notify(id, b.build());
     }
 
 }

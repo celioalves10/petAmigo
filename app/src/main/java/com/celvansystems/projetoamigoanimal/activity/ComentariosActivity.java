@@ -114,7 +114,7 @@ public class ComentariosActivity extends AppCompatActivity {
                 DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
                         .child("usuarios");
 
-                usuariosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                usuariosRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot usuarios : dataSnapshot.getChildren()) {
@@ -179,6 +179,7 @@ public class ComentariosActivity extends AppCompatActivity {
 
                                                     coment.setUsuario(usuario);
                                                     comentsList.add(coment);
+                                                    anuncio.setListaComentarios(comentsList);
                                                 }
                                             }
                                             adapterComentarios = new AdapterComentarios(comentsList);
@@ -203,7 +204,7 @@ public class ComentariosActivity extends AppCompatActivity {
 
                 // fim dos dados do usuario
 
-                Util.configuraNotificacoes(ctx, anuncio);
+                //Util.configuraNotificacoes(ctx, anuncio);
                 ////////////////
                 /*final DatabaseReference comentRef = ConfiguracaoFirebase.getFirebase()
                         .child("meus_animais")
@@ -217,12 +218,12 @@ public class ComentariosActivity extends AppCompatActivity {
                         if (anuncio.getDonoAnuncio().equalsIgnoreCase(ConfiguracaoFirebase.getIdUsuario())) {
 
                             Comentario coment = new Comentario();
-                            int size = anuncio.getListaComentarios().size() - mark1;
+                            int size = anuncio.getListaComentarios().size() - 1;
                             String texto = anuncio.getListaComentarios().get(size).getTexto();
                             coment.setTexto(texto);
 
                             int sizeComentsNotificacoes = Util.comentariosNotificacoes.size();
-                            if ((sizeComentsNotificacoes == 0 || !Util.comentariosNotificacoes.get(sizeComentsNotificacoes-mark1).equalsIgnoreCase(texto))
+                            if ((sizeComentsNotificacoes == 0 || !Util.comentariosNotificacoes.get(sizeComentsNotificacoes-1).equalsIgnoreCase(texto))
                                     && !anuncio.getDonoAnuncio().equalsIgnoreCase(ConfiguracaoFirebase.getIdUsuario())) {
                                 Util.createNotificationMessage(ctx, ctx.getString(R.string.novo_comentario), coment.getTexto(), anuncio);
                                 //ultimoComentario = texto;
