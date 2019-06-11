@@ -230,7 +230,7 @@ public class Util {
         return retorno;
     }
 
-    public static void configuraNotificacoes(final Context ctx, final Animal anuncio) {
+   /* public static void configuraNotificacoes(final Context ctx, final Animal anuncio) {
 
         if(ConfiguracaoFirebase.isUsuarioLogado()) {
 
@@ -277,7 +277,7 @@ public class Util {
                             }
                         /*} else {
                             Log.d("INFO11", "usuario diferente");
-                        }*/
+                        }
                     }
 
                     @Override
@@ -290,9 +290,9 @@ public class Util {
                 Log.d("INFO11", "excecao configura");
             }
         }
-    }
+    }*/
 
-    private static void createNotificationMessage(Context ctx, String Title, String Msg, Animal anuncio) {
+   /* private static void createNotificationMessage(Context ctx, String Title, String Msg, Animal anuncio) {
 
         try {
             /*Log.d("INFO11", "create");
@@ -333,10 +333,10 @@ public class Util {
 
             notificationManager.notify(id, b.build());*/
 
-            Log.d("INFO11", "create");
+            //Log.d("INFO11", "create");*/
 
             ////
-            int id = 15;
+           /* int id = 15;
             Intent intent = new Intent(ctx, ComentariosActivity.class);
             intent.putExtra("anuncioSelecionado", anuncio);
             PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
@@ -358,6 +358,6 @@ public class Util {
             e.printStackTrace();
             Log.d("INFO11", "excecao create");
         }
-    }
+    }*/
 
 }

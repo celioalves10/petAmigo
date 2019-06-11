@@ -1,13 +1,29 @@
 package com.celvansystems.projetoamigoanimal.model;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.celvansystems.projetoamigoanimal.R;
+import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
 import java.util.List;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class Animal implements Serializable {
 
@@ -51,8 +67,8 @@ public class Animal implements Serializable {
 
             animalRef.child(getIdAnimal())
                     .setValue(this);
-        } catch (Exception e){e.printStackTrace();}
 
+        } catch (Exception e){e.printStackTrace();}
     }
 
     /**

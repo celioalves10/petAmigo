@@ -3,22 +3,33 @@ package com.celvansystems.projetoamigoanimal.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +43,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.celvansystems.projetoamigoanimal.R;
+import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
+import com.celvansystems.projetoamigoanimal.activity.MainActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
@@ -44,6 +57,10 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -65,6 +82,7 @@ import java.util.Objects;
 import dmax.dialog.SpotsDialog;
 
 import static android.R.layout.simple_spinner_item;
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -460,6 +478,8 @@ public class CadastrarAnuncioFragment extends Fragment
                             animal.salvar();
                             Util.setSnackBar(layout, getString(R.string.sucesso_ao_fazer_upload));
 
+                            configuraNotificacoes(animal);
+
                             dialog.dismiss();
 
                             //redireciona para MeusAnunciosFragment
@@ -474,6 +494,107 @@ public class CadastrarAnuncioFragment extends Fragment
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void configuraNotificacoes(final Animal anuncio) {
+
+        try {
+            Log.d("INFO11", anuncio.getDonoAnuncio());
+
+            Log.d("INFO11", "inicio do create");
+
+            DatabaseReference animalRef = ConfiguracaoFirebase.getFirebase()
+                    .child("meus_animais").child(anuncio.getIdAnimal());
+            DatabaseReference comentariosRef = animalRef.child("comentarios");
+            comentariosRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    Context ctx = getActivity();
+                    int id = 15;
+                    Intent intent = new Intent(ctx, ComentariosActivity.class);
+                    intent.putExtra("anuncioSelecionado", anuncio);
+
+                    PendingIntent contentIntent = PendingIntent.getActivity(ctx, id, intent, 0);
+
+                    Notification.Builder b = new Notification.Builder(ctx);
+
+                    NotificationChannel mChannel = null;
+
+                    b.setAutoCancel(true)
+                            .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                            .setContentTitle("title")
+                            .setTicker("ticker")
+                            .setContentText("msg")
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setContentIntent(contentIntent);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        Log.d("INFO11", "version O");
+                        mChannel = new NotificationChannel("cid", "name", NotificationManager.IMPORTANCE_HIGH);
+                        b.setChannelId("cid");
+                        mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), new AudioAttributes.Builder()
+                                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                                .build());
+                    } else {
+                        Log.d("INFO11", "version nao eh O");
+                    }
+
+                    NotificationManager notificationManager = (NotificationManager) Objects.requireNonNull(ctx)
+                            .getSystemService(NOTIFICATION_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        notificationManager.createNotificationChannel(mChannel);
+                    }
+
+                    notificationManager.notify(id, b.build());
+                    ////
+                   /* int id = 15;
+                    Intent intent = new Intent(getActivity(), ComentariosActivity.class);
+                    intent.putExtra("anuncioSelecionado", anuncio);
+                    PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 1, intent, 0);
+
+                    Notification.Builder mBuilder = new Notification.Builder(getActivity())
+                            .setAutoCancel(true)
+                            .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                            .setContentTitle("titulo")
+                            .setTicker("ticker")
+                            .setContentText("msg")
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .setContentIntent(contentIntent);
+
+                   // NotificationManager notificationManager = (NotificationManager) Objects.requireNonNull(getContext())
+                   //         .getSystemService(NOTIFICATION_SERVICE);
+                    NotificationManager notificationManager = ( NotificationManager ) Objects.requireNonNull(getActivity())
+                            .getSystemService( Context.NOTIFICATION_SERVICE );
+                    notificationManager.notify(id, mBuilder.build());
+                    Log.d("INFO11", "comentario inseridooo");*/
+                    ////
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } catch (Exception e) {e.printStackTrace();
+            Log.d("INFO11", "erro");
         }
     }
 
