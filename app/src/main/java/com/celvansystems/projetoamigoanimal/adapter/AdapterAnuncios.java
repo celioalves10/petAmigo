@@ -588,7 +588,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 myViewHolder.textViewTodosComentarios.setVisibility(View.GONE);
             }
 
-            //Util.configuraNotificacoes(ctx, anuncio);
+            Util.configuraNotificacoes(ctx, anuncio);
 
         } catch (Exception e) {
             e.printStackTrace();

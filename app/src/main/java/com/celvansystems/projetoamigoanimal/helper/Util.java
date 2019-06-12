@@ -2,11 +2,14 @@ package com.celvansystems.projetoamigoanimal.helper;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -230,13 +233,15 @@ public class Util {
         return retorno;
     }
 
-   /* public static void configuraNotificacoes(final Context ctx, final Animal anuncio) {
+    public static void configuraNotificacoes(final Context ctx, final Animal anuncio) {
 
         if(ConfiguracaoFirebase.isUsuarioLogado()) {
 
-            final String idUsuario = ConfiguracaoFirebase.getIdUsuario();
 
-            Log.d("INFO11", "uid firebase: " + idUsuario);
+
+            Log.d("INFO11", "uid firebase : " + ConfiguracaoFirebase.getIdUsuario());
+            Log.d("INFO11", "dono anuncio : " + anuncio.getDonoAnuncio());
+
 
             Log.d("INFO11", "nome animal: " + anuncio.getNome());
 
@@ -253,29 +258,45 @@ public class Util {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        //if (anuncio.getDonoAnuncio().equalsIgnoreCase(ConfiguracaoFirebase.getIdUsuario())) {
+                        final String idUsuario = ConfiguracaoFirebase.getIdUsuario();
+                        final String donoAnuncio = anuncio.getDonoAnuncio();
 
+                        Log.d("INFO11", "uid firebase dentro: " + idUsuario);
+                        Log.d("INFO11", "dono anuncio dentro: " + donoAnuncio);
 
-                            Comentario coment = new Comentario();
+                        if (donoAnuncio.equalsIgnoreCase(idUsuario)) {
+
                             int size = anuncio.getListaComentarios().size();
+                            Log.d("INFO11", "size: " + size);
+
                             if(size > 0) {
                                 String texto = anuncio.getListaComentarios().get(size - 1).getTexto();
-                                coment.setTexto(texto);
+                                String comentarista = anuncio.getListaComentarios().get(size - 1).getUsuario().getId();
+                                Log.d("INFO11", "comentarista: " + comentarista);
 
-                                int sizeComentsNotificacoes = Util.comentariosNotificacoes.size();
-                                if ((sizeComentsNotificacoes == 0 || !Util.comentariosNotificacoes.get(sizeComentsNotificacoes - 1).equalsIgnoreCase(texto))
-                                        && anuncio.getDonoAnuncio().equalsIgnoreCase(ConfiguracaoFirebase.getIdUsuario())) {
-                                    createNotificationMessage(ctx, ctx.getString(R.string.novo_comentario), coment.getTexto(), anuncio);
-                                    Log.d("INFO11", "comando notificacao criada");
+                                if(comentarista!= null) {
 
-                                    //ultimoComentario = texto;
-                                    Util.comentariosNotificacoes.add(texto);
+                                    Comentario coment = new Comentario();
+                                    coment.setTexto(texto);
+
+                                    int sizeComentsNotificacoes = Util.comentariosNotificacoes.size();
+
+                                    if ((sizeComentsNotificacoes == 0 || !Util.comentariosNotificacoes.get(sizeComentsNotificacoes - 1).equalsIgnoreCase(texto))
+                                            && !anuncio.getDonoAnuncio().equalsIgnoreCase(comentarista)) {
+
+                                        createNotificationMessage(ctx, ctx.getString(R.string.novo_comentario), coment.getTexto(), anuncio);
+
+                                        Log.d("INFO11", "comando notificacao criada");
+
+                                        Util.comentariosNotificacoes.add(texto);
+                                    } else {
+                                        Log.d("INFO11", "else do ultimo IF");
+                                    }
                                 } else {
-                                    Log.d("INFO11", "else do ultimo IF");
-
+                                    Log.d("INFO11", "comentarista nulo");
                                 }
                             }
-                        /*} else {
+                        } else {
                             Log.d("INFO11", "usuario diferente");
                         }
                     }
@@ -290,17 +311,17 @@ public class Util {
                 Log.d("INFO11", "excecao configura");
             }
         }
-    }*/
+    }
 
-   /* private static void createNotificationMessage(Context ctx, String Title, String Msg, Animal anuncio) {
+    private static void createNotificationMessage(Context ctx, String Title, String Msg, Animal anuncio) {
 
         try {
-            /*Log.d("INFO11", "create");
+            Log.d("INFO11", "create");
             int id = 15;
             Intent intent = new Intent(ctx, ComentariosActivity.class);
             intent.putExtra("anuncioSelecionado", anuncio);
 
-            PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+            PendingIntent contentIntent = PendingIntent.getActivity(ctx, id, intent, 0);
 
             Notification.Builder b = new Notification.Builder(ctx);
 
@@ -331,7 +352,7 @@ public class Util {
                 notificationManager.createNotificationChannel(mChannel);
             }
 
-            notificationManager.notify(id, b.build());*/
+            notificationManager.notify(id, b.build());
 
             //Log.d("INFO11", "create");*/
 
@@ -352,12 +373,12 @@ public class Util {
 
             NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
             notificationManager.notify(id, mBuilder.build());
-            Log.d("INFO11", "fim do create");
+            Log.d("INFO11", "fim do create");*/
             ////
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("INFO11", "excecao create");
         }
-    }*/
+    }
 
 }
