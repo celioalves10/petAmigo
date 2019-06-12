@@ -265,10 +265,12 @@
     <string name="button">Button</string>
     <string name="title_activity_in_app_billing">InAppBillingActivity</string>
     <string name="txt_editar">Editar</string>
-    <string name="txt_doar10">Doar Dez Reais</string>
-    <string name="txt_doar5">Doar Cinco reais</string>
-    <string name="txt_doar5reais">Doar Cinco Reais</string>
-    <string name="txt_doar2">Doar Dois reais</string>
+    <string name="txt_doar10">Doar R$9,99</string>
+    <string name="txt_doar5">Doar R$4,99</string>
+    <string name="txt_doar50">Doar R$49,99</string>
+    <string name="txt_doar100">Doar R$99,99</string>
+    <string name="txt_doar500">Doar R$499,99</string>
+    <string name="txt_doar2">Doar R$1,99</string>
     <string name="txt_mkt">Marketing App Pet Amigo</string>
     <string name="procurando_anuncios">Procurando anúncios…</string>
     <string name="insira_comentario_valido">Insira um comentário válido!</string>

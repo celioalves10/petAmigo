@@ -84,6 +84,10 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
         Button btnDoar5 = view.findViewById(R.id.btn_doar5_reais);
         Button btnDoar2 = view.findViewById(R.id.btn_doar2_reais);
 
+        Button btnDoar50 = view.findViewById(R.id.btn_doar50_reais);
+        Button btnDoar100 = view.findViewById(R.id.btn_doar100_reais);
+        Button btnDoar500 = view.findViewById(R.id.btn_doar500_reais);
+
         btnDoar10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +104,25 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             @Override
             public void onClick(View view) {
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_2_REAIS);
+            }
+        });
+
+        btnDoar50.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bp.purchase(getActivity(), Constantes.PRODUCT_ID_50_REAIS);
+            }
+        });
+        btnDoar100.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bp.purchase(getActivity(), Constantes.PRODUCT_ID_100_REAIS);
+            }
+        });
+        btnDoar500.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bp.purchase(getActivity(), Constantes.PRODUCT_ID_500_REAIS);
             }
         });
 
