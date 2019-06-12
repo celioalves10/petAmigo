@@ -12,7 +12,6 @@ import android.media.RingtoneManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -237,18 +236,7 @@ public class Util {
 
         if(ConfiguracaoFirebase.isUsuarioLogado()) {
 
-
-
-            Log.d("INFO11", "uid firebase : " + ConfiguracaoFirebase.getIdUsuario());
-            Log.d("INFO11", "dono anuncio : " + anuncio.getDonoAnuncio());
-
-
-            Log.d("INFO11", "nome animal: " + anuncio.getNome());
-
-
             try {
-                Log.d("INFO11", "entrou no configura");
-
                 final DatabaseReference comentRef = ConfiguracaoFirebase.getFirebase()
                         .child("meus_animais")
                         .child(anuncio.getIdAnimal())
@@ -261,18 +249,13 @@ public class Util {
                         final String idUsuario = ConfiguracaoFirebase.getIdUsuario();
                         final String donoAnuncio = anuncio.getDonoAnuncio();
 
-                        Log.d("INFO11", "uid firebase dentro: " + idUsuario);
-                        Log.d("INFO11", "dono anuncio dentro: " + donoAnuncio);
-
                         if (donoAnuncio.equalsIgnoreCase(idUsuario)) {
 
                             int size = anuncio.getListaComentarios().size();
-                            Log.d("INFO11", "size: " + size);
 
                             if(size > 0) {
                                 String texto = anuncio.getListaComentarios().get(size - 1).getTexto();
                                 String comentarista = anuncio.getListaComentarios().get(size - 1).getUsuario().getId();
-                                Log.d("INFO11", "comentarista: " + comentarista);
 
                                 if(comentarista!= null) {
 
@@ -286,29 +269,19 @@ public class Util {
 
                                         createNotificationMessage(ctx, ctx.getString(R.string.novo_comentario), coment.getTexto(), anuncio);
 
-                                        Log.d("INFO11", "comando notificacao criada");
-
                                         Util.comentariosNotificacoes.add(texto);
-                                    } else {
-                                        Log.d("INFO11", "else do ultimo IF");
                                     }
-                                } else {
-                                    Log.d("INFO11", "comentarista nulo");
                                 }
                             }
-                        } else {
-                            Log.d("INFO11", "usuario diferente");
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d("INFO11", "database error onCanceled");
                     }
                 });
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.d("INFO11", "excecao configura");
             }
         }
     }
@@ -316,7 +289,6 @@ public class Util {
     private static void createNotificationMessage(Context ctx, String Title, String Msg, Animal anuncio) {
 
         try {
-            Log.d("INFO11", "create");
             int id = 15;
             Intent intent = new Intent(ctx, ComentariosActivity.class);
             intent.putExtra("anuncioSelecionado", anuncio);
@@ -336,15 +308,13 @@ public class Util {
                     .setContentIntent(contentIntent);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.d("INFO11", "version O");
+
                 mChannel = new NotificationChannel("cid", "name", NotificationManager.IMPORTANCE_HIGH);
                 b.setChannelId("cid");
                 mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), new AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                         .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
                         .build());
-            } else {
-                Log.d("INFO11", "version nao eh O");
             }
 
             NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
@@ -377,8 +347,6 @@ public class Util {
             ////
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("INFO11", "excecao create");
         }
     }
-
 }
