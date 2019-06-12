@@ -100,9 +100,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getSupportActionBar().hide();
+        
         setContentView(R.layout.activity_login);
         setupActionBar();
+
+       // getSupportActionBar().hide(); //aqui a mágica setContentView(R.layout.sua_activity); }
 
         authentication = ConfiguracaoFirebase.getFirebaseAutenticacao();
 

@@ -83,6 +83,7 @@
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".activity.MainActivity"
+
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
