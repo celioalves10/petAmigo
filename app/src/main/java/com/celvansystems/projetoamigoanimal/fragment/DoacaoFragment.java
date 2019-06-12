@@ -73,7 +73,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
 
     private void inializaComponentes() {
 
-        bp = new BillingProcessor(view.getContext(), null, this);
+        bp = new BillingProcessor(view.getContext(), Constantes.LICENSE_KEY_GOOGLE_PLAY, this);
         //bp = new BillingProcessor(view.getContext(), "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAloCy1BSGqDHUo7EeRa+27DhgB46GSVjj5RwPt7ABMayFpdh0vbe7gOUPWqWWugebdoI3Tnmm7NghevAgDTKcqhqNxUBMpyWML5My25ipnHzca/zpGpb3f3aPFG4vf8udIP07osQzHA8lCzYsMfGJtVdXv1bcXNDP2WQJWeXzqnDAyXb+rRQgLcvWI58OFk8co9t1URjcAKRk0j8wyChB55T+TmhhTN2bU9HQ5I3U6m76ph4nc3XSmyk4kww3/bkrErXI3d9/6woEX0DwGmHghB1q3xPVDQ0883J3b0YUcAZQj6xvlzS9tWjzSILb3dAjEpzEbVMtKejH3cEvtrxGsQIDAQAB", this);
 
         layout = view.findViewById(R.id.frame_layout_doacao);
@@ -114,7 +114,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
 
     @Override
     public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
-        //Util.setSnackBar(layout, "Purchased!");
+        Util.setSnackBar(layout, "Purchased!");
     }
 
     @Override
@@ -124,13 +124,13 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
 
     @Override
     public void onBillingError(int errorCode, @Nullable Throwable error) {
-        //Util.setSnackBar(layout, "Billing Error!");
+        Util.setSnackBar(layout, "Billing Error!");
     }
 
     @Override
     public void onBillingInitialized() {
 
-        //Util.setSnackBar(layout, "Pagamento iniciado!");
+        Util.setSnackBar(layout, "Pagamento iniciado!");
     }
 
     @Override
