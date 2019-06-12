@@ -126,10 +126,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void configuraNavBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.black_overlay));
+
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.black_overlay));
         }
+
     }
 
     private void inicializarComponentes() {
