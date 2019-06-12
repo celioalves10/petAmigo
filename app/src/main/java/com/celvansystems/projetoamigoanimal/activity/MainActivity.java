@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.fragment.AnunciosFragment;
 import com.celvansystems.projetoamigoanimal.fragment.CadastrarAnuncioFragment;
@@ -191,10 +192,10 @@ public class MainActivity extends AppCompatActivity
         MenuItem nav_meus_anuncios = menuNav.findItem(R.id.nav_meus_anuncios);
         MenuItem nav_pet_cad = menuNav.findItem(R.id.pet_cad);
         MenuItem nav_pet_adote = menuNav.findItem(R.id.pet_adote);
-        MenuItem nav_doacao = menuNav.findItem(R.id.doacao);
-        MenuItem nav_compartilhar_app = menuNav.findItem(R.id.nav_share_app);
+        //MenuItem nav_doacao = menuNav.findItem(R.id.doacao);
+        //MenuItem nav_compartilhar_app = menuNav.findItem(R.id.nav_share_app);
         //MenuItem nav_conversar = menuNav.findItem(R.id.nav_conversar);
-        MenuItem nav_help = menuNav.findItem(R.id.nav_help);
+        //MenuItem nav_help = menuNav.findItem(R.id.nav_help);
         MenuItem nav_sair = menuNav.findItem(R.id.nav_sair);
         //MenuItem nav_pet_procurado = menuNav.findItem(R.id.pet_procurado);
 
@@ -294,7 +295,6 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.view_pager, new NotificacoesFragment()).addToBackStack("tag").commit();
 
             //    setContentView(R.layout.content_notificacoes);
-            // TODO: 17/02/2019 programar ações da content_cotificações
             Toast.makeText(getApplicationContext(),
                     "implementar content configuração de notificação na activity dentro da pasta fragment",
                     Toast.LENGTH_SHORT).show();
@@ -318,8 +318,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share_app) {
 
-            // TODO: Trocar o application ID em Constantes após publicacao na play store
-
             try {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
@@ -341,15 +339,11 @@ public class MainActivity extends AppCompatActivity
                             " resumida a envio e recebimento de mensagens, " +
                             "semelhante ao zap",
                     Toast.LENGTH_SHORT).show();
-
-            // TODO: 17/02/2019 implementar activity com conversar: funcionalidades basicas do zap e enviar e receber mensagens pelo app
-
         }*/
         else if (id == R.id.nav_help) {
 
             fragmentTransaction.replace(R.id.view_pager, new SobreAppFragment()).addToBackStack("tag").commit();
 
-            // TODO: 17/02/2019 imPlementar janela de ajudas sobre o app
         } else if (id == R.id.nav_sair) {
 
             startActivity(new Intent(this, LoginActivity.class));
@@ -365,7 +359,6 @@ public class MainActivity extends AppCompatActivity
         /*else if (id == R.id.pet_procurado) {
 
             fragmentTransaction.replace(R.id.view_pager, new ProcuradoFragment()).addToBackStack("tag").commit();
-            // TODO: 17/02/2019 programar activit cadastrar procurado
             Toast.makeText(getApplicationContext(),
                     "implementar fragment cadastro de procurados" +
                             "com objetivo de quem perdeu seu pet," +

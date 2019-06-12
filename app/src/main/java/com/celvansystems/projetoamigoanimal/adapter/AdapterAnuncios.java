@@ -15,7 +15,6 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -168,11 +167,10 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                         if (comentarios != null) {
                             coment.setDatahora(Objects.requireNonNull(comentarios.child("datahora").getValue()).toString());
                             coment.setTexto(Objects.requireNonNull(comentarios.child("texto").getValue()).toString());
+
                             Usuario usuario = new Usuario();
                             usuario.setId(Objects.requireNonNull(comentarios.child("usuario").child("id").getValue()).toString());
                             usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
-
-                            // TODO: 05/03/2019 concluir atributos de usuario apos activity para cadastro de usuario
                             coment.setUsuario(usuario);
                             comentsList.add(coment);
                         }
@@ -659,8 +657,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
     private void compartilharAnuncio(MyViewHolder myViewHolder, Animal anuncio) {
 
         try {
-            // TODO: 13/02/2019 configurar quando o app for publicado do google play
-            Log.d("INFO5", "iniciado o compartilhamento");
             Context ctx = myViewHolder.itemView.getContext();
             Drawable mDrawable = myViewHolder.foto.getDrawable();
             Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
@@ -675,12 +671,9 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                     " https://play.google.com/store/apps/details?id=" + Constantes.APPLICATION_ID + "\n\n");
             intent.putExtra(Intent.EXTRA_STREAM, uri);
             myViewHolder.itemView.getContext().startActivity(Intent.createChooser(intent, ctx.getString(R.string.compartilhando_imagem)));
-            Log.d("INFO5", "finalizado o compartilhamento");
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("INFO5", "erro de compartilhamento");
-
         }
     }
 

@@ -90,6 +90,7 @@
                         android:ems="10"
                         android:hint="@string/nome_do_animal"
                         android:inputType="textCapWords"
+                        android:maxLength="30"
                         android:padding="10dp"
                         android:textSize="14sp"
                         tools:targetApi="o" />
@@ -197,6 +198,7 @@
                         android:ems="10"
                         android:hint="@string/raca"
                         android:inputType="textCapWords"
+                        android:maxLength="20"
                         android:textSize="14sp"
                         tools:targetApi="o" />
 
@@ -233,6 +235,7 @@
                             android:inputType="textMultiLine"
                             android:isScrollContainer="true"
                             android:lineSpacingExtra="3sp"
+                            android:maxLength="100"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
                             android:scrollbarAlwaysDrawVerticalTrack="true"

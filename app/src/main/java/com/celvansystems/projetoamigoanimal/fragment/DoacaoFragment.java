@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.celvansystems.projetoamigoanimal.R;
@@ -27,9 +26,6 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
     private BillingProcessor bp;
     private View layout;
     private ImageView imvDoacao;
-
-    public DoacaoFragment() {
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -137,23 +133,22 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
 
     @Override
     public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
-        Util.setSnackBar(layout, "Purchased!");
+        Util.setSnackBar(layout, getString(R.string.valor_indisponivel));
     }
 
     @Override
     public void onPurchaseHistoryRestored() {
-        Util.setSnackBar(layout, "History restored!");
+        //Util.setSnackBar(layout, "History restored!");
     }
 
     @Override
     public void onBillingError(int errorCode, @Nullable Throwable error) {
-        Util.setSnackBar(layout, "Billing Error!");
+        Util.setSnackBar(layout, getString(R.string.error) + errorCode);
     }
 
     @Override
     public void onBillingInitialized() {
-
-        Util.setSnackBar(layout, "Pagamento iniciado!");
+        Util.setSnackBar(layout, getString(R.string.escolha_opcao_ajude_manter_app));
     }
 
     @Override

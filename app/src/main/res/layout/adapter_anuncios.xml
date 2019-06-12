@@ -280,14 +280,15 @@
             android:ems="10"
             android:hint="@string/txt_comentar"
             android:inputType="textShortMessage|textAutoCorrect|textMultiLine|textPersonName|textCapSentences|textAutoComplete"
+            android:maxLength="200"
             android:selectAllOnFocus="false"
             android:singleLine="false"
             android:visibility="visible"
-            tools:ignore="Autofill"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageButton_comentar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="Autofill" />
 
     </android.support.constraint.ConstraintLayout>
 

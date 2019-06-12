@@ -10,14 +10,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.ComplementoLoginActivity;
-import com.celvansystems.projetoamigoanimal.activity.LoginActivity;
 import com.celvansystems.projetoamigoanimal.activity.MainActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.model.Animal;
@@ -42,15 +40,14 @@ public class PerfilUsuarioFragment extends Fragment {
     private ImageView imvPerfil;
     private TextView txvNomeHumano;
     private TextView txvEmail;
-    private TextView txvIdade;
     private TextView txvCidade;
     private TextView txvEstado;
     //private TextView txvPais;
     private TextView txvTelefone;
-    private TextView txvSexo;
-    private TextView txvResumo;
-    private TextView txvPerfilHumano;
-    private View layout;
+    //private TextView txvSexo;
+    //private TextView txvResumo;
+    //private TextView txvPerfilHumano;
+    //private View layout;
 
     public PerfilUsuarioFragment() {
     }
@@ -74,17 +71,16 @@ public class PerfilUsuarioFragment extends Fragment {
         imvPerfil = viewFragment.findViewById(R.id.imageView_perfil);
         txvNomeHumano = viewFragment.findViewById(R.id.textview_nome_humano);
         txvEmail = viewFragment.findViewById(R.id.textView_email_cadastrado);
-        txvIdade = viewFragment.findViewById(R.id.textView_idade);
         txvCidade = viewFragment.findViewById(R.id.textView_cidade);
         txvEstado = viewFragment.findViewById(R.id.textView_estado);
         //txvPais = viewFragment.findViewById(R.id.textView_pais);
         txvTelefone = viewFragment.findViewById(R.id.textView_telefone);
-        txvSexo = viewFragment.findViewById(R.id.textView_sexo);
-        txvResumo = viewFragment.findViewById(R.id.textView_resumo);
-        txvResumo.setVisibility(View.INVISIBLE);
-        txvPerfilHumano = viewFragment.findViewById(R.id.textView_perfil_humano);
+        //txvSexo = viewFragment.findViewById(R.id.textView_sexo);
+        //txvResumo = viewFragment.findViewById(R.id.textView_resumo);
+        //txvResumo.setVisibility(View.INVISIBLE);
+        //txvPerfilHumano = viewFragment.findViewById(R.id.textView_perfil_humano);
 
-        layout = viewFragment.findViewById(R.id.const_layout_anuncios);
+        //layout = viewFragment.findViewById(R.id.const_layout_anuncios);
 
         //Preenchendo os campos do Fragment com dados do usuario
         txvEmail.setText(getEmailUsuario());

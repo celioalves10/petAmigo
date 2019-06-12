@@ -26,8 +26,8 @@ import android.widget.TextView;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.DetalhesAnimalActivity;
-import com.celvansystems.projetoamigoanimal.fragment.AnunciosFragment;
 import com.celvansystems.projetoamigoanimal.fragment.CadastrarAnuncioFragment;
+import com.celvansystems.projetoamigoanimal.fragment.MeusAnunciosFragment;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
@@ -177,7 +177,7 @@ public class AdapterMeusAnuncios extends RecyclerView.Adapter<AdapterMeusAnuncio
                                                     AppCompatActivity activity = (AppCompatActivity) myViewHolder.itemView.getContext();
                                                     FragmentManager fragmentManager = activity.getSupportFragmentManager();
                                                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                                    fragmentTransaction.replace(R.id.view_pager, new AnunciosFragment()).addToBackStack(null).commit();
+                                                    fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
                                                 }
                                             })
                                             .setNegativeButton(ctx.getString(R.string.nao), null)
