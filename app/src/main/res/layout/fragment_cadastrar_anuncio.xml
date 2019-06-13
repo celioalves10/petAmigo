@@ -18,8 +18,9 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@xml/bg_caixa_txt"
@@ -27,45 +28,55 @@
                     android:orientation="horizontal"
                     android:padding="4dp">
 
-                    <HorizontalScrollView
-                        android:layout_width="0dp"
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        tools:ignore="UselessParent">
+                        android:layout_weight="1">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/imageCad1"
+                            android:layout_width="118dp"
+                            android:layout_height="100dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/imageCad2"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/padrao" />
 
-                            <ImageView
-                                android:id="@+id/imageCad1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:contentDescription="@string/todo"
-                                android:scaleType="centerCrop"
-                                app:srcCompat="@drawable/padrao" />
+                        <ImageView
+                            android:id="@+id/imageCad2"
+                            android:layout_width="118dp"
+                            android:layout_height="100dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/imageCad3"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/imageCad1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/padrao" />
 
-                            <ImageView
-                                android:id="@+id/imageCad2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:contentDescription="@string/todo"
-                                android:scaleType="centerCrop"
-                                app:srcCompat="@drawable/padrao" />
-
-                            <ImageView
-                                android:id="@+id/imageCad3"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:contentDescription="@string/todo"
-                                android:scaleType="centerCrop"
-                                app:srcCompat="@drawable/padrao" />
-                        </LinearLayout>
-                    </HorizontalScrollView>
+                        <ImageView
+                            android:id="@+id/imageCad3"
+                            android:layout_width="119dp"
+                            android:layout_height="100dp"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/todo"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toEndOf="@+id/imageCad2"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/padrao" />
+                    </android.support.constraint.ConstraintLayout>
 
                 </LinearLayout>
 
@@ -91,7 +102,7 @@
                         android:hint="@string/nome_do_animal"
                         android:inputType="textCapWords"
                         android:maxLength="30"
-                        android:padding="10dp"
+                        android:padding="14dp"
                         android:textSize="14sp"
                         tools:targetApi="o" />
 
@@ -199,6 +210,7 @@
                         android:hint="@string/raca"
                         android:inputType="textCapWords"
                         android:maxLength="20"
+                        android:padding="14dp"
                         android:textSize="14sp"
                         tools:targetApi="o" />
 
