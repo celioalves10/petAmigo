@@ -4,12 +4,15 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -28,6 +31,7 @@ import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
 import com.celvansystems.projetoamigoanimal.activity.DetalhesAnimalActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
+import com.celvansystems.projetoamigoanimal.helper.NotificationReceiver;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
@@ -519,6 +523,20 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
                                                         Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.comentario_inserido));
                                                         myViewHolder.edtComentar.setText(null);
+
+                                                        ////////// TESTE NOTIFICATIONS
+                                                        //Util.configuraNotificacoes(ctx, anuncio);
+                                                        /*int id = 15;
+                                                        Intent intent = new Intent(ctx, NotificationReceiver.class);
+                                                        intent.putExtra("anuncioSelecionado", anuncio);
+                                                        intent.setAction("com.celvansystems.projetoamigoanimal.NotificationReceiver");
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        BroadcastReceiver br = new NotificationReceiver();
+                                                        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+                                                        filter.addAction("com.celvansystems.projetoamigoanimal.NotificationReceiver");                                                        ctx.registerReceiver(br, filter);
+
+                                                        ctx.sendBroadcast(intent);*/
+
                                                     }
                                                 });
                                     } else {

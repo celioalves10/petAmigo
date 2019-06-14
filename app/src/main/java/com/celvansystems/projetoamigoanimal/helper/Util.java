@@ -5,13 +5,17 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioAttributes;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -292,7 +296,16 @@ public class Util {
             int id = 15;
             Intent intent = new Intent(ctx, ComentariosActivity.class);
             intent.putExtra("anuncioSelecionado", anuncio);
+            /*intent.setAction("com.celvansystems.projetoamigoanimal.NotificationReceiver");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            BroadcastReceiver br = new NotificationReceiver();
+            IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+            filter.addAction("com.celvansystems.projetoamigoanimal.NotificationReceiver");
+            ctx.registerReceiver(br, filter);
 
+            ctx.sendBroadcast(intent);*/
+
+            Log.d("INFO11","Boradcast enviado");
             PendingIntent contentIntent = PendingIntent.getActivity(ctx, id, intent, 0);
 
             Notification.Builder b = new Notification.Builder(ctx);

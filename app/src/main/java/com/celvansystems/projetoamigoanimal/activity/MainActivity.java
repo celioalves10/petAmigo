@@ -1,6 +1,9 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,7 +30,10 @@ import com.celvansystems.projetoamigoanimal.fragment.PerfilUsuarioFragment;
 import com.celvansystems.projetoamigoanimal.fragment.SobreAppFragment;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
+import com.celvansystems.projetoamigoanimal.helper.NotificationReceiver;
+import com.celvansystems.projetoamigoanimal.helper.NotificationService;
 import com.celvansystems.projetoamigoanimal.helper.Util;
+import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.celvansystems.projetoamigoanimal.model.Usuario;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.ads.AdListener;
@@ -43,6 +49,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
@@ -69,6 +77,47 @@ public class MainActivity extends AppCompatActivity
         habilitaOpcoesNav();
         //Propagandas
         configuraAdMob();
+
+        configuraNotificacoes();
+    }
+
+    private void configuraNotificacoes() {
+
+        if (ConfiguracaoFirebase.isUsuarioLogado()) {
+
+            DatabaseReference anunciosRef = ConfiguracaoFirebase.getFirebase()
+                    .child("meus_animais");
+
+            final String usuarioAtual = ConfiguracaoFirebase.getIdUsuario();
+            List<String> listaAnuncios = new ArrayList<>();
+
+            anunciosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot anuncios : dataSnapshot.getChildren()) {
+
+                        if (anuncios != null) {
+
+                            String donoAnuncio = Objects.requireNonNull(anuncios.child("donoAnuncio").getValue()).toString();
+
+                            if(donoAnuncio.equalsIgnoreCase(usuarioAtual)){
+                                Animal anuncio = new Animal();
+                                anuncio.setIdAnimal(dataSnapshot.getKey());
+                                anuncio.setDonoAnuncio(donoAnuncio);
+
+
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
     }
 
     private void configuraNavBar() {
@@ -120,9 +169,22 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        /*ComponentName receiver = new ComponentName(this, NotificationReceiver.class);
+        PackageManager pm = this.getPackageManager();
+
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);*/
+
+        BroadcastReceiver br = new NotificationReceiver();
+
+        //ctx.registerReceiver(br, filter);
+        startService(new Intent(this, NotificationService.class));
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.view_pager, new AnunciosFragment()).commit();
+
     }
 
     private void carregaDadosUsuario() {
