@@ -5,16 +5,13 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.media.AudioAttributes;
 import android.media.RingtoneManager;
-import android.net.ConnectivityManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -220,9 +217,9 @@ public class Util {
     public static void setSnackBar(View root, String snackTitle) {
         Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_LONG);
         snackbar.show();
-        View view = snackbar.getView();
-        TextView txtv = view.findViewById(android.support.design.R.id.snackbar_text);
-        txtv.setGravity(Gravity.CENTER_HORIZONTAL);
+        //View view = snackbar.getView();
+        //TextView txtv = view.findViewById(android.support.design.R.id.snackbar_text);
+        //txtv.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
     public static boolean validaTexto(String texto) {

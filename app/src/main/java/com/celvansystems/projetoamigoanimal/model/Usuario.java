@@ -1,6 +1,6 @@
 package com.celvansystems.projetoamigoanimal.model;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.google.android.gms.tasks.OnFailureListener;
