@@ -13,8 +13,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +43,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
     /**
      * construtor
+     *
      * @param anuncios lista de animais
      */
     public AdapterAnuncios(List<Animal> anuncios) {
@@ -119,6 +121,12 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 configuraAcoes(myViewHolder, anuncio);
                 //Texto da quantidade de comentarios
                 configuraVisibilidadeCampoComentario(anuncio, myViewHolder);
+
+                if(anuncio.getListaComentarios()!= null) {
+                    atualizaComentarios(anuncio.getListaComentarios().size(), anuncio, myViewHolder);
+                } else {
+                    atualizaComentarios(0, anuncio, myViewHolder);
+                }
             }
         }
     }
@@ -178,7 +186,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                     anuncio.setListaComentarios(comentsList);
                     atualizaComentarios(anuncio.getListaComentarios().size(), anuncio, myViewHolder);
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
@@ -352,8 +359,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                             } else {
                                 Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
                             }
-
-
                         } else if (ctx.getString(R.string.compartilhar).equalsIgnoreCase(opcoes[which])) {
 
                             compartilharAnuncio(myViewHolder, anuncio);
@@ -519,20 +524,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
                                                         Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.comentario_inserido));
                                                         myViewHolder.edtComentar.setText(null);
-
-                                                        ////////// TESTE NOTIFICATIONS
-                                                        //Util.configuraNotificacoes(ctx, anuncio);
-                                                        /*int id = 15;
-                                                        Intent intent = new Intent(ctx, NotificationReceiver.class);
-                                                        intent.putExtra("anuncioSelecionado", anuncio);
-                                                        intent.setAction("com.celvansystems.projetoamigoanimal.NotificationReceiver");
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                        BroadcastReceiver br = new NotificationReceiver();
-                                                        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-                                                        filter.addAction("com.celvansystems.projetoamigoanimal.NotificationReceiver");                                                        ctx.registerReceiver(br, filter);
-
-                                                        ctx.sendBroadcast(intent);*/
-
                                                     }
                                                 });
                                     } else {
@@ -601,9 +592,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 myViewHolder.textViewTodosComentarios.setText(null);
                 myViewHolder.textViewTodosComentarios.setVisibility(View.GONE);
             }
-
-            Util.configuraNotificacoes(ctx, anuncio);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -656,8 +644,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 }
             }
         } else {
-            /*Intent intent = new Intent(myViewHolder.itemView.getContext(), LoginActivity.class);
-            myViewHolder.itemView.getContext().startActivity(intent);*/
             Util.setSnackBar(((MyViewHolder) myViewHolder).layout, ctx.getString(R.string.usuario_nao_logado));
         }
     }

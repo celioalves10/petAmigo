@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.os.Build;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 
 import com.celvansystems.projetoamigoanimal.R;
@@ -25,15 +27,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class GerenciadorNotificacoes {
 
-    private List<Animal> listaAnunciosGeral;
-    private static List<String> comentariosNotificacoes = new ArrayList<>();
+    private static Map<String, List<Comentario>> comentariosNotificacoes = new HashMap<>();
     private Context ctx;
 
     public GerenciadorNotificacoes(Context ctx) {
@@ -48,7 +51,6 @@ public class GerenciadorNotificacoes {
                     .child("meus_animais");
 
             final String usuarioAtual = ConfiguracaoFirebase.getIdUsuario();
-            listaAnunciosGeral = new ArrayList<>();
 
             anunciosRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -59,30 +61,28 @@ public class GerenciadorNotificacoes {
                         if (anuncios != null) {
 
                             final String idAnimal = Objects.requireNonNull(anuncios.child("idAnimal").getValue()).toString();
-                            //final String nome = Objects.requireNonNull(anuncios.child("nome").getValue()).toString();
+                            final String nome = Objects.requireNonNull(anuncios.child("nome").getValue()).toString();
                             final String donoAnuncio = Objects.requireNonNull(anuncios.child("donoAnuncio").getValue()).toString();
+                            final String descricao = Objects.requireNonNull(anuncios.child("descricao").getValue()).toString();
 
                             if (donoAnuncio.equalsIgnoreCase(usuarioAtual)) {
 
-                                Log.d("INFO13", "dono igual usuario atual");
-
-                                final Animal anuncio = new Animal();
+                                Animal anuncio = new Animal();
                                 anuncio.setIdAnimal(idAnimal);
                                 anuncio.setDonoAnuncio(donoAnuncio);
-                                //anuncio.setNome(nome);
+                                anuncio.setNome(nome);
+                                anuncio.setDescricao(descricao);
 
-                                listaAnunciosGeral.add(anuncio);
-
+                                final Animal anuncioUsuarioAtual = anuncio;
                                 final DatabaseReference comentariosRef = anunciosRef.child(idAnimal).child("comentarios");
-                                Log.d("INFO13", idAnimal);
+
+                                Log.d("INFO13", "id animal: " + idAnimal);
 
                                 comentariosRef.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                         List<Comentario> listaComentarios = new ArrayList<>();
-                                        Animal anuncioUsuarioAtual = anuncio;
-                                        //anuncioUsuarioAtual.setNome(nome);
 
                                         for (final DataSnapshot comentarios : dataSnapshot.getChildren()) {
 
@@ -98,8 +98,9 @@ public class GerenciadorNotificacoes {
 
                                             listaComentarios.add(coment);
                                         }
-
                                         anuncioUsuarioAtual.setListaComentarios(listaComentarios);
+
+                                        comentariosNotificacoes.put(idAnimal, anuncioUsuarioAtual.getListaComentarios());
 
                                         addChildEvent(comentariosRef, anuncioUsuarioAtual);
                                     }
@@ -111,7 +112,6 @@ public class GerenciadorNotificacoes {
                                 });
                             }
                         }
-                        comentariosNotificacoes = new ArrayList<>();
                     }
                 }
 
@@ -120,7 +120,6 @@ public class GerenciadorNotificacoes {
 
                 }
             });
-
         }
     }
 
@@ -128,28 +127,43 @@ public class GerenciadorNotificacoes {
 
         comentariosRef.addChildEventListener(new ChildEventListener() {
 
-            List<Comentario> listaComentarios = anuncioUsuarioAtual.getListaComentarios();
-            final Context contexto = ctx;
+            List<Comentario> listaComentarios = new ArrayList<>();
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                Log.d("INFO13", "child added");
+                int size = anuncioUsuarioAtual.getListaComentarios().size();
+                String texto = Objects.requireNonNull(dataSnapshot.child("texto").getValue()).toString();
 
-                Comentario coment = new Comentario();
-                coment.setTexto(Objects.requireNonNull(dataSnapshot.child("texto").getValue()).toString());
-                coment.setDatahora(Objects.requireNonNull(dataSnapshot.child("datahora").getValue()).toString());
+                String ultimoComent = "";
 
-                Usuario usuario = new Usuario();
-                usuario.setId(Objects.requireNonNull(dataSnapshot.child("usuario").child("id").getValue()).toString());
-                usuario.setNome(Objects.requireNonNull(dataSnapshot.child("usuario").child("nome").getValue()).toString());
+                if (size > 0) {
+                    ultimoComent = anuncioUsuarioAtual.getListaComentarios().get(size - 1).getTexto();
+                }
 
-                coment.setUsuario(usuario);
+                if (size == 0 || texto.equals(ultimoComent)) {
 
-                listaComentarios.add(coment);
-                anuncioUsuarioAtual.setListaComentarios(listaComentarios);
+                    Log.d("INFO13", "!!!!!!!!!! CHILD ADDED !!!!!!!!!!!!");
+                    Log.d("INFO13", "animal: " + anuncioUsuarioAtual.getNome());
 
-                configuraNotificacoes(anuncioUsuarioAtual);
+                    Comentario coment = new Comentario();
+                    coment.setTexto(texto);
+                    coment.setDatahora(Objects.requireNonNull(dataSnapshot.child("datahora").getValue()).toString());
+
+                    Usuario usuario = new Usuario();
+                    usuario.setId(Objects.requireNonNull(dataSnapshot.child("usuario").child("id").getValue()).toString());
+                    usuario.setNome(Objects.requireNonNull(dataSnapshot.child("usuario").child("nome").getValue()).toString());
+
+                    coment.setUsuario(usuario);
+                    Log.d("INFO13", "comentário: "+coment.getTexto());
+                    listaComentarios.add(coment);
+                    anuncioUsuarioAtual.setListaComentarios(listaComentarios);
+
+                    comentariosNotificacoes.put(anuncioUsuarioAtual.getIdAnimal(), anuncioUsuarioAtual.getListaComentarios());
+
+                    createNotificationMessage(ctx, ctx.getString(R.string.novo_comentario) + " " + anuncioUsuarioAtual.getNome() + "!",
+                            coment.getTexto(), anuncioUsuarioAtual);
+                }
             }
 
             @Override
@@ -174,69 +188,25 @@ public class GerenciadorNotificacoes {
         });
     }
 
-    private void configuraNotificacoes(Animal anuncio) {
-
-        if (ConfiguracaoFirebase.isUsuarioLogado()) {
-
-            try {
-                final String idUsuario = ConfiguracaoFirebase.getIdUsuario();
-                final String donoAnuncio = anuncio.getDonoAnuncio();
-
-                //if (donoAnuncio.equalsIgnoreCase(idUsuario)) {
-
-                    if (anuncio.getListaComentarios() != null) {
-                        int size = anuncio.getListaComentarios().size();
-
-                        if (size > 0) {
-                            String texto = anuncio.getListaComentarios().get(size - 1).getTexto();
-                            String comentarista = anuncio.getListaComentarios().get(size - 1).getUsuario().getId();
-
-                            if (comentarista != null) {
-                                Comentario coment = new Comentario();
-                                coment.setTexto(texto);
-
-                                //int sizeComentsNotificacoes = comentariosNotificacoes.size();
-
-
-                                createNotificationMessage(ctx, ctx.getString(R.string.novo_comentario),
-                                coment.getTexto(), anuncio);
-
-                                comentariosNotificacoes.add(texto);
-                            }
-                        }
-                    }
-                //}
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     private void createNotificationMessage(final Context ctx, String Title, String Msg, final Animal anuncio) {
 
         try {
-            int size = anuncio.getListaComentarios().size();
+            if (anuncio != null) {
+                int size = anuncio.getListaComentarios().size();
 
-            String comentarista = anuncio.getListaComentarios().get(size - 1).getUsuario().getId();
-            Log.d("INFO13", "animal: " + anuncio.getNome());
-            Log.d("INFO13", "comentarista: " + comentarista);
-            Log.d("INFO13", "dono: " + anuncio.getDonoAnuncio());
+                String comentarista = anuncio.getListaComentarios().get(size - 1).getUsuario().getId();
 
-            String texto = anuncio.getListaComentarios().get(size - 1).getTexto();
+                Log.d("INFO13", "animal create: " + anuncio.getNome());
+                Log.d("INFO13", "comentarista: " + comentarista);
+                Log.d("INFO13", "dono create: " + anuncio.getDonoAnuncio());
 
-            if (!anuncio.getDonoAnuncio().equalsIgnoreCase(comentarista)) {
+                if (!anuncio.getDonoAnuncio().equalsIgnoreCase(comentarista)) {
 
-                int sizeComentsNotificacoes = comentariosNotificacoes.size();
-                Log.d("INFO13", "sizeComents: " + sizeComentsNotificacoes);
+                    int id = anuncio.getIdAnimal().hashCode();
 
-                if (size == 0 || !comentariosNotificacoes.get(size - 1).equalsIgnoreCase(texto)) {
-
-                    //Log.d("INFO13", "notificacao criada - usuario diferente " + comentarista);
-                    int id = 0;
                     Intent intent = new Intent(ctx, ComentariosActivity.class);
                     intent.putExtra("anuncioSelecionado", anuncio);
-                    //Log.d("INFO13", "sizeComentsCreate: " + anuncio.getListaComentarios().size());
+                    Log.d("INFO13", "INTENT: " + anuncio.getNome());
 
                     PendingIntent contentIntent = PendingIntent.getActivity(ctx, id, intent, 0);
 
@@ -249,8 +219,8 @@ public class GerenciadorNotificacoes {
                             .setContentTitle(Title)
                             .setTicker(Title)
                             .setContentText(Msg)
-                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                            .setContentIntent(contentIntent);
+                            //.setContentIntent(contentIntent)
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
@@ -270,8 +240,6 @@ public class GerenciadorNotificacoes {
 
                     notificationManager.notify(id, b.build());
                 }
-            } else {
-                Log.d("INFO13", "notificacao nao criada - usuario igual " + comentarista);
             }
         } catch (Exception e) {
             e.printStackTrace();

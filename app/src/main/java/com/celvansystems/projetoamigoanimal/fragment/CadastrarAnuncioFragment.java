@@ -41,8 +41,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
+import com.celvansystems.projetoamigoanimal.activity.MainActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
+import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
@@ -474,7 +476,11 @@ public class CadastrarAnuncioFragment extends Fragment
                             animal.salvar();
                             Util.setSnackBar(layout, getString(R.string.sucesso_ao_fazer_upload));
 
-                            configuraNotificacoes(animal);
+                            //configuraNotificacoes(animal);
+                            //GerenciadorNotificacoes gn = new GerenciadorNotificacoes(getActivity());
+                            //GerenciadorNotificacoes.listaAnunciosGeral.add(animal);
+                            //gn.configuraNotificacoesMain();
+                            MainActivity.reconfiguraNotificacoes(getActivity());
 
                             dialog.dismiss();
 
@@ -493,7 +499,7 @@ public class CadastrarAnuncioFragment extends Fragment
         }
     }
 
-    private void configuraNotificacoes(final Animal anuncio) {
+    /*private void configuraNotificacoes(final Animal anuncio) {
 
         try {
             Log.d("INFO11", anuncio.getDonoAnuncio());
@@ -567,7 +573,7 @@ public class CadastrarAnuncioFragment extends Fragment
                     notificationManager.notify(id, mBuilder.build());
                     Log.d("INFO11", "comentario inseridooo");*/
                     ////
-                }
+                /*}
 
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -592,7 +598,7 @@ public class CadastrarAnuncioFragment extends Fragment
         } catch (Exception e) {e.printStackTrace();
             Log.d("INFO11", "erro");
         }
-    }
+    }*/
 
     /**
      * metodo auxiliar para comprimir imagens que serao salvas do firebase storage

@@ -1,11 +1,15 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
-import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+
+import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
@@ -13,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,10 +33,7 @@ import com.celvansystems.projetoamigoanimal.fragment.PerfilUsuarioFragment;
 import com.celvansystems.projetoamigoanimal.fragment.SobreAppFragment;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
-import com.celvansystems.projetoamigoanimal.helper.NotificationReceiver;
-import com.celvansystems.projetoamigoanimal.helper.NotificationService;
 import com.celvansystems.projetoamigoanimal.helper.Util;
-import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.celvansystems.projetoamigoanimal.model.Usuario;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.ads.AdListener;
@@ -47,8 +49,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity
     private AdView adView;
     private ImageView imageViewPerfil;
     private View headerView;
+    private static GerenciadorNotificacoes gn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         setContentView(R.layout.activity_main);
 
@@ -76,46 +76,12 @@ public class MainActivity extends AppCompatActivity
         //Propagandas
         configuraAdMob();
 
-        configuraNotificacoes();
+        reconfiguraNotificacoes(this);
     }
 
-    private void configuraNotificacoes() {
-
-        if (ConfiguracaoFirebase.isUsuarioLogado()) {
-
-            DatabaseReference anunciosRef = ConfiguracaoFirebase.getFirebase()
-                    .child("meus_animais");
-
-            final String usuarioAtual = ConfiguracaoFirebase.getIdUsuario();
-            List<String> listaAnuncios = new ArrayList<>();
-
-            anunciosRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot anuncios : dataSnapshot.getChildren()) {
-
-                        if (anuncios != null) {
-
-                            String donoAnuncio = Objects.requireNonNull(anuncios.child("donoAnuncio").getValue()).toString();
-
-                            if(donoAnuncio.equalsIgnoreCase(usuarioAtual)){
-                                Animal anuncio = new Animal();
-                                anuncio.setIdAnimal(dataSnapshot.getKey());
-                                anuncio.setDonoAnuncio(donoAnuncio);
-
-
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-        }
+    public static void reconfiguraNotificacoes(Context ctx) {
+        gn = new GerenciadorNotificacoes(ctx);
+        gn.configuraNotificacoesMain();
     }
 
     private void configuraNavBar() {
@@ -167,22 +133,9 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        /*ComponentName receiver = new ComponentName(this, NotificationReceiver.class);
-        PackageManager pm = this.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);*/
-
-        BroadcastReceiver br = new NotificationReceiver();
-
-        //ctx.registerReceiver(br, filter);
-        startService(new Intent(this, NotificationService.class));
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.view_pager, new AnunciosFragment()).commit();
-
     }
 
     private void carregaDadosUsuario() {

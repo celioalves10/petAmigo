@@ -1,30 +1,10 @@
 package com.celvansystems.projetoamigoanimal.helper;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.media.AudioAttributes;
-import android.media.RingtoneManager;
-import android.os.Build;
-import androidx.annotation.NonNull;
 import com.google.android.material.snackbar.Snackbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
 import com.celvansystems.projetoamigoanimal.R;
-import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
-import com.celvansystems.projetoamigoanimal.model.Animal;
-import com.celvansystems.projetoamigoanimal.model.Comentario;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,13 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class Util {
-
-    private static List<String> comentariosNotificacoes = new ArrayList<>();
 
     /**
      * retorna os estados
@@ -217,9 +192,6 @@ public class Util {
     public static void setSnackBar(View root, String snackTitle) {
         Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_LONG);
         snackbar.show();
-        //View view = snackbar.getView();
-        //TextView txtv = view.findViewById(android.support.design.R.id.snackbar_text);
-        //txtv.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
     public static boolean validaTexto(String texto) {
@@ -231,132 +203,5 @@ public class Util {
                     .length() > 0 && !texto.isEmpty());
         }
         return retorno;
-    }
-
-    public static void configuraNotificacoes(final Context ctx, final Animal anuncio) {
-
-        if(ConfiguracaoFirebase.isUsuarioLogado()) {
-
-            try {
-                final DatabaseReference comentRef = ConfiguracaoFirebase.getFirebase()
-                        .child("meus_animais")
-                        .child(anuncio.getIdAnimal())
-                        .child("comentarios");
-
-                comentRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        final String idUsuario = ConfiguracaoFirebase.getIdUsuario();
-                        final String donoAnuncio = anuncio.getDonoAnuncio();
-
-                        if (donoAnuncio.equalsIgnoreCase(idUsuario)) {
-
-                            int size = anuncio.getListaComentarios().size();
-
-                            if(size > 0) {
-                                String texto = anuncio.getListaComentarios().get(size - 1).getTexto();
-                                String comentarista = anuncio.getListaComentarios().get(size - 1).getUsuario().getId();
-
-                                if(comentarista!= null) {
-
-                                    Comentario coment = new Comentario();
-                                    coment.setTexto(texto);
-
-                                    int sizeComentsNotificacoes = Util.comentariosNotificacoes.size();
-
-                                    if ((sizeComentsNotificacoes == 0 || !Util.comentariosNotificacoes.get(sizeComentsNotificacoes - 1).equalsIgnoreCase(texto))
-                                            && !anuncio.getDonoAnuncio().equalsIgnoreCase(comentarista)) {
-
-                                        createNotificationMessage(ctx, ctx.getString(R.string.novo_comentario), coment.getTexto(), anuncio);
-
-                                        Util.comentariosNotificacoes.add(texto);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private static void createNotificationMessage(Context ctx, String Title, String Msg, Animal anuncio) {
-
-        try {
-            int id = 15;
-            Intent intent = new Intent(ctx, ComentariosActivity.class);
-            intent.putExtra("anuncioSelecionado", anuncio);
-            /*intent.setAction("com.celvansystems.projetoamigoanimal.NotificationReceiver");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            BroadcastReceiver br = new NotificationReceiver();
-            IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-            filter.addAction("com.celvansystems.projetoamigoanimal.NotificationReceiver");
-            ctx.registerReceiver(br, filter);
-
-            ctx.sendBroadcast(intent);*/
-
-            Log.d("INFO11","Boradcast enviado");
-            PendingIntent contentIntent = PendingIntent.getActivity(ctx, id, intent, 0);
-
-            Notification.Builder b = new Notification.Builder(ctx);
-
-            NotificationChannel mChannel = null;
-
-            b.setAutoCancel(true)
-                    .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                    .setContentTitle(Title)
-                    .setTicker(Title)
-                    .setContentText(Msg)
-                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                    .setContentIntent(contentIntent);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                mChannel = new NotificationChannel("cid", "name", NotificationManager.IMPORTANCE_HIGH);
-                b.setChannelId("cid");
-                mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), new AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                        .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-                        .build());
-            }
-
-            NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notificationManager.createNotificationChannel(mChannel);
-            }
-
-            notificationManager.notify(id, b.build());
-
-            //Log.d("INFO11", "create");*/
-
-            ////
-           /* int id = 15;
-            Intent intent = new Intent(ctx, ComentariosActivity.class);
-            intent.putExtra("anuncioSelecionado", anuncio);
-            PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
-
-            Notification.Builder mBuilder = new Notification.Builder(ctx)
-                    .setAutoCancel(true)
-                    .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                    .setContentTitle(Title)
-                    .setTicker(Title)
-                    .setContentText(Msg)
-                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                    .setContentIntent(contentIntent);
-
-            NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(id, mBuilder.build());
-            Log.d("INFO11", "fim do create");*/
-            ////
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
