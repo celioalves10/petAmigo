@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 14
-        versionName "1.14.436"
+        versionName "1.14.449"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
