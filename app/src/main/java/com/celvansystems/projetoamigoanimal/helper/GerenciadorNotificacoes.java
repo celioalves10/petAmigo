@@ -219,7 +219,7 @@ public class GerenciadorNotificacoes {
                             .setContentTitle(Title)
                             .setTicker(Title)
                             .setContentText(Msg)
-                            //.setContentIntent(contentIntent)
+                            .setContentIntent(contentIntent)
                             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

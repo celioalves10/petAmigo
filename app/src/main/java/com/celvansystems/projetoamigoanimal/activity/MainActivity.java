@@ -1,5 +1,6 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -367,6 +368,11 @@ public class MainActivity extends AppCompatActivity
             LoginManager.getInstance().logOut();
 
             invalidateOptionsMenu(); //invalida o menu e chama o onPrepare de novo
+
+            //Limpa todas as notificaçoes
+            NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancelAll();
+
             finish();
         }
         /*else if (id == R.id.pet_procurado) {
