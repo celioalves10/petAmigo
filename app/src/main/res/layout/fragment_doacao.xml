@@ -33,10 +33,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="70dp"
                 android:keepScreenOn="true"
                 android:orientation="vertical"
                 android:overScrollMode="always"
                 android:persistentDrawingCache="scrolling">
+
+                <Button
+                    android:id="@+id/btn_doar2_reais"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@xml/bg_bt_redes_sociais"
+                    android:shadowColor="@color/black_overlay"
+                    android:shadowDx="10"
+                    android:text="@string/txt_doar2"
+                    android:textColor="@color/com_facebook_button_background_color_focused"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_doar5_reais"
@@ -45,7 +62,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@xml/bg_bt_redes_sociais"
                     android:shadowColor="@color/black_overlay"
                     android:shadowDx="10"
@@ -60,41 +77,11 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@xml/bg_bt_redes_sociais"
                     android:shadowColor="@color/black_overlay"
                     android:shadowDx="10"
                     android:text="@string/txt_doar10"
-                    android:textColor="@color/com_facebook_button_background_color_focused"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/btn_doar500_reais"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="50dp"
-                    android:background="@xml/bg_bt_redes_sociais"
-                    android:shadowColor="@color/black_overlay"
-                    android:shadowDx="10"
-                    android:text="@string/txt_doar500"
-                    android:textColor="@color/com_facebook_button_background_color_focused"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/btn_doar2_reais"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="50dp"
-                    android:background="@xml/bg_bt_redes_sociais"
-                    android:shadowColor="@color/black_overlay"
-                    android:shadowDx="10"
-                    android:text="@string/txt_doar2"
                     android:textColor="@color/com_facebook_button_background_color_focused"
                     android:textStyle="bold" />
 
@@ -105,7 +92,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@xml/bg_bt_redes_sociais"
                     android:shadowColor="@color/black_overlay"
                     android:shadowDx="10"
@@ -120,11 +107,26 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="50dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@xml/bg_bt_redes_sociais"
                     android:shadowColor="@color/black_overlay"
                     android:shadowDx="10"
                     android:text="@string/txt_doar100"
+                    android:textColor="@color/com_facebook_button_background_color_focused"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_doar500_reais"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@xml/bg_bt_redes_sociais"
+                    android:shadowColor="@color/black_overlay"
+                    android:shadowDx="10"
+                    android:text="@string/txt_doar500"
                     android:textColor="@color/com_facebook_button_background_color_focused"
                     android:textStyle="bold" />
             </LinearLayout>
