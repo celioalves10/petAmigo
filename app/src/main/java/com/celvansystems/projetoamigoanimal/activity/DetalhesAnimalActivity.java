@@ -47,19 +47,6 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
         inicializarComponentes();
         configuraNavBar();
-
-    }
-
-    private void configuraNavBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.lightgray));
-        }
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            View decorView = getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-            decorView.setSystemUiVisibility(uiOptions);
-        }
     }
 
     private void inicializarComponentes() {
@@ -108,6 +95,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 textDescricao.setElevation(50);
                 btnVerTelefone.setElevation(25);
+                carouselView.setElevation(25);
             }
 
             DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
@@ -153,6 +141,18 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
             });
         }
         configuraAdMob();
+    }
+
+    private void configuraNavBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.lightgray));
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
     /**
