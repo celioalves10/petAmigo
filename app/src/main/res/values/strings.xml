@@ -6,7 +6,6 @@
     <string name="txt_sair">Sair</string>
     <string name="txt_meus_anuncios">Meus Anúncios</string>
     <string name="title_activity_login">Sign in</string>
-
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Senha</string>
     <string name="action_sign_in">Login ou Registrar</string>
@@ -53,7 +52,6 @@
     <string name="banner_id">ca-app-pub-6718857112988900/9409443166</string>
     <string name="detalhes">Detalhes</string>
 
-
     <string-array name="idade">
         <item>0–3 meses</item>
         <item>4–6 meses</item>
@@ -71,11 +69,8 @@
     <string-array name="especies">
         <item>Cão</item>
         <item>Gato</item>
-        <item>Cavalo</item>
         <item>Coelho</item>
         <item>Ave</item>
-        <item>Réptil</item>
-        <item>Peixe</item>
         <item>Outro</item>
     </string-array>
 
@@ -84,11 +79,6 @@
         <item>Fêmea</item>
     </string-array>
 
-    <string-array name="cidades">
-        <item>Mamanguape</item>
-        <item>Olinda</item>
-        <item>Recife</item>
-    </string-array>
     <string name="title_activity_perfil_humano">PerfilHumanoActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
