@@ -247,7 +247,7 @@
                             android:inputType="textMultiLine"
                             android:isScrollContainer="true"
                             android:lineSpacingExtra="3sp"
-                            android:maxLength="100"
+                            android:maxLength="300"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
                             android:scrollbarAlwaysDrawVerticalTrack="true"

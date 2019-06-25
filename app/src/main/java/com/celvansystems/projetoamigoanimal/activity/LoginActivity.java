@@ -15,9 +15,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -87,8 +92,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    //private AutoCompleteTextView txiNome;
-    //private TextInputLayout txiLayout;
     private View mProgressView;
     private View mLoginFormView;
     private ImageView mImageBg_color;
@@ -102,12 +105,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
-        
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
         setContentView(R.layout.activity_login);
         setupActionBar();
-
-       // getSupportActionBar().hide(); //aqui a mágica setContentView(R.layout.sua_activity); }
 
         authentication = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
@@ -115,22 +116,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         configuraLoginFacebook();
 
-
         configuraLoginGoogle();
 
-        //populateAutoComplete();
         configuraNavBar();
     }
 
     private void configuraNavBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.black_overlay));
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.black_overlay));
 
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getResources().getColor(R.color.black_overlay));
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(getResources().getColor(R.color.black_overlay));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
     private void inicializarComponentes() {
@@ -212,20 +214,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void enviarEmailRecuperacao(String email) {
-        authentication.sendPasswordResetEmail(email)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
 
-                        if (task.isSuccessful()) {
+        try {
+            authentication.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
-                            Util.setSnackBar(layout, getString(R.string.email_enviado));
+                            if (task.isSuccessful()) {
 
-                        } else {
-                            Util.setSnackBar(layout, getString(R.string.nao_foi_possivel_email));
+                                Util.setSnackBar(layout, getString(R.string.email_enviado));
+
+                            } else {
+                                Util.setSnackBar(layout, getString(R.string.nao_foi_possivel_email));
+                            }
                         }
-                    }
-                });
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -318,7 +325,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void handleFacebookAccessToken(final AccessToken token) {
 
         try {
-
             showProgress(true);
 
             final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -404,7 +410,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onStart() {
         super.onStart();
 
-        try {
+        /*try {
             // Verifica se há conta do google logada.
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
             if (account == null) {
@@ -415,12 +421,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         } catch (Exception e) {
             Util.setSnackBar(layout, "3-" + e.getMessage());
-        }
+        }*/
 
         //se o usuário estiver logado, vai direto pra main
         if (ConfiguracaoFirebase.isUsuarioLogado()) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
+            if (checkIfEmailVerified()) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+            }
         }
     }
 
@@ -594,174 +602,167 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private void tentarLogin() {
 
-        //esconde o teclado
-        hideKeyboard(getApplicationContext(), mPasswordView);
+        try {
+            //esconde o teclado
+            hideKeyboard(getApplicationContext(), mPasswordView);
 
-        if (mEmailView != null && mPasswordView != null) {
-            // Store values at the time of the login attempt.
-            final String email = mEmailView.getText().toString();
-            final String password = mPasswordView.getText().toString();
+            if (mEmailView != null && mPasswordView != null) {
+                // Store values at the time of the login attempt.
+                final String email = mEmailView.getText().toString();
+                final String password = mPasswordView.getText().toString();
 
-            if (!email.equalsIgnoreCase("") && !password.equalsIgnoreCase("")) {
-                //cadastrando...
-                if (swtLoginCadastrar.isChecked()) {
+                if (!email.equalsIgnoreCase("") && !password.equalsIgnoreCase("")) {
+                    //cadastrando...
+                    if (swtLoginCadastrar.isChecked()) {
 
-                    //if (txiNome.getText() != null && !txiNome.getText().toString().equalsIgnoreCase("")) {
+                        authentication.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    authentication.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
 
-                                    if (task.isSuccessful()) {
+                                            swtLoginCadastrar.setChecked(false);
+                                            Util.setSnackBar(layout, getString(R.string.cadastro_realizado));
+                                            sendVerificationEmail();
 
-                                        swtLoginCadastrar.setChecked(false);
-                                        Util.setSnackBar(layout, getString(R.string.cadastro_realizado));
-                                        sendVerificationEmail();
-
-                                        //FirebaseUser user = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
-
-                                        //UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                        //       .setDisplayName(txiNome.getText().toString()).build();
-
-                                        ////if (user != null) {
-                                        //     user.updateProfile(profileUpdates);
-                                        // }
-
-                                        //criando usuario...
-                                        Usuario usuario = new Usuario();
-                                        usuario.setId(Objects.requireNonNull(task.getResult()).getUser().getUid());
-                                        // usuario.setNome(txiNome.getText().toString());
-                                        usuario.setEmail(email);
-                                        usuario.salvar();
-
-                                    } else {
-                                        String erroExcecao;
-                                        try {
-                                            throw Objects.requireNonNull(task.getException());
-                                        } catch (FirebaseAuthWeakPasswordException e) {
-                                            erroExcecao = getString(R.string.digite_senha_forte);
-                                        } catch (FirebaseAuthInvalidCredentialsException e) {
-                                            erroExcecao = getString(R.string.digite_email_valido);
-                                        } catch (FirebaseAuthUserCollisionException e) {
-                                            erroExcecao = getString(R.string.conta_cadastrada);
-                                        } catch (FirebaseAuthInvalidUserException e) {
-                                            erroExcecao = getString(R.string.usuario_inexistente);
-                                        } catch (Exception e) {
-                                            erroExcecao = getString(R.string.falha_cadastro_usuario) + e.getMessage();
-                                            e.printStackTrace();
-                                        }
-                                        Util.setSnackBar(layout, getString(R.string.erro) + erroExcecao);
-                                    }
-                                }
-                            });
-                    //} else {
-                    // Util.setSnackBar(layout, getString(R.string.insira_seu_nome));
-                    //}
-                    //logando...
-                } else {
-
-                    //direciona para a activity principal
-                    authentication.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-
-                                        if (checkIfEmailVerified()) {
-
-                                            //redirecionamento de acordo com o cadastro do usuario (completo ou incompleto)
-                                            String usuarioId = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getUid();
-                                            redireciona(usuarioId);
+                                            //criando usuario...
+                                            Usuario usuario = new Usuario();
+                                            usuario.setId(Objects.requireNonNull(task.getResult()).getUser().getUid());
+                                            // usuario.setNome(txiNome.getText().toString());
+                                            usuario.setEmail(email);
+                                            usuario.salvar();
 
                                         } else {
-                                            Util.setSnackBar(layout, getString(R.string.email_nao_verificado));
-
-                                            //envia e-mail de verificacao
-                                            sendVerificationEmail();
+                                            String erroExcecao;
+                                            try {
+                                                throw Objects.requireNonNull(task.getException());
+                                            } catch (FirebaseAuthWeakPasswordException e) {
+                                                erroExcecao = getString(R.string.digite_senha_forte);
+                                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                                erroExcecao = getString(R.string.digite_email_valido);
+                                            } catch (FirebaseAuthUserCollisionException e) {
+                                                erroExcecao = getString(R.string.conta_cadastrada);
+                                            } catch (FirebaseAuthInvalidUserException e) {
+                                                erroExcecao = getString(R.string.usuario_inexistente);
+                                            } catch (Exception e) {
+                                                erroExcecao = getString(R.string.falha_cadastro_usuario) + e.getMessage();
+                                                e.printStackTrace();
+                                            }
+                                            Util.setSnackBar(layout, getString(R.string.erro) + erroExcecao);
                                         }
-                                    } else {
-                                        Util.setSnackBar(layout, getString(R.string.email_senha_invalido));
                                     }
-                                    showProgress(false);
-                                    mImageBg_color.setVisibility(View.INVISIBLE);
-                                }
-                            });
-                    showProgress(true);
-                    mImageBg_color.setVisibility(View.VISIBLE);
+                                });
 
+                        //logando...
+                    } else {
+                        Log.d("INFO15", "tentando login");
+                        //direciona para a activity principal
+                        authentication.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+
+                                            if (checkIfEmailVerified()) {
+
+                                                //redirecionamento de acordo com o cadastro do usuario (completo ou incompleto)
+                                                String usuarioId = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getUid();
+                                                redireciona(usuarioId);
+
+                                            } else {
+                                                Util.setSnackBar(layout, getString(R.string.email_nao_verificado));
+
+                                                //envia e-mail de verificacao
+                                                sendVerificationEmail();
+                                            }
+                                        } else {
+                                            Util.setSnackBar(layout, getString(R.string.email_senha_invalido));
+                                        }
+                                        showProgress(false);
+                                        mImageBg_color.setVisibility(View.INVISIBLE);
+                                    }
+                                });
+                        showProgress(true);
+                        mImageBg_color.setVisibility(View.VISIBLE);
+
+                    }
+                } else {
+                    Util.setSnackBar(layout, getString(R.string.email_senha_invalido));
                 }
-            } else {
-                Util.setSnackBar(layout, getString(R.string.email_senha_invalido));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private void redireciona(final String usuarioId) {
 
-        DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
-                .child("usuarios");
+        try {
+            DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
+                    .child("usuarios");
 
-        usuariosRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot usuarios : dataSnapshot.getChildren()) {
+            usuariosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot usuarios : dataSnapshot.getChildren()) {
 
-                    try {
-                        if (usuarios != null) {
+                        try {
+                            if (usuarios != null) {
 
-                            if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(usuarioId)) {
+                                if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(usuarioId)) {
 
-                                if (Objects.requireNonNull(usuarios.child("loginCompleto").getValue()).toString().equalsIgnoreCase("true")) {
+                                    if (Objects.requireNonNull(usuarios.child("loginCompleto").getValue()).toString().equalsIgnoreCase("true")) {
 
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
 
-                                } else {
+                                    } else {
 
-                                    Intent intent = new Intent(LoginActivity.this, ComplementoLoginActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                        Intent intent = new Intent(LoginActivity.this, ComplementoLoginActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * firebase envia e-mail de verificação
      */
     private void sendVerificationEmail() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        try {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        assert user != null;
-        user.sendEmailVerification()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            // email enviado
-                            FirebaseAuth.getInstance().signOut();
-                        } else {
-                            // email nao enviado
-                            overridePendingTransition(0, 0);
-                            finish();
-                            overridePendingTransition(0, 0);
-                            startActivity(getIntent());
+            assert user != null;
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // email enviado
+                                FirebaseAuth.getInstance().signOut();
+                            }
                         }
-                    }
-                });
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -770,12 +771,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * @return boolean e-mail verified
      */
     private boolean checkIfEmailVerified() {
+
+        boolean retorno = false;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
-            return user.isEmailVerified();
+            retorno = user.isEmailVerified();
         }
-        return false;
+        return retorno;
     }
 
     /**
