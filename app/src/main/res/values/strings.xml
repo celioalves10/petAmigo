@@ -46,7 +46,7 @@
     <string name="zero">0</string>
     <string name="doacao">Doação</string>
     <string name="nome_app">Busca Pet</string>
-    <string name="txt_nome">Nome do Perfil Humano</string>
+    <string name="txt_nome">Nome</string>
     <string name="txt_email_exemplo">nome@email.com.br</string>
     <string name="app_id">ca-app-pub-6718857112988900~9519509403</string>
     <string name="banner_id">ca-app-pub-6718857112988900/9409443166</string>
@@ -88,7 +88,7 @@
     <string name="txt_minha_conta">Minha Conta</string>
     <string name="txt_config_notificar">Configurar Notificações</string>
     <string name="cad_novo_animal">Pet</string>
-    <string name="txt_ajudar">Saiba como Contribuir</string>
+    <string name="txt_ajudar">Como Contribuir</string>
     <string name="txt_conversas">Minhas Mensagens</string>
     <string name="txt_Sobre_App">Sobre o App</string>
     <string name="comunication">Comunicações</string>
@@ -210,12 +210,12 @@
     <string name="txt_pouco_sobre">Sobre o PET</string>
     <string name="txt_diz">Diz:</string>
     <string name="txt_data">Data</string>
-    <string name="txt_inserir_foto">Vamos Inserir uma foto sua??</string>
+    <string name="txt_inserir_foto">Insira sua foto.</string>
     <string name="txt_voltar">Voltar..</string>
     <string name="txt_proximo">Próximo</string>
-    <string name="txt_cadastro">Precisamos completar seu cadastro</string>
-    <string name="txt_qual_nome">Qua seu nome??</string>
-    <string name="txt_seu_telefon">Insira seu telefone..</string>
+    <string name="txt_cadastro">Conclua seu cadastro</string>
+    <string name="txt_qual_nome">Qual é o seu nome?</string>
+    <string name="txt_seu_telefon">Insira seu telefone.</string>
     <string name="txt_local_user">De onde você é?</string>
     <string name="txt_finalizar_cadastro">Finalizar cadastro</string>
     <string name="proximo">Próximo</string>
@@ -288,7 +288,7 @@
     <string name="fazer_login_facebook">Fazer login com o Facebook</string>
     <string name="login_sucesso">Login realizado com sucesso!</string>
     <string name="doe_um_lar_para_um_pet">Doe seu lar para um amigo</string>
-    <string name="compartilhar">Compartilhar</string>
+    <string name="compartilhar">Compartilhar…</string>
     <string name="carregando_fotos">Carregando fotos…</string>
     <string name="cooperight">CelVanSystems® 2019</string>
     <string name="editar_perfil">Editar perfil</string>
