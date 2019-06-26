@@ -106,7 +106,8 @@
     <string name="desativarConta">Desativar Conta</string>
     <string name="facebook_app_id">314424992539028</string>
     <string name="fb_login_protocol_scheme">fb314424992539028</string>
-    <string name="google_web_client">401004222439-k032p84b3o9tp5rngjjqqeiodtflfa50.apps.googleusercontent.com</string>
+    <!--string name="google_web_client">401004222439-k032p84b3o9tp5rngjjqqeiodtflfa50.apps.googleusercontent.com</string-->
+    <string name="google_web_client">401004222439-vcq1o7a32eocodqf4k2ho6t2q3c35pq0.apps.googleusercontent.com</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ir_anuncios">Ir para os anúncios</string>
     <string name="senha">Senha</string>

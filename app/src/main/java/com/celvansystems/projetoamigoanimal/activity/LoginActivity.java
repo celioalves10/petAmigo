@@ -376,6 +376,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     .requestIdToken(getString(R.string.google_web_client))
                     .requestEmail()
                     .build();
+
             mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
 
             //Google Login
@@ -456,7 +457,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         } catch (ApiException e) {
                             e.printStackTrace();
                             Util.setSnackBar(layout, "4-" + e.getMessage());
-                        }
+                        } catch (Exception e) {e.printStackTrace();
+                            Util.setSnackBar(layout, "14-" + e.getMessage());}
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
