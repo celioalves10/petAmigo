@@ -459,7 +459,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
 
         try {
             // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
@@ -467,36 +467,43 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
-                task.addOnCompleteListener(new OnCompleteListener<GoogleSignInAccount>() {
-                    @Override
-                    public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                if(task != null) {
+                    task.addOnCompleteListener(new OnCompleteListener<GoogleSignInAccount>() {
+                        @Override
+                        public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
 
-                        // Google Sign In was successful, authenticate with Firebase
-                        try {
-                            GoogleSignInAccount account = task.getResult(ApiException.class);
-                            if (account != null) {
-                                firebaseAuthWithGoogle(account);
+                            // Google Sign In was successful, authenticate with Firebase
+                            try {
+                                //GoogleSignInAccount account = task.getResult(ApiException.class);
+                                GoogleSignInAccount account = task.getResult();
+
+                                if (account != null) {
+                                    firebaseAuthWithGoogle(account);
+                                } else {
+                                    Util.setSnackBar(layout, "account = null");
+                                }
+                                //handleSignInResult(task);
+                            /*} catch (ApiException e) {
+                                e.printStackTrace();
+                                Util.setSnackBar(layout, "4-" + e.getMessage());*/
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Util.setSnackBar(layout, "14-" + e.getMessage());
                             }
-                            //handleSignInResult(task);
-                        } catch (ApiException e) {
-                            e.printStackTrace();
-                            Util.setSnackBar(layout, "4-" + e.getMessage());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Util.setSnackBar(layout, "14-" + e.getMessage());
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Util.setSnackBar(layout, "5-" + e.getMessage());
-                    }
-                });
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Util.setSnackBar(layout, "5-" + e.getMessage());
+                        }
+                    });
+                } else {
+                    Util.setSnackBar(layout, "task = null");
+                }
             } else {
                 //Facebook
                 callbackManager.onActivityResult(requestCode, resultCode, data);
             }
-            super.onActivityResult(requestCode, resultCode, data);
         } catch (Exception e) {
             Util.setSnackBar(layout, "6-" + e.getMessage());
         }
