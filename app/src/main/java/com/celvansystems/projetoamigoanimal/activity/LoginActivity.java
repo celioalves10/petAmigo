@@ -486,15 +486,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             /*} catch (ApiException e) {
                                 e.printStackTrace();
                                 Util.setSnackBar(layout, "4-" + e.getMessage());*/
+
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                Util.setSnackBar(layout, "14-" + e.getMessage());
+                                Util.setSnackBar(layout, "14 - " + e.getMessage());
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Util.setSnackBar(layout, "5-" + e.getMessage());
+                            Util.setSnackBar(layout, "5 - " + e.getMessage());
                         }
                     });
                 } else {
