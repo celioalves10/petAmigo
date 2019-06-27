@@ -183,11 +183,12 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:shadowColor="@color/com_facebook_device_auth_text"
+                    android:shadowColor="#A7B0BD"
                     android:textColor="@color/design_default_color_primary_dark"
                     android:textColorLink="@color/colorPrimaryDark"
                     android:textSize="24sp"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:theme="@style/SCBSwitch"/>
 
                 <TextView
                     android:id="@+id/txvCadastrar"

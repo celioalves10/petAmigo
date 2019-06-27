@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import android.provider.ContactsContract;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.login.LoginBehavior;
+import com.facebook.login.LoginManager;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -74,6 +77,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -245,8 +249,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             callbackManager = CallbackManager.Factory.create();
 
             btnLoginFacebook.setLoginText(getString(R.string.fazer_login_facebook));
-            //btnLoginFacebook.setLoginBehavior(LoginBehavior.WEB_ONLY);
-
+            btnLoginFacebook.setLoginBehavior(LoginBehavior.NATIVE_WITH_FALLBACK);
             btnLoginFacebook.setPermissions(Arrays.asList(
                     "email", "public_profile"));
 
@@ -255,7 +258,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onSuccess(LoginResult loginResult) {
 
-                    handleFacebookAccessToken(loginResult.getAccessToken());
+                    try {
+                        // Verifica se há conta do facebook logada.
+                        AccessToken token = AccessToken.getCurrentAccessToken();
+
+                        //se o usuário estiver logado, vai direto pra main
+                        Log.d("INFO16", "usuario logado");
+                        if (token != null) {
+                            Log.d("INFO16", "token != null");
+                            handleFacebookAccessToken(token);
+                            //startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            //finish();
+                        }
+
+                    } catch (Exception e) {
+                        Util.setSnackBar(layout, "3-" + e.getMessage());
+                    }
+
+                    //handleFacebookAccessToken(loginResult.getAccessToken());
 
                     //getFbInfo();
                     //Util.setSnackBar(layout, "login result sucesso!");
@@ -329,12 +349,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
 
+            //LoginManager.getInstance().logInWithReadPermissions(this, Collections.singletonList("public_profile"));
+
             authentication.signInWithCredential(credential)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             try {
                                 if (task.isSuccessful()) {
+
 
                                     FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
 
@@ -411,31 +434,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onStart() {
         super.onStart();
 
-        /*try {
-            // Verifica se há conta do google logada.
-            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-            if (account == null) {
-                //Log.d("INFO40", "usuario nao logado com google");
+        try {
+            if (ConfiguracaoFirebase.isUsuarioLogado()) {
 
-            } else {
-                //Log.d("INFO40", "usuario logado com google");
+                // Verifica se há conta do google logada.
+                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+                // Verifica se há conta do facebook logada.
+                AccessToken token = AccessToken.getCurrentAccessToken();
+
+                //se o usuário estiver logado, vai direto pra main
+                Log.d("INFO16", "usuario logado");
+                if (checkIfEmailVerified() || token != null || account != null) {
+                    Log.d("INFO16", "e-mail verificado");
+
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                }
             }
         } catch (Exception e) {
             Util.setSnackBar(layout, "3-" + e.getMessage());
-        }*/
-
-        //se o usuário estiver logado, vai direto pra main
-        if (ConfiguracaoFirebase.isUsuarioLogado()) {
-            if (checkIfEmailVerified()) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-            }
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
 
         try {
             // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
@@ -457,8 +481,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         } catch (ApiException e) {
                             e.printStackTrace();
                             Util.setSnackBar(layout, "4-" + e.getMessage());
-                        } catch (Exception e) {e.printStackTrace();
-                            Util.setSnackBar(layout, "14-" + e.getMessage());}
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Util.setSnackBar(layout, "14-" + e.getMessage());
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -467,8 +493,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                 });
             } else {
+                //Facebook
                 callbackManager.onActivityResult(requestCode, resultCode, data);
             }
+            super.onActivityResult(requestCode, resultCode, data);
         } catch (Exception e) {
             Util.setSnackBar(layout, "6-" + e.getMessage());
         }
@@ -584,6 +612,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 }
                             }
                         }
+                        //se o usuário não existir ainda...
                         if (!usuarioExists) {
                             usuario.salvar();
                             startActivity(new Intent(LoginActivity.this, ComplementoLoginActivity.class));

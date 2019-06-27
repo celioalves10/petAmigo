@@ -6,8 +6,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 14
-        versionName "1.14.449"
+        versionCode 15
+        versionName "1.15.458"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -80,6 +80,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     //firebase messaging
-    implementation 'com.google.firebase:firebase-messaging:19.0.0'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
