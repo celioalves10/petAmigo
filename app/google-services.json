@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "401004222439-j270hkt5fbnkca5dgidkq651nesjrl0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.celvansystems.projetoamigoanimal",
+            "certificate_hash": "89bb7f3bf13e7c553c138e0c9a192c56500a5f91"
+          }
+        },
+        {
           "client_id": "401004222439-ckpf9hkpi0r1v0hav3kbf8gua31shv4p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
