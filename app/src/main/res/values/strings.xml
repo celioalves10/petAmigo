@@ -304,10 +304,15 @@
     <string name="callback_url">https://instagram.com/</string>
     <string name="base_url">https://api.instagram.com/</string>
     <string name="busca_pet_promove">Busca Pet é um aplicativo que promove a adoção de Pets.</string>
-    <string name="versao_app">versão 1.2</string>
+    <string name="versao_app">Versão 1.2</string>
     <string name="compartilhar_busca_pet">Compartilhar com os amigos</string>
     <string name="enviar_feedback">Enviar feedback</string>
     <string name="avaliar_este_app">Avaliar este App</string>
     <string name="reportar_erro">Reportar erro</string>
+    <string name="email_celvansystems">celvansystems@gmail.com</string>
+    <string name="feedback_usuario">Feedback de usuário sobre o</string>
+    <string name="mensagem">mensagem</string>
+    <string name="escolha_cliente_email">Escolha um cliente de e-mail:</string>
+    <string name="reportagem_bug">Reportagem de bug</string>
 
 </resources>

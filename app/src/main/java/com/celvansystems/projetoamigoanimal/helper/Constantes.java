@@ -23,7 +23,7 @@ public class Constantes {
 
     //application
     public static String APPLICATION_ID = "com.celvansystems.projetoamigoanimal";
-    public static String APPLICATION_NAME = "Pet Amigo";
+    public static String APPLICATION_NAME = "Busca Pet";
     public static String APPLICATION_MESSAGE = "Recomendo este App";
 
     //intersticial

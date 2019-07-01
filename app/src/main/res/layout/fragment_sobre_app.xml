@@ -26,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="14dp"
-                    android:text="@string/versao-app"
+                    android:text="@string/versao_app"
                     android:textColor="@android:color/black"
                     app:layout_constraintBottom_toTopOf="@+id/txvDescricao"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -52,8 +52,9 @@
                     android:id="@+id/txvDescricao"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/busca_pet_promove"
                     android:textAlignment="center"
                     android:textSize="18sp"
@@ -62,7 +63,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/btnLogo" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout4"
+                    android:id="@+id/constraintAvaliarApp"
                     android:layout_width="0dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="8dp"
@@ -109,7 +110,7 @@
                     android:background="@drawable/bg_editar_perfil"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
+                    app:layout_constraintTop_toBottomOf="@+id/constraintAvaliarApp">
 
                     <ImageButton
                         android:id="@+id/imbCompartilhar"
