@@ -79,6 +79,7 @@ dependencies {
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'
 
+
     //firebase messaging
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
 }
