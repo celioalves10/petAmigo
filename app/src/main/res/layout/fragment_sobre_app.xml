@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -16,8 +17,20 @@
             android:orientation="vertical" >
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLogo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txvVersao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:text="@string/versao-app"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/txvDescricao"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
                     android:id="@+id/btnLogo"
@@ -42,7 +55,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/busca_pet_promove"
-                    android:textSize="24sp"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/btnLogo" />
@@ -52,6 +66,7 @@
                     android:layout_width="0dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/bg_editar_perfil"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -59,56 +74,33 @@
                     app:layout_constraintTop_toBottomOf="@+id/txvDescricao">
 
                     <ImageButton
-                        android:id="@+id/imageButton"
+                        android:id="@+id/imbAvaliar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
+                        android:contentDescription="@string/avaliar_este_app"
                         android:src="@android:drawable/star_big_on"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageButton
-                        android:id="@+id/imageButton2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:src="@android:drawable/ic_menu_share"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageButton"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/txvAvaliar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginBottom="8dp"
-                        android:text=" Avaliar este App"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-                        app:layout_constraintStart_toEndOf="@+id/imageButton"
-                        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+                        android:text="@string/avaliar_este_app"
+                        app:layout_constraintBottom_toBottomOf="@+id/imbAvaliar"
+                        app:layout_constraintStart_toEndOf="@+id/imbAvaliar"
+                        app:layout_constraintTop_toTopOf="@+id/imbAvaliar" />
 
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="Compartilhar"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
-                        app:layout_constraintStart_toEndOf="@+id/imageButton2"
-                        app:layout_constraintTop_toTopOf="@+id/imageButton2" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout5"
+                    android:id="@+id/constraint_compartilhar"
                     android:layout_width="0dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="8dp"
@@ -120,29 +112,30 @@
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
                     <ImageButton
-                        android:id="@+id/imageButton3"
+                        android:id="@+id/imbCompartilhar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                        android:src="@android:drawable/ic_menu_help"
+                        android:src="@android:drawable/ic_menu_share"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/compartilhar_busca_pet" />
 
                     <TextView
-                        android:id="@+id/textView15"
+                        android:id="@+id/txvCompartilhar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Perguntas frequentes"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
-                        app:layout_constraintStart_toEndOf="@+id/imageButton3"
-                        app:layout_constraintTop_toTopOf="@+id/imageButton3" />
+                        android:text="@string/compartilhar_busca_pet"
+                        app:layout_constraintBottom_toBottomOf="@+id/imbCompartilhar"
+                        app:layout_constraintStart_toEndOf="@+id/imbCompartilhar"
+                        app:layout_constraintTop_toTopOf="@+id/imbCompartilhar" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout8"
+                    android:id="@+id/constraintFeedback"
                     android:layout_width="0dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="8dp"
@@ -151,34 +144,36 @@
                     android:background="@drawable/bg_editar_perfil"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
+                    app:layout_constraintTop_toBottomOf="@+id/constraint_compartilhar">
 
                     <ImageButton
-                        android:id="@+id/imageButton4"
+                        android:id="@+id/imbFeedback"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:src="@android:drawable/ic_btn_speak_now"
+                        android:src="@android:drawable/ic_dialog_email"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/enviar_feedback" />
 
                     <TextView
-                        android:id="@+id/textView16"
+                        android:id="@+id/txvFeedback"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Send you feedback"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageButton4"
-                        app:layout_constraintStart_toEndOf="@+id/imageButton4"
-                        app:layout_constraintTop_toTopOf="@+id/imageButton4" />
+                        android:text="@string/enviar_feedback"
+                        app:layout_constraintBottom_toBottomOf="@+id/imbFeedback"
+                        app:layout_constraintStart_toEndOf="@+id/imbFeedback"
+                        app:layout_constraintTop_toTopOf="@+id/imbFeedback" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintErro"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="64dp"
                     android:background="@drawable/bg_editar_perfil"
@@ -186,27 +181,28 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout8">
+                    app:layout_constraintTop_toBottomOf="@+id/constraintFeedback">
 
                     <ImageButton
-                        android:id="@+id/imageButton5"
+                        android:id="@+id/imbErro"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:src="@android:drawable/checkbox_on_background"
+                        android:contentDescription="@string/reportar_erro"
+                        android:src="@android:drawable/stat_notify_error"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView17"
+                        android:id="@+id/txvErro"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Help us in translation"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageButton5"
-                        app:layout_constraintStart_toEndOf="@+id/imageButton5"
-                        app:layout_constraintTop_toTopOf="@+id/imageButton5" />
+                        android:text="@string/reportar_erro"
+                        app:layout_constraintBottom_toBottomOf="@+id/imbErro"
+                        app:layout_constraintStart_toEndOf="@+id/imbErro"
+                        app:layout_constraintTop_toTopOf="@+id/imbErro" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
