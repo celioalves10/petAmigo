@@ -5,16 +5,21 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
+
+import java.util.Objects;
 
 public class SobreAppFragment extends Fragment {
 
@@ -39,6 +44,7 @@ public class SobreAppFragment extends Fragment {
         inializaComponentes();
 
         configurarAcoes();
+
 
         return view;
     }
@@ -152,5 +158,18 @@ public class SobreAppFragment extends Fragment {
             }
 
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(((AppCompatActivity) Objects
+                .requireNonNull(getActivity())).getSupportActionBar()).hide();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        Objects.requireNonNull(((AppCompatActivity) Objects
+                .requireNonNull(getActivity())).getSupportActionBar()).show();
     }
 }
