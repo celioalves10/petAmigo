@@ -22,6 +22,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <View
+                    android:id="@+id/divider6"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/colorPrimaryDark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView_seguir_insta" />
+
                 <TextView
                     android:id="@+id/txvDescricao"
                     android:layout_width="wrap_content"
@@ -43,7 +55,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@color/backgroundcolor80p"
+                    android:background="@drawable/bg_tela_sobre_app"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -98,7 +110,7 @@
                     android:layout_width="0dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/bg_tela_sobre_app"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -122,13 +134,13 @@
                         android:layout_height="48dp"
                         android:layout_marginStart="8dp"
                         android:clickable="true"
+                        android:contentDescription="@string/txt_gostou_do_app"
+                        android:focusable="true"
                         android:padding="9dp"
-                        app:srcCompat="@drawable/ic_rating_star"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:contentDescription="@string/txt_gostou_do_app"
-                        android:focusable="true" />
+                        app:srcCompat="@drawable/ic_rating_star" />
 
                     <TextView
                         android:id="@+id/txvAvaliarApp"
@@ -136,6 +148,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/txt_gostou_do_app"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/imvAvaliarApp"
                         app:layout_constraintTop_toTopOf="@+id/imvAvaliarApp" />
 
@@ -159,9 +172,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/compartilhar_busca_pet"
-                        app:layout_constraintBottom_toBottomOf="@+id/imvCompartilharApp"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/imvCompartilharApp"
-                        app:layout_constraintTop_toBottomOf="@+id/txvCompartilhar2" />
+                        app:layout_constraintTop_toTopOf="@+id/imvCompartilharApp" />
 
                     <ImageView
                         android:id="@+id/imvCompartilharApp"
@@ -189,7 +202,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/imvCompartilharApp"
-                        app:layout_constraintTop_toTopOf="@+id/imvCompartilharApp" />
+                        app:layout_constraintTop_toBottomOf="@+id/txvCompartilhar" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -210,6 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/enviar_feedback"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toEndOf="@+id/txvFeedback2"
                         app:layout_constraintTop_toTopOf="@+id/txvFeedback2" />
 
@@ -234,12 +248,10 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:text="@string/txt_feedback_suges"
-                        app:layout_constraintBottom_toBottomOf="@+id/txvFeedback2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/txvFeedback2"
-                        app:layout_constraintTop_toBottomOf="@+id/txvFeedback"
-                        app:layout_constraintVertical_bias="0.533" />
+                        app:layout_constraintTop_toBottomOf="@+id/txvFeedback" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -257,55 +269,63 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/constraintFeedback">
 
-                    <ImageButton
-                        android:id="@+id/imbErro"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:contentDescription="@string/reportar_erro"
-                        android:src="@android:drawable/stat_notify_error"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                     <TextView
                         android:id="@+id/txvErro"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/reportar_erro"
-                        app:layout_constraintBottom_toBottomOf="@+id/imbErro"
-                        app:layout_constraintStart_toEndOf="@+id/imbErro"
-                        app:layout_constraintTop_toTopOf="@+id/imbErro" />
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/imageView"
+                        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="8dp"
+                        android:clickable="true"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_dog_error"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/txt_deuruim"
+                        app:layout_constraintStart_toEndOf="@+id/imageView"
+                        app:layout_constraintTop_toBottomOf="@+id/txvErro" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
                     android:id="@+id/imageView_seguir_insta"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:clickable="true"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_instagram_logo"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.58"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txvSiganos"
                     android:contentDescription="@string/seguir_facebook"
-                    android:focusable="true" />
+                    android:focusable="true"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/txvSiganos"
+                    app:layout_constraintTop_toBottomOf="@+id/txvSiganos"
+                    app:srcCompat="@drawable/ic_instagram_logo" />
 
                 <View
                     android:id="@+id/divider"
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="8dp"
                     android:background="@color/colorPrimaryDark"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView_seguir_insta" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintErro" />
 
                 <TextView
                     android:id="@+id/txvSiganos"
@@ -323,14 +343,30 @@
                     android:id="@+id/imageView_seguir_face"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_marginEnd="9dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:clickable="true"
-                    android:padding="8dp"
-                    app:srcCompat="@drawable/ic_facebook_logo"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView_seguir_insta"
-                    app:layout_constraintTop_toTopOf="@+id/imageView_seguir_insta"
                     android:contentDescription="@string/seguir_instagram"
-                    android:focusable="true" />
+                    android:focusable="true"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView_seguir_insta"
+                    app:layout_constraintStart_toStartOf="@+id/txvSiganos"
+                    app:layout_constraintTop_toTopOf="@+id/imageView_seguir_insta"
+                    app:srcCompat="@drawable/ic_facebook_logo" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="24dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="56dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
