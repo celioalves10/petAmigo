@@ -12,10 +12,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.celvansystems.projetoamigoanimal.BuildConfig;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
 
@@ -57,6 +57,9 @@ public class SobreAppFragment extends Fragment {
         constErro = view.findViewById(R.id.constraintErro);
         imvFacebook = view.findViewById(R.id.imageView_seguir_face);
         imvInstagram = view.findViewById(R.id.imageView_seguir_insta);
+
+        TextView txvVersion = view.findViewById(R.id.txvVersao);
+        txvVersion.setText(String.format("Versão %s", BuildConfig.VERSION_NAME));
     }
 
     private void configurarAcoes() {
@@ -166,6 +169,7 @@ public class SobreAppFragment extends Fragment {
         Objects.requireNonNull(((AppCompatActivity) Objects
                 .requireNonNull(getActivity())).getSupportActionBar()).hide();
     }
+
     @Override
     public void onStop() {
         super.onStop();
