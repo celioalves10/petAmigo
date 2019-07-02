@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLogo"
+                android:id="@+id/constraintLogoSobre"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -34,10 +34,10 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLogo" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout5"
+                    android:id="@+id/constraintLogo"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginStart="8dp"
@@ -63,20 +63,21 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imageView6"
+                        android:id="@+id/imvLogo"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="2dp"
                         android:src="@mipmap/ic_launcher_pegada_round_512"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/textView5"
+                        app:layout_constraintEnd_toStartOf="@+id/txvLogoApp"
                         app:layout_constraintHorizontal_bias="0.84"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/nome_app" />
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/txvLogoApp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -111,29 +112,31 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginBottom="2dp"
                         android:text="@string/avaliar_este_app"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-                        app:layout_constraintStart_toEndOf="@+id/imageView8" />
+                        app:layout_constraintBottom_toBottomOf="@+id/imvAvaliarApp"
+                        app:layout_constraintStart_toEndOf="@+id/imvAvaliarApp" />
 
                     <ImageView
-                        android:id="@+id/imageView8"
+                        android:id="@+id/imvAvaliarApp"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="8dp"
                         android:clickable="true"
                         android:padding="9dp"
-                        android:src="@drawable/ic_rating_star"
+                        app:srcCompat="@drawable/ic_rating_star"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/txt_gostou_do_app"
+                        android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/textView16"
+                        android:id="@+id/txvAvaliarApp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/txt_gostou_do_app"
-                        app:layout_constraintStart_toEndOf="@+id/imageView8"
-                        app:layout_constraintTop_toTopOf="@+id/imageView8" />
+                        app:layout_constraintStart_toEndOf="@+id/imvAvaliarApp"
+                        app:layout_constraintTop_toTopOf="@+id/imvAvaliarApp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -155,12 +158,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/compartilhar_busca_pet"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-                        app:layout_constraintStart_toEndOf="@+id/imageView7"
-                        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                        app:layout_constraintBottom_toBottomOf="@+id/imvCompartilharApp"
+                        app:layout_constraintStart_toEndOf="@+id/imvCompartilharApp"
+                        app:layout_constraintTop_toBottomOf="@+id/txvCompartilhar2" />
 
                     <ImageView
-                        android:id="@+id/imageView7"
+                        android:id="@+id/imvCompartilharApp"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="8dp"
@@ -168,13 +171,15 @@
                         android:layout_marginBottom="8dp"
                         android:clickable="true"
                         android:padding="9dp"
-                        android:src="@drawable/ic_compartilhar"
+                        app:srcCompat="@drawable/ic_compartilhar"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/txt_divulgaapp"
+                        android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/textView15"
+                        android:id="@+id/txvCompartilhar2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -182,8 +187,8 @@
                         android:text="@string/txt_divulgaapp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/imageView7"
-                        app:layout_constraintTop_toTopOf="@+id/imageView7" />
+                        app:layout_constraintStart_toEndOf="@+id/imvCompartilharApp"
+                        app:layout_constraintTop_toTopOf="@+id/imvCompartilharApp" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -204,40 +209,34 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/enviar_feedback"
-                        app:layout_constraintStart_toEndOf="@+id/imageView10"
-                        app:layout_constraintTop_toTopOf="@+id/imageView10" />
+                        app:layout_constraintStart_toEndOf="@+id/txvFeedback2"
+                        app:layout_constraintTop_toTopOf="@+id/txvFeedback2" />
 
                     <ImageView
-                        android:id="@+id/imageView9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@android:drawable/stat_notify_chat"
-                        tools:layout_editor_absoluteX="-27dp"
-                        tools:layout_editor_absoluteY="-30dp" />
-
-                    <ImageView
-                        android:id="@+id/imageView10"
+                        android:id="@+id/txvFeedback2"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="8dp"
                         android:clickable="true"
                         android:padding="9dp"
-                        android:src="@drawable/ic_feedback"
+                        app:srcCompat="@drawable/ic_feedback"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/txt_feedback_suges"
+                        android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/textView17"
+                        android:id="@+id/txvFeedback3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:text="@string/txt_feedback_suges"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+                        app:layout_constraintBottom_toBottomOf="@+id/txvFeedback2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/imageView10"
+                        app:layout_constraintStart_toEndOf="@+id/txvFeedback2"
                         app:layout_constraintTop_toBottomOf="@+id/txvFeedback"
                         app:layout_constraintVertical_bias="0.533" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -286,12 +285,14 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:clickable="true"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_instagram_logo"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_instagram_logo"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintHorizontal_bias="0.58"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/txvSiganos"
+                    android:contentDescription="@string/seguir_facebook"
+                    android:focusable="true" />
 
                 <View
                     android:id="@+id/divider"
@@ -306,28 +307,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView_seguir_insta" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/txvSiganos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/txt_siga_nas_redes"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView_seguir_twitter"
-                    app:layout_constraintHorizontal_bias="0.518"
-                    app:layout_constraintStart_toStartOf="@+id/imageView_seguir_face"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txvDescricao" />
-
-                <ImageView
-                    android:id="@+id/imageView_seguir_twitter"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="9dp"
-                    android:clickable="true"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_twitter_logo"
-                    app:layout_constraintStart_toEndOf="@+id/imageView_seguir_insta"
-                    app:layout_constraintTop_toTopOf="@+id/imageView_seguir_insta" />
 
                 <ImageView
                     android:id="@+id/imageView_seguir_face"
@@ -335,10 +324,12 @@
                     android:layout_height="48dp"
                     android:layout_marginEnd="9dp"
                     android:clickable="true"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_facebook_logo"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/ic_facebook_logo"
                     app:layout_constraintEnd_toStartOf="@+id/imageView_seguir_insta"
-                    app:layout_constraintTop_toTopOf="@+id/imageView_seguir_insta" />
+                    app:layout_constraintTop_toTopOf="@+id/imageView_seguir_insta"
+                    android:contentDescription="@string/seguir_instagram"
+                    android:focusable="true" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

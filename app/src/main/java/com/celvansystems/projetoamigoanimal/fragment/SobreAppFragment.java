@@ -11,16 +11,21 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.celvansystems.projetoamigoanimal.R;
-import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SobreAppFragment extends Fragment {
 
     private View view;
+    private ConstraintLayout constAvaliarApp;
+    private ConstraintLayout constCompartilharApp;
+    private ConstraintLayout constEnviarFeedBack;
+    private ConstraintLayout constErro;
+
+    private ImageView imvFacebook;
+    private ImageView imvInstagram;
 
     public SobreAppFragment() {
     }
@@ -33,12 +38,23 @@ public class SobreAppFragment extends Fragment {
 
         inializaComponentes();
 
+        configurarAcoes();
+
         return view;
     }
 
     private void inializaComponentes() {
 
-        ConstraintLayout constAvaliarApp = view.findViewById(R.id.constraintAvaliarApp);
+        constAvaliarApp = view.findViewById(R.id.constraintAvaliarApp);
+        constCompartilharApp = view.findViewById(R.id.constraint_compartilhar);
+        constEnviarFeedBack = view.findViewById(R.id.constraintFeedback);
+        constErro = view.findViewById(R.id.constraintErro);
+        imvFacebook = view.findViewById(R.id.imageView_seguir_face);
+        imvInstagram = view.findViewById(R.id.imageView_seguir_insta);
+    }
+
+    private void configurarAcoes() {
+
         constAvaliarApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +70,6 @@ public class SobreAppFragment extends Fragment {
             }
         });
 
-        ConstraintLayout constCompartilharApp = view.findViewById(R.id.constraint_compartilhar);
         constCompartilharApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +87,6 @@ public class SobreAppFragment extends Fragment {
             }
         });
 
-        ConstraintLayout constEnviarFeedBack = view.findViewById(R.id.constraintFeedback);
         constEnviarFeedBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +104,6 @@ public class SobreAppFragment extends Fragment {
 
         });
 
-        ConstraintLayout constErro = view.findViewById(R.id.constraintErro);
         constErro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,5 +121,36 @@ public class SobreAppFragment extends Fragment {
 
         });
 
+        imvFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String url = Constantes.ENDERECO_FACEBOOK;
+
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+        imvInstagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String url = Constantes.ENDERECO_INSTAGRAM;
+
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
     }
 }

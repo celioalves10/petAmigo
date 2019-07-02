@@ -25,6 +25,9 @@ public class Constantes {
     public static String APPLICATION_ID = "com.celvansystems.projetoamigoanimal";
     public static String APPLICATION_NAME = "Busca Pet";
     public static String APPLICATION_MESSAGE = "Recomendo este App";
+    public static String ENDERECO_FACEBOOK = "https://www.facebook.com/4Buscapet";
+    public static String ENDERECO_INSTAGRAM = "https://www.instagram.com/animal_friend_jc";
+
 
     //intersticial
     //public static int DELAY_INTERSTITIAL = 960;
