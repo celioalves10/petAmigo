@@ -45,7 +45,6 @@ public class SobreAppFragment extends Fragment {
 
         configurarAcoes();
 
-
         return view;
     }
 
@@ -59,7 +58,7 @@ public class SobreAppFragment extends Fragment {
         imvInstagram = view.findViewById(R.id.imageView_seguir_insta);
 
         TextView txvVersion = view.findViewById(R.id.txvVersao);
-        txvVersion.setText(String.format("Versão %s", BuildConfig.VERSION_NAME));
+        txvVersion.setText(String.format("%s %s", txvVersion.getText(), BuildConfig.VERSION_NAME));
     }
 
     private void configurarAcoes() {

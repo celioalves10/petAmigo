@@ -6,7 +6,9 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.celvansystems.projetoamigoanimal.BuildConfig;
 import com.celvansystems.projetoamigoanimal.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -15,6 +17,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        inicializarComponentes();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -33,6 +37,12 @@ public class SplashScreenActivity extends AppCompatActivity {
             ImageView imvPegada = findViewById(R.id.imv_pegada);
             imvPegada.setElevation(35);
         }
+    }
+
+    private void inicializarComponentes() {
+
+        TextView txvVersaoSplash = findViewById(R.id.txvVersaoSplash);
+        txvVersaoSplash.setText(String.format("%s %s", txvVersaoSplash.getText(), BuildConfig.VERSION_NAME));
     }
 
     private void mostrarLogin() {

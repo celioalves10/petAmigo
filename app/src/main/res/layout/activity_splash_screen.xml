@@ -82,4 +82,17 @@
         app:layout_constraintTop_toBottomOf="@+id/txv_pegada"
         app:layout_constraintVertical_bias="1.0" />
 
+    <TextView
+        android:id="@+id/txvVersaoSplash"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/versao_app"
+        android:textColor="@color/testcolorblue"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txv_pegada" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
