@@ -305,9 +305,9 @@
     <string name="base_url">https://api.instagram.com/</string>
     <string name="busca_pet_promove">O App BuscaPet promove a vida incentivando a adoção responsável de animais de estimação.</string>
     <string name="versao_app">Versão 1.2</string>
-    <string name="compartilhar_busca_pet">Compartilhar com os amigos</string>
+    <string name="compartilhar_busca_pet">Compartilhar com seus amigos</string>
     <string name="enviar_feedback">Enviar feedback</string>
-    <string name="avaliar_este_app">Avaliar este App</string>
+    <string name="avaliar_este_app">Avalie-nos Play Store</string>
     <string name="reportar_erro">Reportar erro</string>
     <string name="email_celvansystems">celvansystems@gmail.com</string>
     <string name="feedback_usuario">Feedback de usuário sobre o</string>
@@ -315,5 +315,8 @@
     <string name="escolha_cliente_email">Escolha um cliente de e-mail:</string>
     <string name="reportagem_bug">Reportagem de bug</string>
     <string name="txt_siga_nas_redes">Siga Busca Pet em:</string>
+    <string name="txt_divulgaapp">Mais pessoas podem ajudar essa rede do bem.</string>
+    <string name="txt_gostou_do_app">Gostou do nosso App?</string>
+    <string name="txt_feedback_suges">Contribua com dificuldade,ideias e sugestões para melhorar o App.</string>
 
 </resources>
