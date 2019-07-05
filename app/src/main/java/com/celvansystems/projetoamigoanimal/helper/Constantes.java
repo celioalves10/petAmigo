@@ -28,6 +28,11 @@ public class Constantes {
     public static String ENDERECO_FACEBOOK = "https://www.facebook.com/4Buscapet";
     public static String ENDERECO_INSTAGRAM = "https://www.instagram.com/animal_friend_jc";
 
+    //AdMob
+
+    //public static String ADMOB_APP_ID = "ca-app-pub-6718857112988900~9519509403";
+    //public static String INTERSTICIAL1 = "ca-app-pub-6718857112988900/4598670156";
+    //public static String BANNER1 = "ca-app-pub-6718857112988900/9409443166";
 
     //intersticial
     //public static int DELAY_INTERSTITIAL = 960;

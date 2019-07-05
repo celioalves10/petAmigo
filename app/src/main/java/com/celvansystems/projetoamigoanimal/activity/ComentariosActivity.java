@@ -1,7 +1,6 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -231,16 +230,16 @@ public class ComentariosActivity extends AppCompatActivity {
         //admob
         //MobileAds.initialize(this, String.valueOf(R.string.app_id));
         //teste do google
-        MobileAds.initialize(getApplicationContext(), getString(R.string.mobileadsIdTeste));
+        MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
 
         //AdView
         try {
             //banner teste
             final AdRequest adRequest = new AdRequest.Builder()
-                    .addTestDevice(getString(R.string.testeDeviceId))
+                    //.addTestDevice(getString(R.string.testeDeviceId))
                     .build();
 
-            AdView adView = findViewById(R.id.banner_comentarios);
+            final AdView adView = findViewById(R.id.banner_comentarios);
             //final AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
 
@@ -248,6 +247,7 @@ public class ComentariosActivity extends AppCompatActivity {
                 @Override
                 public void onAdLoaded() {
                     // Code to be executed when an ad finishes loading.
+
                 }
 
                 @Override

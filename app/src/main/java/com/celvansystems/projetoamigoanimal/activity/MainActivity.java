@@ -447,15 +447,20 @@ public class MainActivity extends AppCompatActivity
             //admob
             //MobileAds.initialize(this, String.valueOf(R.string.app_id));
             //teste do google
-            MobileAds.initialize(getApplicationContext(), getString(R.string.mobileadsIdTeste));
-
+            //MobileAds.initialize(getApplicationContext(), getString(R.string.mobileadsIdTeste));
+            MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+            AdRequest adIRequest = new AdRequest.Builder().build();
             //teste Interstitial
-            InterstitialAd mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            InterstitialAd mInterstitialAd = new InterstitialAd(MainActivity.this);
+            //mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
+            //mInterstitialAd.setAdUnitId(Constantes.INTERSTICIAL1);
+
+            mInterstitialAd.loadAd(adIRequest);
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             }
+
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
@@ -492,7 +497,8 @@ public class MainActivity extends AppCompatActivity
 
             //banner teste
             final AdRequest adRequest = new AdRequest.Builder()
-                    .addTestDevice(getString(R.string.testeDeviceId))
+                    //.addTestDevice(getString(R.string.testeDeviceId))
+                    //.addTestDevice(Constantes.ADMOB_APP_ID)
                     .build();
 
             adView = findViewById(R.id.banner_main);
@@ -542,8 +548,10 @@ public class MainActivity extends AppCompatActivity
     private void prepareInterstitialAd() {
 
         try {
-            mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId(getString(R.string.interAdTestId));
+            mInterstitialAd = new InterstitialAd(MainActivity.this);
+            //mInterstitialAd.setAdUnitId(getString(R.string.interAdTestId));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
+            //mInterstitialAd.setAdUnitId(Constantes.INTERSTICIAL1);
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
         } catch (Exception e) {
             e.printStackTrace();

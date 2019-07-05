@@ -10,7 +10,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.database.Cursor;
 import android.net.Uri;
@@ -20,8 +19,6 @@ import android.provider.ContactsContract;
 
 import androidx.annotation.NonNull;
 
-import com.facebook.login.LoginBehavior;
-import com.facebook.login.LoginManager;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,7 +82,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.Manifest.permission.READ_CONTACTS;
-import static java.util.Arrays.*;
+import static android.content.pm.PackageManager.*;
 
 /**
  * A login screen that offers login via email/password.
@@ -129,20 +126,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         configuraNavBar();
 
         try {
-            Log.d("KeyHash:", "assinaturas: ");
+
+            @SuppressLint("PackageManagerGetSignatures")
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.celvansystems.projetoamigoanimal",
-                    PackageManager.GET_SIGNATURES);
+                    GET_SIGNATURES);
 
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        } catch (PackageManager.NameNotFoundException e) {
-
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -221,46 +219,43 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-     /**
+    /**
      * método que configura o login por meio do facebook
      */
-     private void configuraLoginFacebook() {
+    private void configuraLoginFacebook() {
 
-         try {
-             callbackManager = CallbackManager.Factory.create();
+        try {
+            callbackManager = CallbackManager.Factory.create();
+            btnLoginFacebook.setLoginText(getString(R.string.fazer_login_facebook));
+            btnLoginFacebook.setPermissions(Arrays.asList(
+                    "email", "public_profile"));
 
-             btnLoginFacebook.setLoginText(getString(R.string.fazer_login_facebook));
-             //btnLoginFacebook.setLoginBehavior(LoginBehavior.WEB_ONLY);
+            //Callback registration
+            btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
 
-             btnLoginFacebook.setPermissions(Arrays.asList(
-                     "email", "public_profile"));
+                    handleFacebookAccessToken(loginResult.getAccessToken());
 
-             //Callback registration
-             btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                 @Override
-                 public void onSuccess(LoginResult loginResult) {
+                    //getFbInfo();
+                    //Util.setSnackBar(layout, "login result sucesso!");
+                }
 
-                     handleFacebookAccessToken(loginResult.getAccessToken());
+                @Override
+                public void onCancel() {
+                    Util.setSnackBar(layout, "Login pelo facebook cancelado");
+                }
 
-                     //getFbInfo();
-                     //Util.setSnackBar(layout, "login result sucesso!");
-                 }
-
-                 @Override
-                 public void onCancel() {
-                     Util.setSnackBar(layout, "Login pelo facebook cancelado");
-                 }
-
-                 @Override
-                 public void onError(FacebookException exception) {
-                     Util.setSnackBar(layout, "Erro: " + exception.getMessage());
-                 }
-             });
-         } catch (Exception e) {
-             e.printStackTrace();
-             Util.setSnackBar(layout, e.getMessage());
-         }
-     }
+                @Override
+                public void onError(FacebookException exception) {
+                    Util.setSnackBar(layout, "Erro: " + exception.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Util.setSnackBar(layout, e.getMessage());
+        }
+    }
 
     private void handleFacebookAccessToken(final AccessToken token) {
 
@@ -862,7 +857,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(READ_CONTACTS) == PERMISSION_GRANTED) {
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
@@ -888,7 +883,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                            @NonNull int[] grantResults) {
         try {
             if (requestCode == REQUEST_READ_CONTACTS) {
-                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length == 1 && grantResults[0] == PERMISSION_GRANTED) {
                     populateAutoComplete();
                 }
             }

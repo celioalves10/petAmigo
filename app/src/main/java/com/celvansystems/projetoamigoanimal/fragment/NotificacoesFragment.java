@@ -14,15 +14,12 @@ import com.celvansystems.projetoamigoanimal.R;
 public class NotificacoesFragment extends Fragment {
 
 
-
-    private View view;
-
     public NotificacoesFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_notificacoes, container, false);
+        View view = inflater.inflate(R.layout.fragment_notificacoes, container, false);
 
         inializaComponentes();
 

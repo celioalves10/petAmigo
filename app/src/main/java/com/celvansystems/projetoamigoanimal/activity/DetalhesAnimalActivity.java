@@ -163,13 +163,13 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
         //admob
         //MobileAds.initialize(this, String.valueOf(R.string.app_id));
         //teste do google
-        MobileAds.initialize(getApplicationContext(), getString(R.string.mobileadsIdTeste));
+        MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
 
         //AdView
         try {
             //banner teste
             final AdRequest adRequest = new AdRequest.Builder()
-                    .addTestDevice(getString(R.string.testeDeviceId))
+                    //.addTestDevice(getString(R.string.testeDeviceId))
                     .build();
 
             AdView adView = findViewById(R.id.banner_detalhes_animal);
@@ -180,6 +180,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                 @Override
                 public void onAdLoaded() {
                     // Code to be executed when an ad finishes loading.
+
                 }
 
                 @Override

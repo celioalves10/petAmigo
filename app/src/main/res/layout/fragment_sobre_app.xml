@@ -286,10 +286,12 @@
                         android:layout_marginStart="8dp"
                         android:clickable="true"
                         android:padding="8dp"
-                        android:src="@drawable/ic_dog_error"
+                        app:srcCompat="@drawable/ic_dog_error"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/txt_deuruim"
+                        android:focusable="true" />
 
                     <TextView
                         android:id="@+id/textView3"

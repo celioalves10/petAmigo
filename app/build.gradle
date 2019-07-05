@@ -34,6 +34,8 @@ dependencies {
 
     //admob
     implementation 'com.google.android.gms:play-services-ads:18.0.0'
+    implementation 'com.google.android.gms:play-services-measurement:17.0.0'
+    implementation 'com.google.android.gms:play-services-measurement-sdk:17.0.0'
     implementation 'com.google.firebase:firebase-ads:18.0.0'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')

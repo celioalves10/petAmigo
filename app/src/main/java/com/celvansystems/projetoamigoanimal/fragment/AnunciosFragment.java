@@ -342,7 +342,7 @@ public class AnunciosFragment extends Fragment {
     /**
      * açao do botao especie
      */
-    public void filtraPorEspecie(View view) {
+    private void filtraPorEspecie(View view) {
 
         try {
             txvSemAnuncios.setVisibility(View.INVISIBLE);
@@ -409,7 +409,7 @@ public class AnunciosFragment extends Fragment {
      *
      * @param view view
      */
-    public void filtraPorCidade(View view) {
+    private void filtraPorCidade(View view) {
 
         try {
             txvSemAnuncios.setVisibility(View.INVISIBLE);

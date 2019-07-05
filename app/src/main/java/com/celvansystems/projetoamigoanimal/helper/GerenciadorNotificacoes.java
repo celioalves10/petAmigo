@@ -224,7 +224,7 @@ public class GerenciadorNotificacoes {
                             .setTicker(Title)
                             .setContentText(Msg)
                             .setContentIntent(contentIntent)
-                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
@@ -233,6 +233,7 @@ public class GerenciadorNotificacoes {
                         mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), new AudioAttributes.Builder()
                                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                                 .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+
                                 .build());
                     }
 
