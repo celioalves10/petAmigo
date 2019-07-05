@@ -3,11 +3,13 @@ package com.celvansystems.projetoamigoanimal.activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -184,7 +186,7 @@ public class ComentariosActivity extends AppCompatActivity {
         }
     }
 
-    public void updateRecycler(final Animal anuncio){
+    public void updateRecycler(final Animal anuncio) {
         //Update do RecyclerView
         final DatabaseReference comentarioRef = ConfiguracaoFirebase.getFirebase()
                 .child("meus_animais")
@@ -228,8 +230,6 @@ public class ComentariosActivity extends AppCompatActivity {
     private void configuraAdMob() {
 
         //admob
-        //MobileAds.initialize(this, String.valueOf(R.string.app_id));
-        //teste do google
         MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
 
         //AdView
@@ -241,40 +241,29 @@ public class ComentariosActivity extends AppCompatActivity {
 
             final AdView adView = findViewById(R.id.banner_comentarios);
             //final AdRequest adRequest = new AdRequest.Builder().build();
+            //adView.setAdUnitId(getString(R.string.admob_banner2_id));
             adView.loadAd(adRequest);
 
             adView.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-
+                    Log.d("INFO22", "com loaded");
                 }
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                    // Toast.makeText(this, "failed to load. " +
-                    //        adRequest.getContentUrl(), Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
+                    Log.d("INFO22", "com failed: " + errorCode);
                 }
 
                 @Override
                 public void onAdClosed() {
-                    // Code to be executed when when the user is about to return.
-                    // to the app after tapping on an ad.
+                    Log.d("INFO22", "com closed");
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d("INFO22", "com exception " + e.getMessage());
+
         }
     }
 

@@ -19,6 +19,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -444,19 +445,17 @@ public class MainActivity extends AppCompatActivity
 
         //AdView
         try {
-            //admob
-            //MobileAds.initialize(this, String.valueOf(R.string.app_id));
-            //teste do google
-            //MobileAds.initialize(getApplicationContext(), getString(R.string.mobileadsIdTeste));
-            MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
-            AdRequest adIRequest = new AdRequest.Builder().build();
-            //teste Interstitial
-            InterstitialAd mInterstitialAd = new InterstitialAd(MainActivity.this);
-            //mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
-            //mInterstitialAd.setAdUnitId(Constantes.INTERSTICIAL1);
 
+            //admob
+            MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+            //teste Interstitial
+            InterstitialAd mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
+
+            AdRequest.Builder adRequistBuilder = new AdRequest.Builder();
+            AdRequest adIRequest = adRequistBuilder.build();
             mInterstitialAd.loadAd(adIRequest);
+
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             }
@@ -464,97 +463,64 @@ public class MainActivity extends AppCompatActivity
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
+                    Log.d("INFO22", "main int loaded");
+                    super.onAdLoaded();
                 }
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                    //Util.setSnackBar(layout, "intersticial failed");
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when the ad is displayed.
-                    //Util.setSnackBar(layout, "intersticial opened");
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
-                    //Util.setSnackBar(layout, "intersticial on left");
+                    Log.d("INFO22", "main int failed: " + errorCode);
                 }
 
                 @Override
                 public void onAdClosed() {
-                    // Load the next interstitial.
-                    //Util.setSnackBar(layout, "intersticial closed");
+                    super.onAdClosed();
+
+                    Log.d("INFO22", "main int closed");
                     prepareInterstitialAd();
                 }
             });
 
             prepareInterstitialAd();
 
-            //banner teste
-            final AdRequest adRequest = new AdRequest.Builder()
-                    //.addTestDevice(getString(R.string.testeDeviceId))
-                    //.addTestDevice(Constantes.ADMOB_APP_ID)
-                    .build();
-
+            //banner
             adView = findViewById(R.id.banner_main);
-            //final AdRequest adRequest = new AdRequest.Builder().build();
+            final AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
 
             adView.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
+                    Log.d("INFO22", "main ban loaded");
                 }
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                    // Toast.makeText(this, "failed to load. " +
-                    //        adRequest.getContentUrl(), Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                    // covers the screen.
-                    //Toast.makeText(getApplicationContext(), "opened", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
-                    //Toast.makeText(getApplicationContext(), "left", Toast.LENGTH_SHORT).show();
+                    Log.d("INFO22", "main ban failed: " + errorCode);
                 }
 
                 @Override
                 public void onAdClosed() {
-                    // Code to be executed when when the user is about to return.
-                    // to the app after tapping on an ad.
-                    //Toast.makeText(getApplicationContext(), "closed", Toast.LENGTH_SHORT).show();
+                    Log.d("INFO22", "main ban closed");
                     adView.loadAd(adRequest);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-        }
+            Log.d("INFO22", "main ban exception " + e.getMessage());
 
+        }
     }
 
     private void prepareInterstitialAd() {
 
         try {
             mInterstitialAd = new InterstitialAd(MainActivity.this);
-            //mInterstitialAd.setAdUnitId(getString(R.string.interAdTestId));
             mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
-            //mInterstitialAd.setAdUnitId(Constantes.INTERSTICIAL1);
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d("INFO22", "main int exception1 " + e.getMessage());
         }
     }
 
@@ -570,6 +536,7 @@ public class MainActivity extends AppCompatActivity
 
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d("INFO22", "main int exception2 " + e.getMessage());
         }
     }
 }

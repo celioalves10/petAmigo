@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -161,53 +163,34 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     private void configuraAdMob() {
 
         //admob
-        //MobileAds.initialize(this, String.valueOf(R.string.app_id));
-        //teste do google
         MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
-
         //AdView
         try {
             //banner teste
-            final AdRequest adRequest = new AdRequest.Builder()
-                    //.addTestDevice(getString(R.string.testeDeviceId))
-                    .build();
-
-            AdView adView = findViewById(R.id.banner_detalhes_animal);
-            //final AdRequest adRequest = new AdRequest.Builder().build();
+            final AdRequest adRequest = new AdRequest.Builder().build();
+            final AdView adView = findViewById(R.id.banner_detalhes_animal);
             adView.loadAd(adRequest);
 
             adView.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-
+                    Log.d("INFO22", "det loaded");
                 }
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                    // Toast.makeText(this, "failed to load. " +
-                    //        adRequest.getContentUrl(), Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
+                    Log.d("INFO22", "det failed: " + errorCode);
                 }
 
                 @Override
                 public void onAdClosed() {
-                    // Code to be executed when when the user is about to return.
-                    // to the app after tapping on an ad.
+                    Log.d("INFO22", "det closed");
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d("INFO22", "det exception " + e.getMessage());
+
         }
     }
 

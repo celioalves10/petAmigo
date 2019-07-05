@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class CadastrarAnuncioFragment extends Fragment
     private ArrayAdapter<String> adapterEstados, adapterPortes;
     private boolean editando = false;
     private String idEditando;
+    private InterstitialAd mInterstitialAd;
 
     //Permissoes
     private String[] permissoes = new String[]{
@@ -787,50 +789,65 @@ public class CadastrarAnuncioFragment extends Fragment
         //admob
         //MobileAds.initialize(this, String.valueOf(R.string.app_id));
         //teste do google
-        MobileAds.initialize(getContext(), "ca-app-pub-3940256099942544~3347511713");
+        MobileAds.initialize(getContext(), getString(R.string.admob_app_id));
 
         //AdView
         try {
             //teste
             InterstitialAd mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getContext()));
-            mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial2_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
             mInterstitialAd.show();
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    //Util.setSnackBar(layout, "intersticial loaded");
-                    // TODO: 23/02/2019 descomentar proxima linha
-                    //mInterstitialAd.show();
+                    Log.d("INFO22", "cad int loaded");
+                    super.onAdLoaded();
                 }
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    // Code to be executed when an ad request fails.
-                    //Util.setSnackBar(layout, "intersticial failed");
-                }
-
-                @Override
-                public void onAdOpened() {
-                    // Code to be executed when the ad is displayed.
-                    //Util.setSnackBar(layout, "intersticial opened");
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    // Code to be executed when the user has left the app.
-                    //Util.setSnackBar(layout, "intersticial on left");
+                    Log.d("INFO22", "cad int failed: " + errorCode);
                 }
 
                 @Override
                 public void onAdClosed() {
-                    // Load the next interstitial.
-                    //Util.setSnackBar(layout, "intersticial closed");
-                    //mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                    super.onAdClosed();
+
+                    Log.d("INFO22", "cad int closed");
+                    prepareInterstitialAd();
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void prepareInterstitialAd() {
+
+        try {
+            mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getActivity()));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("INFO22", "main cad exception1 " + e.getMessage());
+        }
+    }
+
+    private void mostraInterstitialAd() {
+        try {
+            if (mInterstitialAd == null) {
+                prepareInterstitialAd();
+            }
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            }
+            prepareInterstitialAd();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("INFO22", "cad int exception2 " + e.getMessage());
         }
     }
 }
