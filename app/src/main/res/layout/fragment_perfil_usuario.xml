@@ -173,17 +173,6 @@
         app:layout_constraintTop_toBottomOf="@+id/txv_contato" />
 
     <TextView
-        android:id="@+id/textView_resumo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/txt_teste"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/divider_perfil3"
-        app:layout_constraintStart_toStartOf="@+id/divider_perfil3" />
-
-    <TextView
         android:id="@+id/txv_nome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
