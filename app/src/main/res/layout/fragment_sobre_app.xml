@@ -140,7 +140,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_rating_star" />
+                        app:srcCompat="@drawable/ic_estrelas" />
 
                     <TextView
                         android:id="@+id/txvAvaliarApp"
@@ -233,13 +233,13 @@
                         android:layout_height="48dp"
                         android:layout_marginStart="8dp"
                         android:clickable="true"
+                        android:contentDescription="@string/txt_feedback_suges"
+                        android:focusable="true"
                         android:padding="9dp"
-                        app:srcCompat="@drawable/ic_feedback"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:contentDescription="@string/txt_feedback_suges"
-                        android:focusable="true" />
+                        app:srcCompat="@drawable/ic_faleconosco" />
 
                     <TextView
                         android:id="@+id/txvFeedback3"
