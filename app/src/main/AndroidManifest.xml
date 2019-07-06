@@ -20,9 +20,9 @@
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/my_backup_rules"
-        android:icon="@mipmap/ic_launcher_pegada"
+        android:icon="@mipmap/ic_novoicone2"
         android:label="@string/nome_app"
-        android:roundIcon="@mipmap/ic_launcher_pegada_round"
+        android:roundIcon="@mipmap/ic_novoicone2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:label">
