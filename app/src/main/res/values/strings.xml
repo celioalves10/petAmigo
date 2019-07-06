@@ -280,7 +280,7 @@
     <string name="sobre">Sobre</string>
     <string name="localizacao">Localização</string>
     <string name="conteudo">conteúdo</string>
-    <string name="valor_indisponivel">Valor indisponível. Escolha outra opção, por favor!</string>
+    <string name="valor_indisponivel">Este valor já foi doado. Escolha outra opção, por favor!</string>
     <string name="error">Erro!</string>
     <string name="escolha_opcao_ajude_manter_app">Escolha uma opção e ajude a manter este APP!</string>
     <string name="client_id">c8736f8e2090400eaddbc57a3c2a59b1</string>
