@@ -76,12 +76,11 @@ public class MainActivity extends AppCompatActivity
 
         habilitaOpcoesNav();
 
-        //Propagandas
-        configuraAdMob();
-
         //Notificações
         reconfiguraNotificacoes(this);
 
+        //Propagandas
+        configuraAdMob();
     }
 
     public static void reconfiguraNotificacoes(Context ctx) {
@@ -450,7 +449,7 @@ public class MainActivity extends AppCompatActivity
             //admob
             MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
             //teste Interstitial
-            InterstitialAd mInterstitialAd = new InterstitialAd(this);
+            mInterstitialAd = new InterstitialAd(this);
             mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
 
             AdRequest.Builder adRequistBuilder = new AdRequest.Builder();

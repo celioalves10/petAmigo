@@ -104,7 +104,6 @@
     <string name="curtidas">Curtidas</string>
     <string name="desativarConta">Desativar Conta</string>
     <string name="facebook_app_id">314424992539028</string>
-    <!--string name="google_id">ca-app-pub-3940256099942544~3347511713</string-->
     <string name="admob_app_id">ca-app-pub-6718857112988900~9519509403</string>
     <string name="admob_banner_id">ca-app-pub-6718857112988900/9409443166</string>
     <string name="admob_banner2_id">ca-app-pub-6718857112988900/6755018062</string>
