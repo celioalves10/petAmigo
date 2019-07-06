@@ -167,8 +167,8 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
         //AdView
         try {
             //banner teste
-            final AdRequest adRequest = new AdRequest.Builder().build();
-            final AdView adView = findViewById(R.id.banner_detalhes_animal);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            AdView adView = findViewById(R.id.banner_detalhes_animal);
             adView.loadAd(adRequest);
 
             adView.setAdListener(new AdListener() {

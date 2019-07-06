@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.FragmentManager;
@@ -485,7 +486,7 @@ public class MainActivity extends AppCompatActivity
 
             //banner
             adView = findViewById(R.id.banner_main);
-            final AdRequest adRequest = new AdRequest.Builder().build();
+            AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
 
             adView.setAdListener(new AdListener() {
@@ -502,13 +503,12 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onAdClosed() {
                     Log.d("INFO22", "main ban closed");
-                    adView.loadAd(adRequest);
+                    //adView.loadAd(adRequest);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("INFO22", "main ban exception " + e.getMessage());
-
         }
     }
 

@@ -239,7 +239,7 @@ public class ComentariosActivity extends AppCompatActivity {
                     //.addTestDevice(getString(R.string.testeDeviceId))
                     .build();
 
-            final AdView adView = findViewById(R.id.banner_comentarios);
+            AdView adView = findViewById(R.id.banner_comentarios);
             //final AdRequest adRequest = new AdRequest.Builder().build();
             //adView.setAdUnitId(getString(R.string.admob_banner2_id));
             adView.loadAd(adRequest);
