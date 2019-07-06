@@ -61,7 +61,7 @@
                     <item
                         android:id="@+id/nav_help"
                         android:checkableBehavior="single"
-                        android:icon="@android:drawable/ic_menu_help"
+                        android:icon="@drawable/ic_interrogation"
                         android:title="@string/txt_Sobre_App" />
                 </group>
             </menu>
