@@ -3,15 +3,18 @@ package com.celvansystems.projetoamigoanimal.fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.celvansystems.projetoamigoanimal.R;
@@ -26,6 +29,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
     private BillingProcessor bp;
     private View layout;
     private ImageView imvDoacao;
+    private Button btnDoar2, btnDoar5, btnDoar10, btnDoar50, btnDoar100, btnDoar500;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -37,36 +41,32 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
         return view;
     }
 
+    /**
+     * escolhe aleatoriamente a foto usada em DoacaoFragment
+     */
     private void carregarFotoMarketing() {
 
         try {
+            Random random = new Random();
+            int minimo = 1;
+            int maximo = 3;
+            int aleatorio = random.nextInt((maximo - minimo) + 1) + minimo;
 
-            int aleatorio = aleatoriar(1, 3);
-
-            for (int i = 1; i <= 3; i++) {
-
-                if(aleatorio == i) {
-                    if (i == 1) {
-                        imvDoacao.setImageResource(R.drawable.marketing1);
-                    } else if (i == 2) {
-                        imvDoacao.setImageResource(R.drawable.marketing2);
-                    } else {
-                        imvDoacao.setImageResource(R.drawable.marketing3);
-                    }
-                } else {
-                    imvDoacao.setImageResource(R.drawable.marketing1);
-                }
+            if (aleatorio == 1) {
+                imvDoacao.setImageResource(R.drawable.marketing1);
+            } else if (aleatorio == 2) {
+                imvDoacao.setImageResource(R.drawable.marketing2);
+            } else {
+                imvDoacao.setImageResource(R.drawable.marketing3);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private int aleatoriar(int minimo, int maximo) {
-        Random random = new Random();
-        return random.nextInt((maximo - minimo) + 1) + minimo;
-    }
-
+    /**
+     *
+     */
     private void inializaComponentes() {
 
         bp = new BillingProcessor(view.getContext(), Constantes.LICENSE_KEY_GOOGLE_PLAY, this);
@@ -77,21 +77,38 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
 
         imvDoacao = view.findViewById(R.id.imv_doacao);
 
-        Button btnDoar10 = view.findViewById(R.id.btn_doar10_reais);
-        Button btnDoar5 = view.findViewById(R.id.btn_doar5_reais);
-        Button btnDoar2 = view.findViewById(R.id.btn_doar2_reais);
+        btnDoar2 = view.findViewById(R.id.btn_doar2_reais);
+        btnDoar5 = view.findViewById(R.id.btn_doar5_reais);
+        btnDoar10 = view.findViewById(R.id.btn_doar10_reais);
+        btnDoar50 = view.findViewById(R.id.btn_doar50_reais);
+        btnDoar100 = view.findViewById(R.id.btn_doar100_reais);
+        btnDoar500 = view.findViewById(R.id.btn_doar500_reais);
 
-        Button btnDoar50 = view.findViewById(R.id.btn_doar50_reais);
-        Button btnDoar100 = view.findViewById(R.id.btn_doar100_reais);
-        Button btnDoar500 = view.findViewById(R.id.btn_doar500_reais);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            btnDoar2.setElevation(10);
+            btnDoar5.setElevation(10);
+            btnDoar10.setElevation(10);
+            CardView card = view.findViewById(R.id.cardView_doacao);
+            card.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.backgroundcolor));
+        }
 
-        btnDoar10.setOnClickListener(new View.OnClickListener() {
+        // ação dos botões de doação
+        configuraAcoesBotoes();
+    }
+
+    /**
+     * Ação dos botões de doação
+     */
+    private void configuraAcoesBotoes() {
+
+        btnDoar2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bp.consumePurchase(Constantes.PRODUCT_ID_10_REAIS);
-                bp.purchase(getActivity(), Constantes.PRODUCT_ID_10_REAIS);
+                bp.consumePurchase(Constantes.PRODUCT_ID_2_REAIS);
+                bp.purchase(getActivity(), Constantes.PRODUCT_ID_2_REAIS);
             }
         });
+
         btnDoar5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,11 +116,12 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_5_REAIS);
             }
         });
-        btnDoar2.setOnClickListener(new View.OnClickListener() {
+
+        btnDoar10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bp.consumePurchase(Constantes.PRODUCT_ID_2_REAIS);
-                bp.purchase(getActivity(), Constantes.PRODUCT_ID_2_REAIS);
+                bp.consumePurchase(Constantes.PRODUCT_ID_10_REAIS);
+                bp.purchase(getActivity(), Constantes.PRODUCT_ID_10_REAIS);
             }
         });
 
@@ -114,6 +132,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_50_REAIS);
             }
         });
+
         btnDoar100.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +140,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_100_REAIS);
             }
         });
+
         btnDoar500.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,14 +148,6 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_500_REAIS);
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            btnDoar2.setElevation(10);
-            btnDoar5.setElevation(10);
-            btnDoar10.setElevation(10);
-            CardView card = view.findViewById(R.id.cardView_doacao);
-            card.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.backgroundcolor));
-        }
     }
 
     @Override
@@ -165,8 +177,6 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
         }
     }
 
-
-
     @Override
     public void onDestroy() {
         if (bp != null) {
@@ -174,6 +184,4 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
         }
         super.onDestroy();
     }
-
-
 }
