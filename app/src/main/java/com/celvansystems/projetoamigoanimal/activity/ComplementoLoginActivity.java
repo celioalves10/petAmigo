@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -150,6 +151,10 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             layout_inserir_cidade = findViewById(R.id.layout_inserir_cidade);
             layout_inserir_fone = findViewById(R.id.layout_inserir_fone);
 
+            //Sempre modo Retrato
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

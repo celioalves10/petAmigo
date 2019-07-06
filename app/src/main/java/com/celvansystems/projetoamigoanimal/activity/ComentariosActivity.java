@@ -59,6 +59,11 @@ public class ComentariosActivity extends AppCompatActivity {
 
         layout = findViewById(R.id.constraint_comentarios);
 
+        //Sempre modo Retrato
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
         recyclercomentarios = findViewById(R.id.recyclerComentarios);
         recyclercomentarios.setItemAnimator(null);
         anuncioSelecionado = (Animal) getIntent().getSerializableExtra("anuncioSelecionado");

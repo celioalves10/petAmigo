@@ -214,6 +214,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 mEmailView.setElevation(20);
 
             }
+
+            //Sempre modo Retrato
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

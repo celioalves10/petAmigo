@@ -142,6 +142,12 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                 }
             });
         }
+
+        //Sempre modo Retrato
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
         configuraAdMob();
     }
 
