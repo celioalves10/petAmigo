@@ -290,7 +290,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:contentDescription="@string/txt_deuruim"
+                        android:contentDescription="@string/deu_algo_errado"
                         android:focusable="true" />
 
                     <TextView
@@ -298,7 +298,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="@string/txt_deuruim"
+                        android:text="@string/deu_algo_errado"
                         app:layout_constraintStart_toEndOf="@+id/imageView"
                         app:layout_constraintTop_toBottomOf="@+id/txvErro" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
