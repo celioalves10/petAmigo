@@ -348,8 +348,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
 
         try {
             if (ConfiguracaoFirebase.isUsuarioLogado()) {
@@ -529,7 +529,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                 });
 
-                finish();
+                //finish();
 
             } catch (Exception e) {
                 e.printStackTrace();
