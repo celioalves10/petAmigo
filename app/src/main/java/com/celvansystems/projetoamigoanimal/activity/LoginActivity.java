@@ -281,7 +281,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                                     concluiCadastroUsuario(user);
 
-                                    finish();
+                                    //finish();
 
                                     Util.setSnackBar(layout, getString(R.string.login_sucesso));
                                 } else {
@@ -445,7 +445,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                                     concluiCadastroUsuario(user);
 
-                                    finish();
+                                    //finish();
 
                                     Util.setSnackBar(layout, getString(R.string.login_sucesso));
                                 } else {
@@ -507,6 +507,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                                             //direciona para a tela principal
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
                                         } else {
                                             startActivity(new Intent(LoginActivity.this, ComplementoLoginActivity.class));
                                         }
@@ -521,11 +522,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
                     }
 
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Util.setSnackBar(layout, "12-" + databaseError.getMessage());
                     }
                 });
+
+                finish();
+
             } catch (Exception e) {
                 e.printStackTrace();
                 Util.setSnackBar(layout, "13-" + e.getMessage());
