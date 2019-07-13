@@ -514,6 +514,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
             Log.d("INFO22", "main ban exception " + e.getMessage());
         }
+
     }
 
     private void prepareInterstitialAd() {
