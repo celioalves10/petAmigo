@@ -29,7 +29,7 @@
                     android:padding="4dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
@@ -247,7 +247,7 @@
                             android:inputType="textMultiLine"
                             android:isScrollContainer="true"
                             android:lineSpacingExtra="3sp"
-                            android:maxLength="800"
+                            android:maxLength="1000"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
                             android:scrollbarAlwaysDrawVerticalTrack="true"

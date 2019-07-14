@@ -1,15 +1,9 @@
 package com.celvansystems.projetoamigoanimal.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +13,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.adapter.AdapterAnuncios;
@@ -47,7 +48,7 @@ public class AnunciosFragment extends Fragment {
     private Button btnLocal, btnEspecie;
     private AdapterAnuncios adapterAnuncios;
     private List<Animal> listaAnuncios = new ArrayList<>();
-    private AlertDialog dialog;
+    private android.app.AlertDialog dialog;
     private DatabaseReference anunciosPublicosRef;
     private Spinner spinnerEstado;
     private Spinner spinnerCidade;

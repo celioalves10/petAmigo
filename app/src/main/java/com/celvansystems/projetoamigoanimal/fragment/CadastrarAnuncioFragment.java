@@ -2,7 +2,6 @@ package com.celvansystems.projetoamigoanimal.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -14,10 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,7 +25,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Scroller;
 import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.MainActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
@@ -53,6 +57,7 @@ import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickCancel;
 import com.vansuita.pickimage.listeners.IPickResult;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -79,7 +84,7 @@ public class CadastrarAnuncioFragment extends Fragment
     private HashMap<Integer, String> listaFotosRecuperadas;
     private List<String> listaURLFotos;
     private ImageView imagem1, imagem2, imagem3;
-    private AlertDialog dialog;
+    private android.app.AlertDialog dialog;
     private StorageReference storage;
     private int requisicao;
     private View layout;
@@ -137,6 +142,7 @@ public class CadastrarAnuncioFragment extends Fragment
         spnEstado = viewFragment.findViewById(R.id.spinner_cad_estado_complemento);
         spnCidade = viewFragment.findViewById(R.id.spinner_cad_cidade_complemento);
         edtDescricao = viewFragment.findViewById(R.id.editText_cad_descrição);
+
         edtDescricao.setVerticalScrollBarEnabled(true);
         edtDescricao.setMovementMethod(new ScrollingMovementMethod());
         edtRaca = viewFragment.findViewById(R.id.edtRaca);
@@ -173,7 +179,7 @@ public class CadastrarAnuncioFragment extends Fragment
         });
 
         //Validar permissões
-        Permissoes.validarPermissoes(permissoes, getActivity(), 1);
+        Permissoes.validarPermissoes(permissoes, (AppCompatActivity) getActivity(), 1);
 
         carregarDadosSpinner();
 

@@ -146,7 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:contentDescription="@string/txt_mkt"
-                android:src="@drawable/marketing3" />
+                app:srcCompat="@drawable/marketing3" />
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

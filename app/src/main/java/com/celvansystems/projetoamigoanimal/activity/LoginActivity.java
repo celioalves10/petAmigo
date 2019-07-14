@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
 import android.database.Cursor;
@@ -16,13 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,6 +32,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
@@ -59,6 +57,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -82,7 +81,9 @@ import java.util.List;
 import java.util.Objects;
 
 import static android.Manifest.permission.READ_CONTACTS;
-import static android.content.pm.PackageManager.*;
+import static android.content.pm.PackageManager.GET_SIGNATURES;
+import static android.content.pm.PackageManager.NameNotFoundException;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 /**
  * A login screen that offers login via email/password.
@@ -111,7 +112,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getSupportActionBar()).hide();
-
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
         setupActionBar();
 
@@ -142,6 +145,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+
+        //android O fix bug orientation
+        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
     }
 
     private void inicializarComponentes() {
@@ -212,14 +221,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 btnLoginFacebook.setElevation(50);
                 btnLoginGoogle.setElevation(50);
                 mEmailView.setElevation(20);
-
             }
-
-            //Sempre modo Retrato
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -904,7 +906,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
+     * Set up the {@link ActionBar}, if the API is available.
      */
     @SuppressLint("ObsoleteSdkInt")
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

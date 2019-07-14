@@ -7,11 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
@@ -150,11 +150,6 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             layout_inserir_foto = findViewById(R.id.layout_inserir_foto);
             layout_inserir_cidade = findViewById(R.id.layout_inserir_cidade);
             layout_inserir_fone = findViewById(R.id.layout_inserir_fone);
-
-            //Sempre modo Retrato
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            }
 
         } catch (Exception e) {
             e.printStackTrace();

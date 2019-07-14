@@ -6,8 +6,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 21
-        versionName "2.21.503"
+        versionCode 24
+        versionName "2.24.506"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -15,6 +15,8 @@ android {
             ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
     }
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -29,7 +31,16 @@ android {
     }
     buildToolsVersion '28.0.3'
 }
-
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == "androidx.appcompat") {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion "1.+"
+            }
+        }
+    }
+}
 dependencies {
 
     //admob
@@ -82,8 +93,10 @@ dependencies {
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'
 
-
     //firebase messaging
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
+
+
 }
 apply plugin: 'com.google.gms.google-services'
+
