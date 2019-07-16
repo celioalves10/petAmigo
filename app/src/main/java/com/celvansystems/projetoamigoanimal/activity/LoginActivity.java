@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.Signature;
 import android.database.Cursor;
@@ -145,12 +144,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-
-        //android O fix bug orientation
-        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
     }
 
     private void inicializarComponentes() {

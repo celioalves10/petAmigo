@@ -217,9 +217,11 @@ public class GerenciadorNotificacoes {
                     Notification.Builder b = new Notification.Builder(ctx);
 
                     NotificationChannel mChannel = null;
-
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        b.setColor(ctx.getResources().getColor(R.color.colorPrimary));
+                    }
                     b.setAutoCancel(true)
-                            .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                            .setSmallIcon(R.mipmap.ic_launcher_novo_icon)
                             .setContentTitle(Title)
                             .setTicker(Title)
                             .setContentText(Msg)

@@ -25,7 +25,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Scroller;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -474,7 +473,7 @@ public class CadastrarAnuncioFragment extends Fragment
                             //redireciona para MeusAnunciosFragment
                             FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack("tag").commit();
+                            fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
                         }
                     } else {
                         Util.setSnackBar(layout, getString(R.string.falha_upload));
@@ -755,18 +754,22 @@ public class CadastrarAnuncioFragment extends Fragment
     private void alertaValidacaoPermissao() {
 
         try {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle(getString(R.string.permissoes_negadas));
-            builder.setMessage(getString(R.string.necessario_aceitar_permissoes));
-            builder.setCancelable(false);
-            builder.setPositiveButton(getString(R.string.confirmar), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //todo: implementar
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            Context ctx = Objects.requireNonNull(getActivity()).getApplicationContext();
+
+            if(ctx != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                builder.setTitle(getString(R.string.permissoes_negadas));
+                builder.setMessage(getString(R.string.necessario_aceitar_permissoes));
+                builder.setCancelable(false);
+                builder.setPositiveButton(getString(R.string.confirmar), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //todo: implementar
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -819,7 +822,6 @@ public class CadastrarAnuncioFragment extends Fragment
                 @Override
                 public void onAdClosed() {
                     super.onAdClosed();
-
                     Log.d("INFO22", "cad int closed");
                     prepareInterstitialAd();
                 }
@@ -837,7 +839,6 @@ public class CadastrarAnuncioFragment extends Fragment
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("INFO22", "main cad exception1 " + e.getMessage());
         }
     }
 
@@ -853,7 +854,6 @@ public class CadastrarAnuncioFragment extends Fragment
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("INFO22", "cad int exception2 " + e.getMessage());
         }
     }
 }

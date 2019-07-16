@@ -6,8 +6,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 24
-        versionName "2.24.506"
+        versionCode 28
+        versionName "2.28.507"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -44,10 +44,9 @@ configurations.all {
 dependencies {
 
     //admob
-    implementation 'com.google.android.gms:play-services-ads:18.0.0'
+    implementation 'com.google.android.gms:play-services-ads:18.1.0'
     implementation 'com.google.android.gms:play-services-measurement:17.0.0'
     implementation 'com.google.android.gms:play-services-measurement-sdk:17.0.0'
-    implementation 'com.google.firebase:firebase-ads:18.0.0'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
@@ -61,11 +60,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     /* Dependências firebase */
-    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
     implementation 'com.google.firebase:firebase-database:18.0.0'
-    implementation 'com.google.firebase:firebase-storage:18.0.0'
-    implementation 'com.google.firebase:firebase-auth:18.0.0'
-    implementation 'com.google.firebase:firebase-ads:18.0.0'
+    implementation 'com.google.firebase:firebase-storage:18.1.0'
+    implementation 'com.google.firebase:firebase-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-ads:18.1.0'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'androidx.cardview:cardview:1.0.0'
     //picasso
@@ -95,7 +94,6 @@ dependencies {
 
     //firebase messaging
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
-
 
 }
 apply plugin: 'com.google.gms.google-services'

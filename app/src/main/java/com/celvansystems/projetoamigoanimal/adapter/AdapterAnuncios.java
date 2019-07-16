@@ -212,15 +212,21 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
                 Picasso.get().load(urlCapa).into(myViewHolder.foto);
 
+                //PhotoViewAttacher mAttacher =  new PhotoViewAttacher(myViewHolder.foto);
+                //mAttacher.update();
                 // ação de clique na foto do anuncio
                 myViewHolder.foto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+
                         Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
                         detalhesIntent.putExtra("anuncioSelecionado", anuncio);
                         v.getContext().startActivity(detalhesIntent);
                     }
                 });
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();

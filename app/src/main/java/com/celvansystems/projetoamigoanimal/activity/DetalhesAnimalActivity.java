@@ -1,7 +1,6 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,12 +49,6 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
         inicializarComponentes();
         configuraNavBar();
-
-        //android O fix bug orientation
-        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
     }
 
     private void inicializarComponentes() {

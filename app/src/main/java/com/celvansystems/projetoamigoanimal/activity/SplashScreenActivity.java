@@ -1,19 +1,10 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Handler;
-
-import androidx.annotation.RequiresApi;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -52,12 +43,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             ImageView imvPegada = findViewById(R.id.imv_pegada);
             imvPegada.setElevation(35);
         }
-
-        //android O fix bug orientation
-        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
     }
 
     private void inicializarComponentes() {

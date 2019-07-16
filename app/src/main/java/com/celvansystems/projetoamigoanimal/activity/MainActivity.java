@@ -3,7 +3,6 @@ package com.celvansystems.projetoamigoanimal.activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -82,12 +81,6 @@ public class MainActivity extends AppCompatActivity
 
         //Propagandas
         configuraAdMob();
-
-        //android O fix bug orientation
-        if (android.os.Build.VERSION.SDK_INT != Build.VERSION_CODES.O) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-
     }
 
     public static void reconfiguraNotificacoes(Context ctx) {
