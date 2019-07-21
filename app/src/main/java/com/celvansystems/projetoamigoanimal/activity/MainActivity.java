@@ -9,7 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.FragmentManager;
@@ -234,19 +233,12 @@ public class MainActivity extends AppCompatActivity
             MenuItem nav_sair = menuNav.findItem(R.id.nav_sair);
             //MenuItem nav_pet_procurado = menuNav.findItem(R.id.pet_procurado);
 
+
             if (ConfiguracaoFirebase.isUsuarioLogado()) {
+
+                Log.d("INFO100", "email verificado");
                 nav_minha_conta.setEnabled(true);
                 nav_minha_conta.setTitle(R.string.txt_minha_conta);
-
-            /*nav_minha_conta.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.view_pager, new PerfilUsuarioFragment()).addToBackStack("tag").commit();
-                    return false;
-                }
-            });*/
 
                 //nav_config_notificacoes.setEnabled(true);
                 nav_meus_anuncios.setEnabled(true);
@@ -405,8 +397,10 @@ public class MainActivity extends AppCompatActivity
 
                 mostraInterstitialAd();
 
-                autenticacao.signOut();
-                LoginManager.getInstance().logOut();
+                if (ConfiguracaoFirebase.isUsuarioLogado()) {
+                    autenticacao.signOut();
+                    LoginManager.getInstance().logOut();
+                }
 
                 invalidateOptionsMenu(); //invalida o menu e chama o onPrepare de novo
 
@@ -415,7 +409,6 @@ public class MainActivity extends AppCompatActivity
                 notificationManager.cancelAll();
 
                 finish();
-
             }
         /*else if (id == R.id.pet_procurado) {
 

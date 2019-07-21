@@ -1,7 +1,12 @@
 package com.celvansystems.projetoamigoanimal.helper;
 
+import android.util.Log;
+
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,7 +32,16 @@ public class ConfiguracaoFirebase {
 
     //este metodo irá buscar informação se usuario está ou não logado
     public static boolean isUsuarioLogado() {
-        return referenciaAutenticacao.getCurrentUser() != null;
+
+        boolean retorno = false;
+
+        FirebaseUser user = referenciaAutenticacao.getCurrentUser();
+
+        if (user != null) {
+            retorno = true;
+        }
+
+        return retorno;
     }
 
     //retorna a referencia do database

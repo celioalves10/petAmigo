@@ -169,6 +169,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             txtAnuncios.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(ConfiguracaoFirebase.isUsuarioLogado()) {
+                        ConfiguracaoFirebase.getFirebaseAutenticacao().signOut();
+                    }
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
                 }
