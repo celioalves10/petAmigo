@@ -6,8 +6,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 29
-        versionName "2.29.508"
+        versionCode 30
+        versionName "2.30.509"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
