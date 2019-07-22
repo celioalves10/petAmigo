@@ -181,12 +181,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:layout_marginStart="8dp"
                             android:padding="8dp"
                             android:text="@string/txt_estado"
                             android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                            app:layout_constraintStart_toEndOf="@+id/imv_localizacao"
-                            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+                            app:layout_constraintTop_toBottomOf="@+id/divider4"
+                            tools:layout_editor_absoluteX="40dp" />
 
                         <TextView
                             android:id="@+id/txv_cidade"
@@ -256,38 +255,34 @@
                             android:id="@+id/textView8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
                             android:text="@string/txt_locallização"
                             android:textColor="@color/colorPrimaryDark"
                             android:textColorLink="@color/colorPrimaryDark"
-                            app:layout_constraintBottom_toBottomOf="@+id/imv_localizacao"
-                            app:layout_constraintStart_toEndOf="@+id/imv_localizacao"
-                            app:layout_constraintTop_toTopOf="@+id/imv_localizacao" />
+                            tools:layout_editor_absoluteX="40dp"
+                            tools:layout_editor_absoluteY="165dp" />
 
                         <TextView
                             android:id="@+id/textView9"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
                             android:layout_marginTop="4dp"
                             android:text="@string/txt_pouco_sobre"
                             android:textColor="@color/colorPrimaryDark"
                             android:textColorLink="@color/colorPrimaryDark"
-                            app:layout_constraintStart_toEndOf="@+id/imv_localizacao"
-                            app:layout_constraintTop_toBottomOf="@+id/txv_cidade" />
+                            app:layout_constraintTop_toBottomOf="@+id/txv_cidade"
+                            tools:layout_editor_absoluteX="40dp" />
 
                         <View
                             android:id="@+id/divider4"
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_marginStart="8dp"
-                            android:layout_marginTop="4dp"
                             android:layout_marginEnd="8dp"
                             android:background="@xml/bg_bt_redes_sociais"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/imv_localizacao" />
+                            tools:layout_editor_absoluteY="190dp" />
 
                         <View
                             android:id="@+id/divider5"
@@ -315,16 +310,6 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/imv_descricao" />
 
-                        <ImageView
-                            android:id="@+id/imv_localizacao"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="4dp"
-                            android:contentDescription="@string/localizacao"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txv_genero"
-                            app:srcCompat="@xml/ic_microchip" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
