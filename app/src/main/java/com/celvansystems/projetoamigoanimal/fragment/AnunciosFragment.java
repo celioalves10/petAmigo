@@ -268,59 +268,64 @@ public class AnunciosFragment extends Fragment {
 
                             Animal animal = animais.getValue(Animal.class);
 
-                            if (animal != null) {
+                            try {
 
-                                String textoBotaoCidade = btnLocal.getText().toString();
-                                String textoBotaoEspecie = btnEspecie.getText().toString();
+                                if (animal != null) {
 
-                                //sem filtro
-                                if (((textoBotaoCidade.equalsIgnoreCase(getString(R.string.todas)) ||
-                                        textoBotaoCidade.equalsIgnoreCase(getString(R.string.todos)) ||
-                                        textoBotaoCidade.equalsIgnoreCase(getString(R.string.cidade))) && ((
-                                        textoBotaoEspecie.equalsIgnoreCase(getString(R.string.especie)) ||
-                                                textoBotaoEspecie.equalsIgnoreCase(getString(R.string.todas)))))) {
-                                    listaAnuncios.add(animal);
+                                    String textoBotaoCidade = btnLocal.getText().toString();
+                                    String textoBotaoEspecie = btnEspecie.getText().toString();
 
-                                } else {
-                                    //sem espécie
-                                    if (textoBotaoEspecie.equalsIgnoreCase(getString(R.string.especie)) ||
-                                            textoBotaoEspecie.equalsIgnoreCase(getString(R.string.todas))) {
+                                    //sem filtro
+                                    if (((textoBotaoCidade.equalsIgnoreCase(getString(R.string.todas)) ||
+                                            textoBotaoCidade.equalsIgnoreCase(getString(R.string.todos)) ||
+                                            textoBotaoCidade.equalsIgnoreCase(getString(R.string.cidade))) && ((
+                                            textoBotaoEspecie.equalsIgnoreCase(getString(R.string.especie)) ||
+                                                    textoBotaoEspecie.equalsIgnoreCase(getString(R.string.todas)))))) {
+                                        listaAnuncios.add(animal);
 
-                                        if (textoBotaoCidade.equalsIgnoreCase(getString(R.string.cidade)) ||
-                                                textoBotaoCidade.equalsIgnoreCase(getString(R.string.todas)) ||
-                                                textoBotaoCidade.equalsIgnoreCase(getString(R.string.todos))) {
-
-                                            listaAnuncios.add(animal);
-                                        } else {
-                                            if (textoBotaoCidade.equalsIgnoreCase(animal.getCidade()) ||
-                                                    textoBotaoCidade.equalsIgnoreCase(animal.getUf())) {
-                                                listaAnuncios.add(animal);
-                                            }
-                                        }
-                                        //com espécie
                                     } else {
-                                        if (textoBotaoEspecie.equalsIgnoreCase(animal.getEspecie())) {
+                                        //sem espécie
+                                        if (textoBotaoEspecie.equalsIgnoreCase(getString(R.string.especie)) ||
+                                                textoBotaoEspecie.equalsIgnoreCase(getString(R.string.todas))) {
 
-                                            //estado
-                                            if (textoBotaoCidade.length() == 2) {
+                                            if (textoBotaoCidade.equalsIgnoreCase(getString(R.string.cidade)) ||
+                                                    textoBotaoCidade.equalsIgnoreCase(getString(R.string.todas)) ||
+                                                    textoBotaoCidade.equalsIgnoreCase(getString(R.string.todos))) {
 
-                                                if (textoBotaoCidade.equalsIgnoreCase(animal.getUf())) {
+                                                listaAnuncios.add(animal);
+                                            } else {
+                                                if (textoBotaoCidade.equalsIgnoreCase(animal.getCidade()) ||
+                                                        textoBotaoCidade.equalsIgnoreCase(animal.getUf())) {
                                                     listaAnuncios.add(animal);
                                                 }
-                                                //cidade
-                                            } else {
+                                            }
+                                            //com espécie
+                                        } else {
+                                            if (textoBotaoEspecie.equalsIgnoreCase(animal.getEspecie())) {
 
-                                                if (textoBotaoCidade.equalsIgnoreCase(getString(R.string.cidade)) ||
-                                                        textoBotaoCidade.equalsIgnoreCase(getString(R.string.todas)) ||
-                                                        textoBotaoCidade.equalsIgnoreCase(getString(R.string.todos))) {
-                                                    listaAnuncios.add(animal);
-                                                } else if (textoBotaoCidade.equalsIgnoreCase(animal.getCidade())) {
-                                                    listaAnuncios.add(animal);
+                                                //estado
+                                                if (textoBotaoCidade.length() == 2) {
+
+                                                    if (textoBotaoCidade.equalsIgnoreCase(animal.getUf())) {
+                                                        listaAnuncios.add(animal);
+                                                    }
+                                                    //cidade
+                                                } else {
+
+                                                    if (textoBotaoCidade.equalsIgnoreCase(getString(R.string.cidade)) ||
+                                                            textoBotaoCidade.equalsIgnoreCase(getString(R.string.todas)) ||
+                                                            textoBotaoCidade.equalsIgnoreCase(getString(R.string.todos))) {
+                                                        listaAnuncios.add(animal);
+                                                    } else if (textoBotaoCidade.equalsIgnoreCase(animal.getCidade())) {
+                                                        listaAnuncios.add(animal);
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
+                            } catch (IllegalStateException e) {
+                                e.printStackTrace();
                             }
                         }
                         Collections.reverse(listaAnuncios);

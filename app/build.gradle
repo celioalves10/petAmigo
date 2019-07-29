@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
-        targetSdkVersion 28
-        versionCode 30
-        versionName "2.30.509"
+        targetSdkVersion 29
+        versionCode 31
+        versionName "2.31.510"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -44,7 +44,7 @@ configurations.all {
 dependencies {
 
     //admob
-    implementation 'com.google.android.gms:play-services-ads:18.1.0'
+    implementation 'com.google.android.gms:play-services-ads:18.1.1'
     implementation 'com.google.android.gms:play-services-measurement:17.0.0'
     implementation 'com.google.android.gms:play-services-measurement-sdk:17.0.0'
 
@@ -61,10 +61,10 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     /* Dependências firebase */
     implementation 'com.google.firebase:firebase-core:17.0.1'
-    implementation 'com.google.firebase:firebase-database:18.0.0'
-    implementation 'com.google.firebase:firebase-storage:18.1.0'
+    implementation 'com.google.firebase:firebase-database:18.0.1'
+    implementation 'com.google.firebase:firebase-storage:18.1.1'
     implementation 'com.google.firebase:firebase-auth:18.1.0'
-    implementation 'com.google.firebase:firebase-ads:18.1.0'
+    implementation 'com.google.firebase:firebase-ads:18.1.1'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'androidx.cardview:cardview:1.0.0'
     //picasso
@@ -94,6 +94,9 @@ dependencies {
 
     //firebase messaging
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
+
+    // Add the In-App Messaging dependency:
+    implementation 'com.google.firebase:firebase-inappmessaging-display:18.0.2'
 
 }
 apply plugin: 'com.google.gms.google-services'
