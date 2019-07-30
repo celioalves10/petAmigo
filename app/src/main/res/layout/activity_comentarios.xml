@@ -71,9 +71,11 @@
                     android:inputType="textPersonName"
                     android:maxLength="200"
                     android:maxLines="3"
+                    android:paddingTop="8dp"
+
+                    android:paddingBottom="8dp"
                     android:singleLine="false"
                     app:layout_constraintBottom_toBottomOf="parent"
-
                     app:layout_constraintEnd_toStartOf="@+id/imageButton_comentarAnuncio"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"

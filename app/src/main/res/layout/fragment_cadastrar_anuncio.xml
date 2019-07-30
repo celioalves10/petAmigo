@@ -7,273 +7,277 @@
     android:layout_height="match_parent"
     tools:context=".fragment.CadastrarAnuncioFragment">
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@xml/bg_caixa_txt"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:padding="4dp">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imageCad1"
+                        android:layout_width="118dp"
+                        android:layout_height="100dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/todo"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/imageCad2"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/padrao" />
+
+                    <ImageView
+                        android:id="@+id/imageCad2"
+                        android:layout_width="118dp"
+                        android:layout_height="100dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/todo"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/imageCad3"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/imageCad1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/padrao" />
+
+                    <ImageView
+                        android:id="@+id/imageCad3"
+                        android:layout_width="119dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/todo"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/imageCad2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/padrao" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:textColorHint="@color/cinza">
+
+
+                <EditText
+                    android:id="@+id/editText_cad_NomeAnimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:autofillHints=""
+                    android:background="@xml/bg_caixa_txt"
+                    android:ems="10"
+                    android:hint="@string/nome_do_animal"
+                    android:inputType="textCapWords"
+                    android:maxLength="30"
+                    android:padding="14dp"
+                    android:textSize="14sp"
+                    tools:targetApi="o" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinner_cad_Especie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@xml/bg_caixa_txt"
+                    android:padding="12dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_cad_Sexo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="24dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
                     android:background="@xml/bg_caixa_txt"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal"
-                    android:padding="4dp">
+                    android:padding="12dp" />
+            </LinearLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                        <ImageView
-                            android:id="@+id/imageCad1"
-                            android:layout_width="118dp"
-                            android:layout_height="100dp"
-                            android:layout_marginEnd="2dp"
-                            android:layout_weight="1"
-                            android:contentDescription="@string/todo"
-                            android:scaleType="centerCrop"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/imageCad2"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/padrao" />
-
-                        <ImageView
-                            android:id="@+id/imageCad2"
-                            android:layout_width="118dp"
-                            android:layout_height="100dp"
-                            android:layout_marginEnd="2dp"
-                            android:layout_weight="1"
-                            android:contentDescription="@string/todo"
-                            android:scaleType="centerCrop"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/imageCad3"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/imageCad1"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/padrao" />
-
-                        <ImageView
-                            android:id="@+id/imageCad3"
-                            android:layout_width="119dp"
-                            android:layout_height="100dp"
-                            android:layout_weight="1"
-                            android:contentDescription="@string/todo"
-                            android:scaleType="centerCrop"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/imageCad2"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/padrao" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </LinearLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
+                <Spinner
+                    android:id="@+id/spinner_cad_idade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="0dp"
-                    android:textColorHint="@color/cinza">
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@xml/bg_caixa_txt"
+                    android:padding="12dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_cad_porte"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@xml/bg_caixa_txt"
+                    android:padding="12dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+
+                android:layout_marginBottom="0dp"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinner_cad_estado_complemento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@xml/bg_caixa_txt"
+                    android:padding="12dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_cad_cidade_complemento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@xml/bg_caixa_txt"
+                    android:padding="12dp" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:textColorHint="@color/cinza">
+
+                <EditText
+                    android:id="@+id/edtRaca"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:autofillHints=""
+                    android:background="@xml/bg_caixa_txt"
+                    android:ems="10"
+                    android:hint="@string/raca"
+                    android:inputType="textCapWords"
+                    android:maxLength="20"
+                    android:padding="14dp"
+                    android:textSize="14sp"
+                    tools:targetApi="o" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <EditText
-                        android:id="@+id/editText_cad_NomeAnimal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:autofillHints=""
-                        android:background="@xml/bg_caixa_txt"
-                        android:ems="10"
-                        android:hint="@string/nome_do_animal"
-                        android:inputType="textCapWords"
-                        android:maxLength="30"
-                        android:padding="14dp"
-                        android:textSize="14sp"
-                        tools:targetApi="o" />
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:hint="@string/txt_cad_helper_descrição_animal"
+                android:textAlignment="inherit"
+                android:textColorHint="@color/cinza"
+                app:helperText="@string/txt_cad_helper_descrição_animal"
+                app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Caption">
 
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/spinner_cad_Especie"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@xml/bg_caixa_txt"
-                        android:padding="12dp" />
-
-                    <Spinner
-                        android:id="@+id/spinner_cad_Sexo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:background="@xml/bg_caixa_txt"
-                        android:padding="12dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/spinner_cad_idade"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@xml/bg_caixa_txt"
-                        android:padding="12dp" />
-
-                    <Spinner
-                        android:id="@+id/spinner_cad_porte"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:background="@xml/bg_caixa_txt"
-                        android:padding="12dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-
-                    android:layout_marginBottom="0dp"
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/spinner_cad_estado_complemento"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@xml/bg_caixa_txt"
-                        android:padding="12dp" />
-
-                    <Spinner
-                        android:id="@+id/spinner_cad_cidade_complemento"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:background="@xml/bg_caixa_txt"
-                        android:padding="12dp" />
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:padding="0dp"
-                    android:textColorHint="@color/cinza">
+                    android:paddingBottom="50dp"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="1000">
 
-                    <EditText
-                        android:id="@+id/edtRaca"
+                    <AutoCompleteTextView
+                        android:id="@+id/editText_cad_descrição"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:autofillHints=""
+                        android:layout_height="100dp"
                         android:background="@xml/bg_caixa_txt"
-                        android:ems="10"
-                        android:hint="@string/raca"
-                        android:inputType="textCapWords"
-                        android:maxLength="20"
-                        android:padding="14dp"
-                        android:textSize="14sp"
-                        tools:targetApi="o" />
+                        android:hint="@string/descricao_do_animal"
+                        android:inputType="textMultiLine"
+                        android:isScrollContainer="true"
+                        android:lineSpacingExtra="3sp"
+                        android:maxLength="1000"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:scrollbarAlwaysDrawVerticalTrack="true"
+                        android:scrollbars="vertical"
+                        android:textSize="14sp" />
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:hint="@string/txt_cad_helper_descrição_animal"
-                    android:textAlignment="inherit"
-                    android:textColorHint="@color/cinza"
-                    app:helperText="@string/txt_cad_helper_descrição_animal"
-                    app:helperTextTextAppearance="@style/TextAppearance.AppCompat.Caption">
-
-                    <com.google.android.material.textfield.TextInputLayout
+                    <Button
+                        android:id="@+id/btnCadAnuncio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:padding="0dp"
-                        android:paddingBottom="50dp"
-                        app:counterEnabled="true"
-                        app:counterMaxLength="1000">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/editText_cad_descrição"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:background="@xml/bg_caixa_txt"
-                            android:hint="@string/descricao_do_animal"
-                            android:inputType="textMultiLine"
-                            android:isScrollContainer="true"
-                            android:lineSpacingExtra="3sp"
-                            android:maxLength="1000"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:scrollbarAlwaysDrawVerticalTrack="true"
-                            android:scrollbars="vertical"
-                            android:textSize="14sp" />
-
-                        <Button
-                            android:id="@+id/btnCadAnuncio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="47dp"
-                            android:background="@xml/bg_btn"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:shadowColor="@color/black_overlay"
-                            android:shadowDx="@android:integer/config_shortAnimTime"
-                            android:text="@string/cadastrar_anuncio"
-                            android:textColor="@color/common_google_signin_btn_text_dark_default"
-                            android:textStyle="bold" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="47dp"
+                        android:background="@xml/bg_btn"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:shadowColor="@color/black_overlay"
+                        android:shadowDx="@android:integer/config_shortAnimTime"
+                        android:text="@string/cadastrar_anuncio"
+                        android:textColor="@color/common_google_signin_btn_text_dark_default"
+                        android:textStyle="bold" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
-        </ScrollView>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
