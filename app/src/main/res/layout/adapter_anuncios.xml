@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="@android:string/dialog_alert_title"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="12sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -116,6 +116,20 @@
             app:layout_constraintTop_toTopOf="@+id/imv_comentar_anuncio"
             app:srcCompat="@drawable/ic_coracao_branco_24dp"
             android:contentDescription="@+id/imv_curtir_anuncio" />
+
+        <ImageView
+            android:id="@+id/imv_detalhes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:contentDescription="@+id/imv_detalhes"
+            android:focusable="true"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/imv_curtir_anuncio"
+            app:layout_constraintTop_toTopOf="@+id/imv_comentar_anuncio"
+            app:srcCompat="@drawable/ic_info_outline_white2_24dp"
+            tools:srcCompat="@drawable/ic_info_outline_white2_24dp" />
 
         <ImageView
             android:id="@+id/mascara_foto2"

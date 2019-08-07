@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            android:id="@+id/scrow_5"
+            android:id="@+id/scroll_valores"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="-30dp"

@@ -122,7 +122,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 //Texto da quantidade de comentarios
                 configuraVisibilidadeCampoComentario(anuncio, myViewHolder);
 
-                if(anuncio.getListaComentarios()!= null) {
+                if (anuncio.getListaComentarios() != null) {
                     atualizaComentarios(anuncio.getListaComentarios().size(), anuncio, myViewHolder);
                 } else {
                     atualizaComentarios(0, anuncio, myViewHolder);
@@ -186,6 +186,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                     anuncio.setListaComentarios(comentsList);
                     atualizaComentarios(anuncio.getListaComentarios().size(), anuncio, myViewHolder);
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
@@ -276,6 +277,15 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
             }
         });
 
+        //acao de clique no botao detalhes
+        myViewHolder.imvDetalhes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
+                detalhesIntent.putExtra("anuncioSelecionado", anuncio);
+                v.getContext().startActivity(detalhesIntent);
+            }
+        });
 
         myViewHolder.imvComentarAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -735,7 +745,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
         TextView textViewCurtidas;
         TextView textViewTodosComentarios;
         ImageView foto;
-        ImageView imvCompartilharAnuncio, imvCurtirAnuncio, imvComentarAnuncio;
+        ImageView imvCompartilharAnuncio, imvCurtirAnuncio, imvComentarAnuncio, imvDetalhes;
         //ImageView imvDenunciar;
         ImageButton imbComentarAnuncio;
         EditText edtComentar;
@@ -763,6 +773,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
             imbComentarAnuncio = itemView.findViewById(R.id.imageButton_comentar);
             imvComentarAnuncio = itemView.findViewById(R.id.imv_comentar_anuncio);
             imvCurtirAnuncio = itemView.findViewById(R.id.imv_curtir_anuncio);
+            imvDetalhes = itemView.findViewById(R.id.imv_detalhes);
             edtComentar = itemView.findViewById(R.id.editText_comentar);
             imvMaisOpcoesAnuncios = itemView.findViewById(R.id.imv_mais_opcoes_anuncios);
 
@@ -774,6 +785,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 imvCompartilharAnuncio.setElevation(40);
                 imvComentarAnuncio.setElevation(40);
                 imvCurtirAnuncio.setElevation(40);
+                imvDetalhes.setElevation(40);
                 imbComentarAnuncio.setBackgroundTintList(itemView.getContext().getResources().getColorStateList(R.color.colorAccent));
                 View divider = itemView.findViewById(R.id.dividerPrincipal);
                 divider.setElevation(35);

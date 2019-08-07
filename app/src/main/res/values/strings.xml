@@ -244,19 +244,23 @@
     <string name="seguir_facebook">Seguir facebook</string>
     <string name="seguir_instagram">Seguir instagram</string>
     <string name="deu_algo_errado" >Deu algo errado? Comunica a gente!</string>
+    <string name="srd">SRD</string>
 
     <string-array name="idade">
         <item>0–3 meses</item>
         <item>4–6 meses</item>
+        <item>7–11 meses</item>
         <item>1 ano</item>
-        <item>2 anos</item>
-        <item>3+ anos</item>
+        <item>2–5 anos</item>
+        <item>6+ anos</item>
+        <item>Não informado</item>
     </string-array>
 
     <string-array name="portes">
         <item>pequeno</item>
         <item>médio</item>
         <item>grande</item>
+        <item>Não informado</item>
     </string-array>
 
     <string-array name="especies">
@@ -270,6 +274,8 @@
     <string-array name="sexos">
         <item>Macho</item>
         <item>Fêmea</item>
+        <item>Ambos</item>
+        <item>Não informado</item>
     </string-array>
 
 </resources>

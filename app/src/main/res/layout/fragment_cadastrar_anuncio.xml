@@ -215,6 +215,7 @@
                     android:inputType="textCapWords"
                     android:maxLength="20"
                     android:padding="14dp"
+                    android:text="@string/srd"
                     android:textSize="14sp"
                     tools:targetApi="o" />
 

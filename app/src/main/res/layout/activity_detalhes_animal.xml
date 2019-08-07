@@ -9,13 +9,14 @@
     tools:context=".activity.DetalhesAnimalActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_detalhes"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout_banner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
-                        app:layout_constraintDimensionRatio="w,16:10"
+                        app:layout_constraintDimensionRatio="W,16:10"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <com.synnapps.carouselview.CarouselView
@@ -45,7 +46,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="300dp"
                             app:fillColor="#FFFFFFFF"
-                            app:layout_constraintDimensionRatio="w,16:10"
+                            app:layout_constraintDimensionRatio="W,16:10"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -61,7 +62,7 @@
                             android:layout_height="300dp"
                             android:contentDescription="@string/detalhes"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintDimensionRatio="w,16:10"
+                            app:layout_constraintDimensionRatio="W,16:10"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -117,12 +118,12 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:layout_marginStart="8dp"
-                            android:padding="6dp"
+                            android:paddingTop="6dp"
                             android:text="@string/especie"
                             android:textColor="@color/common_google_signin_btn_text_dark_focused"
                             android:textColorLink="@color/colorPrimaryDark"
                             app:layout_constraintStart_toEndOf="@+id/imv_descricao"
-                            app:layout_constraintTop_toTopOf="@+id/divider7" />
+                            app:layout_constraintTop_toTopOf="@+id/dvd_descricao_animal" />
 
                         <TextView
                             android:id="@+id/txv_genero"
@@ -130,7 +131,7 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:layout_marginStart="8dp"
-                            android:padding="6dp"
+                            android:paddingTop="6dp"
                             android:text="@string/txt_genero"
                             android:textColor="@android:color/black"
                             app:layout_constraintStart_toEndOf="@+id/imv_descricao"
@@ -175,18 +176,19 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toEndOf="@+id/txv_especie"
-                            app:layout_constraintTop_toTopOf="@+id/divider7" />
+                            app:layout_constraintTop_toTopOf="@+id/dvd_descricao_animal" />
 
                         <TextView
                             android:id="@+id/txv_estado"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:padding="8dp"
+                            android:layout_marginStart="8dp"
+                            android:paddingTop="8dp"
                             android:text="@string/txt_estado"
                             android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                            app:layout_constraintStart_toStartOf="@+id/textView8"
-                            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+                            app:layout_constraintStart_toEndOf="@+id/imv_descricao"
+                            app:layout_constraintTop_toBottomOf="@+id/dvd_localizacao_pet" />
 
                         <TextView
                             android:id="@+id/txv_cidade"
@@ -202,7 +204,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.55"
                             app:layout_constraintStart_toEndOf="@+id/txv_estado"
-                            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+                            app:layout_constraintTop_toBottomOf="@+id/dvd_localizacao_pet" />
 
                         <TextView
                             android:id="@+id/txv_descricao"
@@ -210,16 +212,14 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
 
-                            android:layout_marginStart="8dp"
                             android:layout_marginTop="1dp"
                             android:layout_marginEnd="8dp"
-                            android:padding="8dp"
                             android:text="@string/txt_cad_helper_descrição_animal"
                             android:textColor="@color/common_google_signin_btn_text_dark_focused"
                             android:visibility="visible"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="@+id/divider5"
-                            app:layout_constraintTop_toBottomOf="@+id/divider5" />
+                            app:layout_constraintStart_toEndOf="@+id/imv_descricao"
+                            app:layout_constraintTop_toBottomOf="@+id/dvd_sobre_pet" />
 
                         <Button
                             android:id="@+id/btnVerTelefone"
@@ -243,7 +243,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/txv_descricao" />
 
                         <TextView
-                            android:id="@+id/textView6"
+                            android:id="@+id/txvDescricaoAnimal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -254,7 +254,7 @@
                             app:layout_constraintTop_toTopOf="@+id/imv_descricao" />
 
                         <TextView
-                            android:id="@+id/textView8"
+                            android:id="@+id/txv_localizacao_pet"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -265,7 +265,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/txv_porte" />
 
                         <TextView
-                            android:id="@+id/textView9"
+                            android:id="@+id/txv_sobre_pet"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -276,7 +276,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/txv_cidade" />
 
                         <View
-                            android:id="@+id/divider4"
+                            android:id="@+id/dvd_localizacao_pet"
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_marginStart="8dp"
@@ -285,10 +285,10 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                            app:layout_constraintTop_toBottomOf="@+id/txv_localizacao_pet" />
 
                         <View
-                            android:id="@+id/divider5"
+                            android:id="@+id/dvd_sobre_pet"
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_marginStart="8dp"
@@ -298,10 +298,10 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                            app:layout_constraintTop_toBottomOf="@+id/txv_sobre_pet" />
 
                         <View
-                            android:id="@+id/divider7"
+                            android:id="@+id/dvd_descricao_animal"
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_marginStart="8dp"
@@ -321,7 +321,7 @@
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout2"
+            android:id="@+id/constraintLayout_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightgray"
