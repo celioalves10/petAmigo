@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.adapter.AdapterComentarios;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
+import com.celvansystems.projetoamigoanimal.helper.LinearLayoutManagerWrapper;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.celvansystems.projetoamigoanimal.model.Comentario;
@@ -52,49 +53,51 @@ public class ComentariosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comentarios);
+        try {
+            //configurar toolbar
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.comentarios_titulo);
 
-        //configurar toolbar
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.comentarios_titulo);
+            layout = findViewById(R.id.constraint_comentarios);
 
-        layout = findViewById(R.id.constraint_comentarios);
+            recyclercomentarios = findViewById(R.id.recyclerComentarios);
 
-        recyclercomentarios = findViewById(R.id.recyclerComentarios);
-        recyclercomentarios.setItemAnimator(null);
-        anuncioSelecionado = (Animal) getIntent().getSerializableExtra("anuncioSelecionado");
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
+            recyclercomentarios.setLayoutManager(mLayoutManager);
 
-        if (anuncioSelecionado != null) {
+            recyclercomentarios.setItemAnimator(null);
+            anuncioSelecionado = (Animal) getIntent().getSerializableExtra("anuncioSelecionado");
 
-            //comentarios
-            List<Comentario> listaComentarios = anuncioSelecionado.getListaComentarios();
-            edtComentario = findViewById(R.id.editTextComentarAnuncio);
-            ImageButton imbComentario = findViewById(R.id.imageButton_comentarAnuncio);
+            if (anuncioSelecionado != null) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                imbComentario.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
-            }
+                //comentarios
+                List<Comentario> listaComentarios = anuncioSelecionado.getListaComentarios();
+                edtComentario = findViewById(R.id.editTextComentarAnuncio);
+                ImageButton imbComentario = findViewById(R.id.imageButton_comentarAnuncio);
 
-            imbComentario.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    comentarAnuncio(anuncioSelecionado);
-                    hideKeyboard(getApplicationContext(), edtComentario);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    imbComentario.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
                 }
-            });
 
-            //configurar recyclerview
-            try {
-                RecyclerView.LayoutManager lm = new LinearLayoutManager(this);
-                recyclercomentarios.setLayoutManager(lm);
+                imbComentario.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        comentarAnuncio(anuncioSelecionado);
+                        hideKeyboard(getApplicationContext(), edtComentario);
+                    }
+                });
+
+                //configurar recyclerview
                 recyclercomentarios.setHasFixedSize(true);
                 adapterComentarios = new AdapterComentarios(listaComentarios);
                 recyclercomentarios.setAdapter(adapterComentarios);
-            } catch (Exception e) {
-                e.printStackTrace();
+
+                updateRecycler(anuncioSelecionado);
             }
-            updateRecycler(anuncioSelecionado);
+            configuraAdMob();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        configuraAdMob();
     }
 
     /**
@@ -104,124 +107,133 @@ public class ComentariosActivity extends AppCompatActivity {
      */
     private void comentarAnuncio(final Animal anuncio) {
 
-        if (ConfiguracaoFirebase.isUsuarioLogado()) {
+        try {
+            if (ConfiguracaoFirebase.isUsuarioLogado()) {
 
-            final Context ctx = this.getApplicationContext();
+                final Context ctx = this.getApplicationContext();
 
-            if (edtComentario.getText() != null && !edtComentario.getText().toString().equalsIgnoreCase("")) {
+                if (edtComentario.getText() != null && !edtComentario.getText().toString().equalsIgnoreCase("")) {
 
-                final DatabaseReference comentarioRef = ConfiguracaoFirebase.getFirebase()
-                        .child("meus_animais")
-                        .child(anuncio.getIdAnimal())
-                        .child("comentarios");
+                    final DatabaseReference comentarioRef = ConfiguracaoFirebase.getFirebase()
+                            .child("meus_animais")
+                            .child(anuncio.getIdAnimal())
+                            .child("comentarios");
 
-                //Dados do Usuário
-                DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
-                        .child("usuarios");
+                    //Dados do Usuário
+                    DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
+                            .child("usuarios");
 
-                usuariosRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot usuarios : dataSnapshot.getChildren()) {
+                    usuariosRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot usuarios : dataSnapshot.getChildren()) {
 
-                            if (usuarios != null) {
+                                if (usuarios != null) {
 
-                                UserInfo user = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
+                                    UserInfo user = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
 
-                                if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(Objects.requireNonNull(user).getUid())) {
+                                    if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(Objects.requireNonNull(user).getUid())) {
 
-                                    Usuario usuario = new Usuario();
-                                    usuario.setId(ConfiguracaoFirebase.getIdUsuario());
-
-                                    //Dados fora do cadastro
-                                    String texto = edtComentario.getText().toString();
-
-                                    if (usuarios.child("nome").getValue() != null) {
-                                        usuario.setNome(Objects.requireNonNull(usuarios.child("nome").getValue()).toString());
-                                    } else {
-                                        String nomeUsuario = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getDisplayName();
-                                        if (nomeUsuario != null) {
-                                            usuario.setNome(nomeUsuario);
-                                        }
-                                    }
-                                    if (usuarios.child("foto").getValue() != null) {
-                                        usuario.setFoto(Objects.requireNonNull(usuarios.child("foto").getValue()).toString());
-                                    }
-
-                                    //Inserindo o comentário
-                                    if (Util.validaTexto(texto)) {
+                                        Usuario usuario = new Usuario();
                                         usuario.setId(ConfiguracaoFirebase.getIdUsuario());
-                                        Comentario coment = new Comentario(usuario, texto, Util.getDataAtualBrasil());
 
-                                        comentarioRef.push().setValue(coment)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
+                                        //Dados fora do cadastro
+                                        String texto = edtComentario.getText().toString();
 
-                                                        Util.setSnackBar(layout, getString(R.string.comentario_inserido));
-                                                        edtComentario.setText(null);
-                                                    }
-                                                });
-                                    } else {
-                                        Util.setSnackBar(layout, ctx.getString(R.string.insira_comentario_valido));
+                                        if (usuarios.child("nome").getValue() != null) {
+                                            usuario.setNome(Objects.requireNonNull(usuarios.child("nome").getValue()).toString());
+                                        } else {
+                                            String nomeUsuario = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getDisplayName();
+                                            if (nomeUsuario != null) {
+                                                usuario.setNome(nomeUsuario);
+                                            }
+                                        }
+                                        if (usuarios.child("foto").getValue() != null) {
+                                            usuario.setFoto(Objects.requireNonNull(usuarios.child("foto").getValue()).toString());
+                                        }
+
+                                        //Inserindo o comentário
+                                        if (Util.validaTexto(texto)) {
+                                            usuario.setId(ConfiguracaoFirebase.getIdUsuario());
+                                            Comentario coment = new Comentario(usuario, texto, Util.getDataAtualBrasil());
+
+                                            comentarioRef.push().setValue(coment)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                                            Util.setSnackBar(layout, getString(R.string.comentario_inserido));
+                                                            edtComentario.setText(null);
+                                                        }
+                                                    });
+                                        } else {
+                                            Util.setSnackBar(layout, ctx.getString(R.string.insira_comentario_valido));
+                                        }
+
+                                        updateRecycler(anuncio);
                                     }
-
-                                    updateRecycler(anuncio);
                                 }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+
+                } else {
+                    Util.setSnackBar(layout, ctx.getString(R.string.insira_comentario_valido));
+                }
 
             } else {
-                Util.setSnackBar(layout, ctx.getString(R.string.insira_comentario_valido));
+                Util.setSnackBar(layout, getString(R.string.usuario_nao_logado));
             }
-
-        } else {
-            Util.setSnackBar(layout, getString(R.string.usuario_nao_logado));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public void updateRecycler(final Animal anuncio) {
-        //Update do RecyclerView
-        final DatabaseReference comentarioRef = ConfiguracaoFirebase.getFirebase()
-                .child("meus_animais")
-                .child(anuncio.getIdAnimal())
-                .child("comentarios");
 
-        comentarioRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Comentario> comentsList = new ArrayList<>();
-                for (DataSnapshot comentarios : dataSnapshot.getChildren()) {
-                    Comentario coment = new Comentario();
-                    if (comentarios != null) {
+        try {
+            //Update do RecyclerView
+            final DatabaseReference comentarioRef = ConfiguracaoFirebase.getFirebase()
+                    .child("meus_animais")
+                    .child(anuncio.getIdAnimal())
+                    .child("comentarios");
 
-                        Usuario usuario = new Usuario();
-                        usuario.setId(Objects.requireNonNull(comentarios.child("usuario").child("id").getValue()).toString());
-                        usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
+            comentarioRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<Comentario> comentsList = new ArrayList<>();
+                    for (DataSnapshot comentarios : dataSnapshot.getChildren()) {
+                        Comentario coment = new Comentario();
+                        if (comentarios != null) {
 
-                        coment.setUsuario(usuario);
-                        coment.setDatahora(Objects.requireNonNull(comentarios.child("datahora").getValue()).toString());
-                        coment.setTexto(Objects.requireNonNull(comentarios.child("texto").getValue()).toString());
-                        comentsList.add(coment);
-                        anuncio.setListaComentarios(comentsList);
+                            Usuario usuario = new Usuario();
+                            usuario.setId(Objects.requireNonNull(comentarios.child("usuario").child("id").getValue()).toString());
+                            usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
+
+                            coment.setUsuario(usuario);
+                            coment.setDatahora(Objects.requireNonNull(comentarios.child("datahora").getValue()).toString());
+                            coment.setTexto(Objects.requireNonNull(comentarios.child("texto").getValue()).toString());
+                            comentsList.add(coment);
+                            anuncio.setListaComentarios(comentsList);
+                        }
                     }
+                    adapterComentarios = new AdapterComentarios(comentsList);
+                    recyclercomentarios.setAdapter(adapterComentarios);
+                    adapterComentarios.notifyDataSetChanged();
                 }
-                adapterComentarios = new AdapterComentarios(comentsList);
-                recyclercomentarios.setAdapter(adapterComentarios);
-                adapterComentarios.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-        //Fim do update do Recycler
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+            //Fim do update do Recycler
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -262,8 +274,6 @@ public class ComentariosActivity extends AppCompatActivity {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("INFO22", "com exception " + e.getMessage());
-
         }
     }
 

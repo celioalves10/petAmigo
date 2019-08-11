@@ -24,6 +24,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.adapter.AdapterAnuncios;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
+import com.celvansystems.projetoamigoanimal.helper.LinearLayoutManagerWrapper;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.google.firebase.database.DataSnapshot;
@@ -78,83 +79,77 @@ public class AnunciosFragment extends Fragment {
     @SuppressLint("RestrictedApi")
     private void inicializarComponentes() {
 
-        //layout = view.findViewById(R.id.const_layout_anuncios);
-
         try {
             anunciosPublicosRef = ConfiguracaoFirebase.getFirebase()
                     .child("meus_animais");
 
+            recyclerAnunciosPublicos = view.findViewById(R.id.recyclerAnuncios);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWrapper(getContext(), LinearLayoutManager.VERTICAL, false);
+            recyclerAnunciosPublicos.setLayoutManager(mLayoutManager);
+            recyclerAnunciosPublicos.setItemAnimator(null);
+
+
+            btnLocal = view.findViewById(R.id.btnCidade);
+            btnEspecie = view.findViewById(R.id.btnEspecie);
+
+            txvSemAnuncios = view.findViewById(R.id.txv_sem_anuncios);
+            txvSemAnuncios.setText(Objects.requireNonNull(getContext()).getString(R.string.nenhum_pet_encontrado));
+            txvSemAnuncios.setTextSize(15);
+            txvSemAnuncios.setVisibility(View.GONE);
+
+            btnLocal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    filtraPorCidade(v);
+                }
+            });
+            btnEspecie.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    filtraPorEspecie(v);
+                }
+            });
+
+            //configurar recyclerview
+            try {
+                recyclerAnunciosPublicos.setHasFixedSize(true);
+
+                adapterAnuncios = new AdapterAnuncios(listaAnuncios);
+                recyclerAnunciosPublicos.setAdapter(adapterAnuncios);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                dialog = new SpotsDialog.Builder()
+                        .setContext(view.getContext())
+                        .setMessage(R.string.procurando_anuncios)
+                        .setCancelable(true)
+                        .build();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //refresh
+            swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    refreshRecyclerAnuncios();
+                }
+            });
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                LinearLayout llBotoes = view.findViewById(R.id.linearLayoutBotoes);
+                llBotoes.setElevation(20);
+                btnLocal.setElevation(10);
+                btnEspecie.setElevation(10);
+                btnLocal.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.lightgray));
+                btnEspecie.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.lightgray));
+            }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        recyclerAnunciosPublicos = view.findViewById(R.id.recyclerAnuncios);
-        recyclerAnunciosPublicos.setItemAnimator(null);
-
-
-        btnLocal = view.findViewById(R.id.btnCidade);
-        btnEspecie = view.findViewById(R.id.btnEspecie);
-
-        txvSemAnuncios = view.findViewById(R.id.txv_sem_anuncios);
-        txvSemAnuncios.setText(Objects.requireNonNull(getContext()).getString(R.string.nenhum_pet_encontrado));
-        txvSemAnuncios.setTextSize(15);
-        txvSemAnuncios.setVisibility(View.GONE);
-
-        btnLocal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                filtraPorCidade(v);
-            }
-        });
-        btnEspecie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                filtraPorEspecie(v);
-            }
-        });
-
-        //configurar recyclerview
-        try {
-            RecyclerView.LayoutManager lm = new LinearLayoutManager(view.getContext());
-
-            recyclerAnunciosPublicos.setLayoutManager(lm);
-
-            recyclerAnunciosPublicos.setHasFixedSize(true);
-
-            adapterAnuncios = new AdapterAnuncios(listaAnuncios);
-
-            recyclerAnunciosPublicos.setAdapter(adapterAnuncios);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            dialog = new SpotsDialog.Builder()
-                    .setContext(view.getContext())
-                    .setMessage(R.string.procurando_anuncios)
-                    .setCancelable(true)
-                    .build();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //refresh
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshRecyclerAnuncios();
-            }
-        });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            LinearLayout llBotoes = view.findViewById(R.id.linearLayoutBotoes);
-            llBotoes.setElevation(20);
-            btnLocal.setElevation(10);
-            btnEspecie.setElevation(10);
-            btnLocal.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.lightgray));
-            btnEspecie.setBackgroundTintList(view.getContext().getResources().getColorStateList(R.color.lightgray));
         }
     }
 
@@ -166,54 +161,58 @@ public class AnunciosFragment extends Fragment {
      * Refesh dos anuncios
      */
     private void refreshRecyclerAnuncios() {
-        // Refresh items
-        //Util.setSnackBar(layout, getString(R.string.atualizando_pets));
 
-        txvSemAnuncios.setVisibility(View.INVISIBLE);
-        listaAnuncios.clear();
+        try {
+            txvSemAnuncios.setVisibility(View.INVISIBLE);
+            listaAnuncios.clear();
 
-        String localTexto = btnLocal.getText().toString();
-        String especieTexto = btnEspecie.getText().toString();
+            String localTexto = btnLocal.getText().toString();
+            String especieTexto = btnEspecie.getText().toString();
 
-        boolean filtrandoEspecie = false, filtrandoEstado = false, filtrandoCidade = false;
+            boolean filtrandoEspecie = false, filtrandoEstado = false, filtrandoCidade = false;
 
-        if (!especieTexto.equals("especie") && !especieTexto.equals("Todas")) {
-            filtrandoEspecie = true;
-        }
-        if (localTexto.length() == 2) {
-            filtrandoEstado = true;
-        } else if ((!localTexto.equalsIgnoreCase("Todas")
-                && !localTexto.equalsIgnoreCase("Todos")
-                && !localTexto.equalsIgnoreCase("cidade"))) {
-            filtrandoCidade = true;
-        } else {
-            filtrandoCidade = false;
-            filtrandoEstado = false;
-        }
+            if (!especieTexto.equals("especie") && !especieTexto.equals("Todas")) {
+                filtrandoEspecie = true;
+            }
+            if (localTexto.length() == 2) {
+                filtrandoEstado = true;
+            } else if ((!localTexto.equalsIgnoreCase("Todas")
+                    && !localTexto.equalsIgnoreCase("Todos")
+                    && !localTexto.equalsIgnoreCase("cidade"))) {
+                filtrandoCidade = true;
+            } else {
+                filtrandoCidade = false;
+                filtrandoEstado = false;
+            }
 //filtrando especie
-        if (filtrandoEspecie) {
-            if (!filtrandoEstado && !filtrandoCidade) {
-                recuperarAnunciosFiltro(null, null, especieTexto);
-            } else {
-                if (filtrandoEstado) {
-                    recuperarAnunciosFiltro(localTexto, null, especieTexto);
+            if (filtrandoEspecie) {
+                if (!filtrandoEstado && !filtrandoCidade) {
+                    recuperarAnunciosFiltro(null, null, especieTexto);
                 } else {
-                    recuperarAnunciosFiltro(null, localTexto, especieTexto);
+                    if (filtrandoEstado) {
+                        recuperarAnunciosFiltro(localTexto, null, especieTexto);
+                    } else {
+                        recuperarAnunciosFiltro(null, localTexto, especieTexto);
+                    }
+                }
+                //sem filtrar especie
+            } else {
+                if (!filtrandoEstado && !filtrandoCidade) {
+                    recuperarAnunciosFiltro(null, null, null);
+                } else {
+                    if (filtrandoEstado) {
+                        recuperarAnunciosFiltro(localTexto, null, null);
+                    } else {
+                        recuperarAnunciosFiltro(null, localTexto, null);
+                    }
                 }
             }
-            //sem filtrar especie
-        } else {
-            if (!filtrandoEstado && !filtrandoCidade) {
-                recuperarAnunciosFiltro(null, null, null);
-            } else {
-                if (filtrandoEstado) {
-                    recuperarAnunciosFiltro(localTexto, null, null);
-                } else {
-                    recuperarAnunciosFiltro(null, localTexto, null);
-                }
-            }
+            swipeRefreshLayout.setRefreshing(false);
+        } catch (IndexOutOfBoundsException iEx) {
+            iEx.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -402,11 +401,16 @@ public class AnunciosFragment extends Fragment {
     }
 
     private void verificaRecyclerZerada() {
-        if (getItemsSizeFromRecycler() == 0) {
 
-            txvSemAnuncios.setVisibility(View.VISIBLE);
-        } else {
-            txvSemAnuncios.setVisibility(View.INVISIBLE);
+        try {
+            if (getItemsSizeFromRecycler() == 0) {
+
+                txvSemAnuncios.setVisibility(View.VISIBLE);
+            } else {
+                txvSemAnuncios.setVisibility(View.INVISIBLE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -527,9 +531,16 @@ public class AnunciosFragment extends Fragment {
     }
 
     private int getItemsSizeFromRecycler() {
+
         int count = 0;
-        if (recyclerAnunciosPublicos.getAdapter() != null) {
-            count = recyclerAnunciosPublicos.getAdapter().getItemCount();
+        try {
+            if (recyclerAnunciosPublicos != null) {
+                if (recyclerAnunciosPublicos.getAdapter() != null) {
+                    count = recyclerAnunciosPublicos.getAdapter().getItemCount();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return count;
     }

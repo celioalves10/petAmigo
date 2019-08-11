@@ -79,146 +79,159 @@ public class AdapterMeusAnuncios extends RecyclerView.Adapter<AdapterMeusAnuncio
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
 
-        if (anuncios != null) {
+        try {
+            if (anuncios != null) {
 
-            final Context ctx = myViewHolder.itemView.getContext();
+                final Context ctx = myViewHolder.itemView.getContext();
 
-            final Animal anuncio = anuncios.get(i);
-            //anuncioComentado = anuncio;
-            if (anuncio != null) {
+                final Animal anuncio = anuncios.get(i);
 
-                configuracoesMaisOpcoes(myViewHolder);
+                if (anuncio != null) {
 
-                myViewHolder.dataCadastro.setText(anuncio.getDataCadastro());
-                myViewHolder.nome.setText(anuncio.getNome());
-                myViewHolder.idade.setText(anuncio.getIdade());
-                myViewHolder.cidade.setText(anuncio.getCidade());
+                    configuracoesMaisOpcoes(myViewHolder);
 
-                //pega a primeira imagem cadastrada
-                List<String> urlFotos = anuncio.getFotos();
+                    myViewHolder.dataCadastro.setText(anuncio.getDataCadastro());
+                    myViewHolder.nome.setText(anuncio.getNome());
+                    myViewHolder.idade.setText(anuncio.getIdade());
+                    myViewHolder.cidade.setText(anuncio.getCidade());
 
-                if (urlFotos != null && urlFotos.size() > 0) {
-                    String urlCapa = urlFotos.get(0);
+                    //pega a primeira imagem cadastrada
+                    List<String> urlFotos = anuncio.getFotos();
 
-                    Picasso.get().load(urlCapa).into(myViewHolder.foto);
-                }
+                    if (urlFotos != null && urlFotos.size() > 0) {
+                        String urlCapa = urlFotos.get(0);
 
-                // ação de clique na foto do anuncio
-                myViewHolder.foto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
-                        detalhesIntent.putExtra("anuncioSelecionado", anuncio);
-                        v.getContext().startActivity(detalhesIntent);
+                        Picasso.get().load(urlCapa).into(myViewHolder.foto);
                     }
-                });
 
-                myViewHolder.imvCompartilharMeusAnuncios.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        myViewHolder.imvCompartilharMeusAnuncios.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                compartilharAnuncio(myViewHolder, anuncio);
-                            }
-                        });
-                    }
-                });
-
-                myViewHolder.imvMaisOpcoesMeusAnuncios.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        List<String> opcoesLista = new ArrayList<>();
-
-                        if (ConfiguracaoFirebase.getIdUsuario().equalsIgnoreCase(anuncio.getDonoAnuncio())) {
-                            opcoesLista.add(ctx.getString(R.string.editar));
-                            opcoesLista.add(ctx.getString(R.string.compartilhar));
-                            opcoesLista.add(ctx.getString(R.string.remover));
+                    // ação de clique na foto do anuncio
+                    myViewHolder.foto.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
+                            detalhesIntent.putExtra("anuncioSelecionado", anuncio);
+                            v.getContext().startActivity(detalhesIntent);
                         }
+                    });
 
-                        final String[] opcoes = new String[opcoesLista.size()];
-
-                        for (int i = 0; i < opcoesLista.size(); i++) {
-                            opcoes[i] = opcoesLista.get(i);
-                        }
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolder.imvMaisOpcoesMeusAnuncios.getContext());
-
-                        builder.setItems(opcoes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                if (ctx.getString(R.string.editar).equals(opcoes[which])) {
-
-                                    Bundle data = new Bundle();
-                                    data.putSerializable("anuncioSelecionado", anuncio);
-
-                                    CadastrarAnuncioFragment cadFragment = new CadastrarAnuncioFragment();
-                                    cadFragment.setArguments(data);
-
-                                    AppCompatActivity activity = (AppCompatActivity) myViewHolder.itemView.getContext();
-                                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                    fragmentTransaction.replace(R.id.view_pager, cadFragment).addToBackStack("tag").commit();
-
-                                } else if (ctx.getString(R.string.compartilhar).equalsIgnoreCase(opcoes[which])) {
-
+                    myViewHolder.imvCompartilharMeusAnuncios.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            myViewHolder.imvCompartilharMeusAnuncios.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
                                     compartilharAnuncio(myViewHolder, anuncio);
-
-                                } else if (ctx.getString(R.string.remover).equals(opcoes[which])) {
-
-                                    new AlertDialog.Builder(myViewHolder.itemView.getContext())
-                                            .setMessage(ctx.getString(R.string.tem_certeza_excluir_anuncio))
-                                            .setCancelable(false)
-                                            .setPositiveButton(ctx.getString(R.string.sim), new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    anuncio.remover();
-                                                    AppCompatActivity activity = (AppCompatActivity) myViewHolder.itemView.getContext();
-                                                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                                    fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
-                                                }
-                                            })
-                                            .setNegativeButton(ctx.getString(R.string.nao), null)
-                                            .show();
-
-                                } else if (ctx.getString(R.string.denunciar).equals(opcoes[which])) {
-                                    Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.denunciar));
                                 }
+                            });
+                        }
+                    });
+
+                    myViewHolder.imvMaisOpcoesMeusAnuncios.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            List<String> opcoesLista = new ArrayList<>();
+
+                            if (ConfiguracaoFirebase.getIdUsuario().equalsIgnoreCase(anuncio.getDonoAnuncio())) {
+                                opcoesLista.add(ctx.getString(R.string.editar));
+                                opcoesLista.add(ctx.getString(R.string.compartilhar));
+                                opcoesLista.add(ctx.getString(R.string.remover));
                             }
-                        });
-                        builder.show();
-                    }
-                });
+
+                            final String[] opcoes = new String[opcoesLista.size()];
+
+                            for (int i = 0; i < opcoesLista.size(); i++) {
+                                opcoes[i] = opcoesLista.get(i);
+                            }
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolder.imvMaisOpcoesMeusAnuncios.getContext());
+
+                            builder.setItems(opcoes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    if (ctx.getString(R.string.editar).equals(opcoes[which])) {
+
+                                        Bundle data = new Bundle();
+                                        data.putSerializable("anuncioSelecionado", anuncio);
+
+                                        CadastrarAnuncioFragment cadFragment = new CadastrarAnuncioFragment();
+                                        cadFragment.setArguments(data);
+
+                                        AppCompatActivity activity = (AppCompatActivity) myViewHolder.itemView.getContext();
+                                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                        fragmentTransaction.replace(R.id.view_pager, cadFragment).addToBackStack("tag").commit();
+
+                                    } else if (ctx.getString(R.string.compartilhar).equalsIgnoreCase(opcoes[which])) {
+
+                                        compartilharAnuncio(myViewHolder, anuncio);
+
+                                    } else if (ctx.getString(R.string.remover).equals(opcoes[which])) {
+
+                                        new AlertDialog.Builder(myViewHolder.itemView.getContext())
+                                                .setMessage(ctx.getString(R.string.tem_certeza_excluir_anuncio))
+                                                .setCancelable(false)
+                                                .setPositiveButton(ctx.getString(R.string.sim), new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        anuncio.remover();
+                                                        AppCompatActivity activity = (AppCompatActivity) myViewHolder.itemView.getContext();
+                                                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                                        fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
+                                                    }
+                                                })
+                                                .setNegativeButton(ctx.getString(R.string.nao), null)
+                                                .show();
+
+                                    } else if (ctx.getString(R.string.denunciar).equals(opcoes[which])) {
+                                        Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.denunciar));
+                                    }
+                                }
+                            });
+                            builder.show();
+                        }
+                    });
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private void compartilharAnuncio(MyViewHolder myViewHolder, Animal anuncio) {
 
-        Context ctx = myViewHolder.itemView.getContext();
+        try {
+            Context ctx = myViewHolder.itemView.getContext();
 
-        Drawable mDrawable = myViewHolder.foto.getDrawable();
-        Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
+            Drawable mDrawable = myViewHolder.foto.getDrawable();
+            Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
 
-        String path = MediaStore.Images.Media.insertImage(myViewHolder.itemView.getContext()
-                .getContentResolver(), mBitmap, "Imagem", "");
-        Uri uri = Uri.parse(path);
+            String path = MediaStore.Images.Media.insertImage(myViewHolder.itemView.getContext()
+                    .getContentResolver(), mBitmap, "Imagem", "");
+            Uri uri = Uri.parse(path);
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("image/jpeg");
-        intent.putExtra(Intent.EXTRA_TEXT, ctx.getString(R.string.instale_e_conheca) +
-                anuncio.getNome() + ctx.getString(R.string.disponivel_em) +
-                "https://play.google.com/store/apps/details?id=" + Constantes.APPLICATION_ID + "\n\n");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        myViewHolder.itemView.getContext().startActivity(Intent.createChooser(intent, ctx.getString(R.string.compartilhando_imagem)));
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("image/jpeg");
+            intent.putExtra(Intent.EXTRA_TEXT, ctx.getString(R.string.instale_e_conheca) +
+                    anuncio.getNome() + ctx.getString(R.string.disponivel_em) +
+                    "https://play.google.com/store/apps/details?id=" + Constantes.APPLICATION_ID + "\n\n");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            myViewHolder.itemView.getContext().startActivity(Intent.createChooser(intent, ctx.getString(R.string.compartilhando_imagem)));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getItemCount() {
 
-        return anuncios.size();
+        int retorno = 0;
+        if (anuncios != null) {
+            retorno = anuncios.size();
+        }
+        return retorno;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -236,32 +249,36 @@ public class AdapterMeusAnuncios extends RecyclerView.Adapter<AdapterMeusAnuncio
         MyViewHolder(View itemView) {
             super(itemView);
 
-            dataCadastro = itemView.findViewById(R.id.textDataCadastroMeusAnuncios);
-            nome = itemView.findViewById(R.id.txv_nome_meus_anuncios);
-            idade = itemView.findViewById(R.id.textIdade_meus_anuncios);
-            foto = itemView.findViewById(R.id.img_meus_anuncios);
-            cidade = itemView.findViewById(R.id.textCidadePrincipal_meus_anuncios);
-            imvMaisOpcoesMeusAnuncios = itemView.findViewById(R.id.imv_mais_opcoes_meus_anuncios);
-            imvBottomMeusAnuncios = itemView.findViewById(R.id.imageView_bottom_meus_anuncios);
-            imvCompartilharMeusAnuncios = itemView.findViewById(R.id.imv_compartilhar_meus_anuncios);
+            try {
+                dataCadastro = itemView.findViewById(R.id.textDataCadastroMeusAnuncios);
+                nome = itemView.findViewById(R.id.txv_nome_meus_anuncios);
+                idade = itemView.findViewById(R.id.textIdade_meus_anuncios);
+                foto = itemView.findViewById(R.id.img_meus_anuncios);
+                cidade = itemView.findViewById(R.id.textCidadePrincipal_meus_anuncios);
+                imvMaisOpcoesMeusAnuncios = itemView.findViewById(R.id.imv_mais_opcoes_meus_anuncios);
+                imvBottomMeusAnuncios = itemView.findViewById(R.id.imageView_bottom_meus_anuncios);
+                imvCompartilharMeusAnuncios = itemView.findViewById(R.id.imv_compartilhar_meus_anuncios);
 
-            imvCompartilharMeusAnuncios.bringToFront();
-            imvMaisOpcoesMeusAnuncios.bringToFront();
+                imvCompartilharMeusAnuncios.bringToFront();
+                imvMaisOpcoesMeusAnuncios.bringToFront();
 
-            //Para a snackBar
-            layout = itemView.findViewById(R.id.view_pager);
-            divider = itemView.findViewById(R.id.divider_meus_anuncios);
+                //Para a snackBar
+                layout = itemView.findViewById(R.id.view_pager);
+                divider = itemView.findViewById(R.id.divider_meus_anuncios);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                foto.setElevation(2);
-                imvCompartilharMeusAnuncios.setElevation(40);
-                imvMaisOpcoesMeusAnuncios.setElevation(40);
-                imvBottomMeusAnuncios.setElevation(2);
-                nome.setElevation(5);
-                idade.setElevation(5);
-                cidade.setElevation(5);
-                dataCadastro.setElevation(5);
-                divider.setElevation(5);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    foto.setElevation(2);
+                    imvCompartilharMeusAnuncios.setElevation(40);
+                    imvMaisOpcoesMeusAnuncios.setElevation(40);
+                    imvBottomMeusAnuncios.setElevation(2);
+                    nome.setElevation(5);
+                    idade.setElevation(5);
+                    cidade.setElevation(5);
+                    dataCadastro.setElevation(5);
+                    divider.setElevation(5);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

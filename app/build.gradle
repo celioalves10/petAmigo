@@ -6,8 +6,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 33
-        versionName "2.33.512"
+        versionCode 34
+        versionName "2.34.520"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -45,6 +45,7 @@ dependencies {
 
     //admob
     implementation 'com.google.android.gms:play-services-ads:18.1.1'
+
     implementation 'com.google.android.gms:play-services-measurement:17.0.0'
     implementation 'com.google.android.gms:play-services-measurement-sdk:17.0.0'
 
@@ -65,17 +66,25 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:18.1.1'
     implementation 'com.google.firebase:firebase-auth:18.1.0'
     implementation 'com.google.firebase:firebase-ads:18.1.1'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1' //firebase messaging
+    implementation 'com.google.firebase:firebase-inappmessaging-display:18.0.2' // Add the In-App Messaging dependency:
+
+
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'androidx.cardview:cardview:1.0.0'
+
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
     //carouselview
     implementation 'com.synnapps:carouselview:0.1.5'
+
     //PickImage
     implementation 'com.github.jrvansuita:PickImage:2.2.4'
 
     implementation 'com.zxy.android:tiny:1.1.0'
-    //compressor
+
+    //compressor de imagens
     implementation 'id.zelory:compressor:2.1.0'
 
     implementation 'com.facebook.android:facebook-android-sdk:5.0.3'
@@ -92,11 +101,6 @@ dependencies {
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    //firebase messaging
-    implementation 'com.google.firebase:firebase-messaging:19.0.1'
-
-    // Add the In-App Messaging dependency:
-    implementation 'com.google.firebase:firebase-inappmessaging-display:18.0.2'
 
 }
 apply plugin: 'com.google.gms.google-services'

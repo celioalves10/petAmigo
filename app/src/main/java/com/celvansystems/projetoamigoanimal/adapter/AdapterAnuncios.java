@@ -729,7 +729,11 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
     @Override
     public int getItemCount() {
-        return anuncios.size();
+        int retorno = 0;
+        if(anuncios != null) {
+            retorno = anuncios.size();
+        }
+        return retorno;
     }
 
     /**

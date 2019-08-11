@@ -20,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.adapter.AdapterMeusAnuncios;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
+import com.celvansystems.projetoamigoanimal.helper.LinearLayoutManagerWrapper;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -48,19 +49,20 @@ public class MeusAnunciosFragment extends Fragment {
     private View layout;
     private AlertDialog dialog;
 
-    public MeusAnunciosFragment() {}
+    public MeusAnunciosFragment() {
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        viewFragment =  inflater.inflate(R.layout.fragment_meus_anuncios, container, false);
+        viewFragment = inflater.inflate(R.layout.fragment_meus_anuncios, container, false);
         inicializarComponentes();
 
         return viewFragment;
     }
 
-    private void recuperarAnuncios(){
+    private void recuperarAnuncios() {
 
         try {
             dialog = new SpotsDialog.Builder()
@@ -69,16 +71,18 @@ public class MeusAnunciosFragment extends Fragment {
                     .setCancelable(false)
                     .build();
             dialog.show();
-        } catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             anuncioUsuarioRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     anuncios.clear();
-                    for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Animal animal = ds.getValue(Animal.class);
-                        if(animal!= null && animal.getDonoAnuncio()!= null) {
+                        if (animal != null && animal.getDonoAnuncio() != null) {
                             if (animal.getDonoAnuncio().equalsIgnoreCase(ConfiguracaoFirebase.getIdUsuario())) {
                                 anuncios.add(animal);
                             }
@@ -95,7 +99,8 @@ public class MeusAnunciosFragment extends Fragment {
                     Util.setSnackBar(layout, getString(R.string.falha_carregar_anuncios));
                 }
             });
-        } catch (Exception e){e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -103,55 +108,55 @@ public class MeusAnunciosFragment extends Fragment {
      * inicializa os componentes da view
      */
     @SuppressLint({"RestrictedApi", "CutPasteId"})
-    private void inicializarComponentes(){
+    private void inicializarComponentes() {
 
-        layout = viewFragment.findViewById(R.id.frame_layout_meus_anuncios_fragment);
-
-                //fab
-        FloatingActionButton fabCadastrar = viewFragment.findViewById(R.id.fabcadastrar_meus_anuncios);
-        fabCadastrar.setVisibility(View.VISIBLE);
-        fabCadastrar.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                FragmentManager fragmentManager= Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction =fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.view_pager, new CadastrarAnuncioFragment()).addToBackStack("tag").commit();
-            }
-        });
-
-        RecyclerView recyclerMeusAnuncios = viewFragment.findViewById(R.id.recyclerMeusAnuncios);
-
-        // configuracoes iniciais
         try {
+            layout = viewFragment.findViewById(R.id.frame_layout_meus_anuncios_fragment);
+
+            //fab
+            FloatingActionButton fabCadastrar = viewFragment.findViewById(R.id.fabcadastrar_meus_anuncios);
+            fabCadastrar.setVisibility(View.VISIBLE);
+            fabCadastrar.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.view_pager, new CadastrarAnuncioFragment()).addToBackStack("tag").commit();
+                }
+            });
+
+            RecyclerView recyclerMeusAnuncios = viewFragment.findViewById(R.id.recyclerMeusAnuncios);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWrapper(getContext(), LinearLayoutManager.VERTICAL, false);
+            recyclerMeusAnuncios.setLayoutManager(mLayoutManager);
+            // configuracoes iniciais
+
             anuncioUsuarioRef = ConfiguracaoFirebase.getFirebase()
                     .child("meus_animais");
-        } catch (Exception e){e.printStackTrace();}
 
-        //configurar recyclerview
-        try {
-            RecyclerView.LayoutManager lm = new LinearLayoutManager(viewFragment.getContext());
-
-            recyclerMeusAnuncios.setLayoutManager(lm);
+            //configurar recyclerview
             recyclerMeusAnuncios.setHasFixedSize(true);
 
             adapterMeusAnuncios = new AdapterMeusAnuncios(anuncios);
             recyclerMeusAnuncios.setAdapter(adapterMeusAnuncios);
-        } catch (Exception e){e.printStackTrace();}
 
-        //recupera anuncios para o usuario
-        recuperarAnuncios();
 
-        //refresh
-        swipeRefreshLayout = viewFragment.findViewById(R.id.swipeRefreshLayout_meus_anuncios);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshRecyclerAnuncios();
+            //recupera anuncios para o usuario
+            recuperarAnuncios();
+
+            //refresh
+            swipeRefreshLayout = viewFragment.findViewById(R.id.swipeRefreshLayout_meus_anuncios);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    refreshRecyclerAnuncios();
+                }
+            });
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                fabCadastrar.setElevation(50);
             }
-        });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            fabCadastrar.setElevation(50);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -163,12 +168,14 @@ public class MeusAnunciosFragment extends Fragment {
     /**
      * Refresh itens
      */
-    private void refreshRecyclerAnuncios(){
-        Util.setSnackBar(layout,  getString(R.string.atualizando_pets));
-
-        anuncios.clear();
-        recuperarAnuncios();
-        swipeRefreshLayout.setRefreshing(false);
+    private void refreshRecyclerAnuncios() {
+        try {
+            anuncios.clear();
+            recuperarAnuncios();
+            swipeRefreshLayout.setRefreshing(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
     
