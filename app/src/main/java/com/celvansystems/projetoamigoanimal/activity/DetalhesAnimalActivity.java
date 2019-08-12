@@ -22,6 +22,7 @@ import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +38,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
     private View layout;
     private Animal anuncioSelecionado;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,7 +169,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
         MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
         //AdView
         try {
-            //banner teste
+
             AdRequest adRequest = new AdRequest.Builder().build();
             AdView adView = findViewById(R.id.banner_detalhes_animal);
             adView.loadAd(adRequest);
@@ -175,23 +177,81 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
             adView.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    Log.d("INFO22", "det loaded");
+                    Log.d("INFO22", "det ban loaded");
                 }
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    Log.d("INFO22", "det failed: " + errorCode);
+                    Log.d("INFO22", "det ban failed: " + errorCode);
                 }
 
                 @Override
                 public void onAdClosed() {
-                    Log.d("INFO22", "det closed");
+                    Log.d("INFO22", "det ban closed");
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("INFO22", "det exception " + e.getMessage());
+            Log.d("INFO22", "det ban exception " + e.getMessage());
+        }
 
+        //AdView
+        try {
+
+            InterstitialAd mInterstitialAd = new InterstitialAd(Objects.requireNonNull(this));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial5_id));
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            //mInterstitialAd.show();
+
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    Log.d("INFO22", "det int loaded");
+                    super.onAdLoaded();
+                    mostraInterstitialAd();
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Log.d("INFO22", "det int failed: " + errorCode);
+                }
+
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+                    Log.d("INFO22", "det int closed");
+                    prepareInterstitialAd();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void prepareInterstitialAd() {
+
+        try {
+            mInterstitialAd = new InterstitialAd(Objects.requireNonNull(this));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial4_id));
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mostraInterstitialAd() {
+        try {
+            if (mInterstitialAd == null) {
+                prepareInterstitialAd();
+            }
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+                Log.d("INFO22", "det int exibida");
+            }
+            prepareInterstitialAd();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

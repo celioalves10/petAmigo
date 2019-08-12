@@ -406,7 +406,9 @@ public class MainActivity extends AppCompatActivity
 
                 //Limpa todas as notificaçoes
                 NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.cancelAll();
+                if (notificationManager != null) {
+                    notificationManager.cancelAll();
+                }
 
                 finish();
             }
@@ -444,21 +446,22 @@ public class MainActivity extends AppCompatActivity
             MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
             //teste Interstitial
             mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
 
             AdRequest.Builder adRequistBuilder = new AdRequest.Builder();
             AdRequest adIRequest = adRequistBuilder.build();
             mInterstitialAd.loadAd(adIRequest);
 
-            if (mInterstitialAd.isLoaded()) {
+            /*if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
-            }
+            }*/
 
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
                     Log.d("INFO22", "main int loaded");
                     super.onAdLoaded();
+                    mostraInterstitialAd();
                 }
 
                 @Override
@@ -503,14 +506,13 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
             Log.d("INFO22", "main ban exception " + e.getMessage());
         }
-
     }
 
     private void prepareInterstitialAd() {
 
         try {
             mInterstitialAd = new InterstitialAd(MainActivity.this);
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
         } catch (Exception e) {
             e.printStackTrace();
@@ -524,7 +526,8 @@ public class MainActivity extends AppCompatActivity
                 prepareInterstitialAd();
             }
             if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
+                //mInterstitialAd.show();
+                Log.d("INFO22", "main int exibida");
             }
             prepareInterstitialAd();
 

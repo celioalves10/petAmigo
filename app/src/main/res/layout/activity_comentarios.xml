@@ -103,7 +103,7 @@
             android:layout_centerHorizontal="true"
             android:visibility="visible"
             app:adSize="BANNER"
-            app:adUnitId="@string/admob_banner2_id"
+            app:adUnitId="@string/admob_banner5_id"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"

@@ -124,7 +124,7 @@
             android:layout_marginBottom="0dp"
             android:visibility="gone"
             ads:adSize="BANNER"
-            ads:adUnitId="@string/admob_banner_id"/>
+            ads:adUnitId="@string/admob_banner4_id"/>
 
     </RelativeLayout>
 

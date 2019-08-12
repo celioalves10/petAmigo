@@ -784,7 +784,9 @@ public class CadastrarAnuncioFragment extends Fragment
     private static void hideKeyboard(Context context, View editText) {
         try {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -804,14 +806,16 @@ public class CadastrarAnuncioFragment extends Fragment
         try {
             //teste
             InterstitialAd mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getContext()));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial2_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial4_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
-            mInterstitialAd.show();
+            //mInterstitialAd.show();
+
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
                     Log.d("INFO22", "cad int loaded");
                     super.onAdLoaded();
+                    mostraInterstitialAd();
                 }
 
                 @Override
@@ -835,7 +839,7 @@ public class CadastrarAnuncioFragment extends Fragment
 
         try {
             mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getActivity()));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial4_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
         } catch (Exception e) {
             e.printStackTrace();
@@ -849,6 +853,7 @@ public class CadastrarAnuncioFragment extends Fragment
             }
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
+                Log.d("INFO22", "cad int exibida");
             }
             prepareInterstitialAd();
 
