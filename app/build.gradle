@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
@@ -6,8 +7,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 35
-        versionName "2.35.521"
+        versionCode 37
+        versionName "2.37.522"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -15,7 +16,6 @@ android {
             ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
     }
-
 
     buildTypes {
         release {
@@ -31,6 +31,7 @@ android {
     }
     buildToolsVersion '28.0.3'
 }
+
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         def requested = details.requested
@@ -41,13 +42,14 @@ configurations.all {
         }
     }
 }
+
 dependencies {
 
     //admob
     implementation 'com.google.android.gms:play-services-ads:18.1.1'
-
-    implementation 'com.google.android.gms:play-services-measurement:17.0.0'
-    implementation 'com.google.android.gms:play-services-measurement-sdk:17.0.0'
+    implementation 'com.google.android.gms:play-services-measurement:17.0.1'
+    implementation 'com.google.android.gms:play-services-measurement-sdk:17.0.1'
+    implementation 'com.google.android.gms:play-services-measurement-api:17.0.1'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
@@ -59,7 +61,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta02'
     /* Dependências firebase */
     implementation 'com.google.firebase:firebase-core:17.0.1'
     implementation 'com.google.firebase:firebase-database:18.0.1'
@@ -69,6 +71,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:19.0.1' //firebase messaging
     implementation 'com.google.firebase:firebase-inappmessaging-display:18.0.2' // Add the In-App Messaging dependency:
 
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'androidx.cardview:cardview:1.0.0'

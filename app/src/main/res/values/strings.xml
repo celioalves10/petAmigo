@@ -281,7 +281,7 @@
     <string-array name="sexos">
         <item>Macho</item>
         <item>Fêmea</item>
-        <item>Ambos</item>
+        <item>Macho e fêmea</item>
         <item>Sexo não informado</item>
     </string-array>
 

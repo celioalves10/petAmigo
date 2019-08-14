@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -461,7 +462,7 @@ public class MainActivity extends AppCompatActivity
                 public void onAdLoaded() {
                     Log.d("INFO22", "main int loaded");
                     super.onAdLoaded();
-                    mostraInterstitialAd();
+                    //mostraInterstitialAd();
                 }
 
                 @Override
@@ -526,7 +527,7 @@ public class MainActivity extends AppCompatActivity
                 prepareInterstitialAd();
             }
             if (mInterstitialAd.isLoaded()) {
-                //mInterstitialAd.show();
+                mInterstitialAd.show();
                 Log.d("INFO22", "main int exibida");
             }
             prepareInterstitialAd();
