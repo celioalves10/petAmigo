@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
 import com.celvansystems.projetoamigoanimal.activity.DetalhesAnimalActivity;
+import com.celvansystems.projetoamigoanimal.activity.MainActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
@@ -34,6 +37,12 @@ import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.celvansystems.projetoamigoanimal.model.Comentario;
 import com.celvansystems.projetoamigoanimal.model.Usuario;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.UserInfo;
@@ -52,6 +61,8 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
         implements Serializable {
 
     private List<Animal> anuncios;
+    private InterstitialAd mInterstitialAd;
+    private Context intContext;
 
     //Permissoes
     private String[] permissoes = new String[]{
@@ -74,6 +85,9 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
         View item = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_anuncios, viewGroup, false);
         iniciarComponentes(item);
+        //Propagandas
+        intContext = item.getContext();
+        configuraAdMob();
         return new MyViewHolder(item);
     }
 
@@ -202,7 +216,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
      * @param anuncio      animal
      * @param myViewHolder myViewHolder
      */
-    private void configuraFotoAnuncio(final Animal anuncio, MyViewHolder myViewHolder) {
+    private void configuraFotoAnuncio(final Animal anuncio, final MyViewHolder myViewHolder) {
 
         try {
             //pega a primeira imagem cadastrada
@@ -220,7 +234,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                     @Override
                     public void onClick(View v) {
 
-
+                        mostraInterstitialAd();
                         Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
                         detalhesIntent.putExtra("anuncioSelecionado", anuncio);
                         v.getContext().startActivity(detalhesIntent);
@@ -730,10 +744,99 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
     @Override
     public int getItemCount() {
         int retorno = 0;
-        if(anuncios != null) {
+        if (anuncios != null) {
             retorno = anuncios.size();
         }
         return retorno;
+    }
+
+    /**
+     * método que configura as propagandas via AdMob
+     */
+    private void configuraAdMob() {
+
+        //AdView
+        try {
+
+            //admob
+            //MobileAds.initialize(intContext, intContext.getString(R.string.admob_app_id));
+            MobileAds.initialize(intContext, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+                    Log.d("INFO22", "MobileAds inicializado em adapter anuncios");
+                }
+            });
+            //teste Interstitial
+            mInterstitialAd = new InterstitialAd(intContext);
+            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
+            mInterstitialAd.setAdUnitId(intContext.getString(R.string.admob_interstitial3_id));
+
+            AdRequest.Builder adRequistBuilder = new AdRequest.Builder();
+            AdRequest adIRequest = adRequistBuilder.build();
+            mInterstitialAd.loadAd(adIRequest);
+
+            /*if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            }*/
+
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    Log.d("INFO22", "det int loaded");
+                    super.onAdLoaded();
+                    //mostraInterstitialAd();
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Log.d("INFO22", "det int failed: " + errorCode);
+                }
+
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+
+                    Log.d("INFO22", "det int closed");
+                    prepareInterstitialAd();
+                }
+            });
+
+            prepareInterstitialAd();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("INFO22", "det  exception " + e.getMessage());
+        }
+    }
+
+    private void prepareInterstitialAd() {
+
+        try {
+            mInterstitialAd = new InterstitialAd(intContext);
+            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
+            mInterstitialAd.setAdUnitId(intContext.getString(R.string.admob_interstitial3_id));
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("INFO22", "det int exception1 " + e.getMessage());
+        }
+    }
+
+    private void mostraInterstitialAd() {
+        try {
+            if (mInterstitialAd == null) {
+                prepareInterstitialAd();
+            }
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+                Log.d("INFO22", "det int exibida");
+            }
+            prepareInterstitialAd();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("INFO22", "det int exception2 " + e.getMessage());
+        }
     }
 
     /**

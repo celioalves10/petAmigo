@@ -62,17 +62,19 @@
     <string name="desativarConta">Desativar Conta</string>
     <string name="facebook_app_id">314424992539028</string>
     <string name="admob_app_id">ca-app-pub-6718857112988900~9519509403</string>
-    <!--string name="admob_banner_id">ca-app-pub-6718857112988900/9409443166</string>
+    <string name="admob_banner_id">ca-app-pub-6718857112988900/9409443166</string>
     <string name="admob_banner2_id">ca-app-pub-6718857112988900/6755018062</string>
-    <string name="admob_banner3_id">ca-app-pub-6718857112988900/2815773058</string-->
+    <string name="admob_banner3_id">ca-app-pub-6718857112988900/2815773058</string>
     <string name="admob_banner4_id">ca-app-pub-6718857112988900/7828798684</string>
     <string name="admob_banner5_id">ca-app-pub-6718857112988900/5540959964</string>
     <string name="admob_banner6_id">ca-app-pub-6718857112988900/9288633280</string>
-    <!--string name="admob_interstitial_id">ca-app-pub-6718857112988900/4598670156</string>
-    <string name="admob_interstitial2_id">ca-app-pub-6718857112988900/2376789353</string-->
+    <!--string name="admob_banner_teste">ca-app-pub-3940256099942544/6300978111</string-->
+    <string name="admob_interstitial1_id">ca-app-pub-6718857112988900/4598670156</string>
+    <string name="admob_interstitial2_id">ca-app-pub-6718857112988900/2376789353</string>
     <string name="admob_interstitial3_id">ca-app-pub-6718857112988900/1181599470</string>
     <string name="admob_interstitial4_id">ca-app-pub-6718857112988900/2275189290</string>
     <string name="admob_interstitial5_id">ca-app-pub-6718857112988900/1624753922</string>
+    <!--string name="admob_interstitial_teste">ca-app-pub-3940256099942544/1033173712</string-->
 
     <string name="fb_login_protocol_scheme">fb314424992539028</string>
     <string name="google_web_client">401004222439-vcq1o7a32eocodqf4k2ho6t2q3c35pq0.apps.googleusercontent.com</string>

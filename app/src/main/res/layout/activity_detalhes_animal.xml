@@ -336,7 +336,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:adSize="BANNER"
-                app:adUnitId="@string/admob_banner6_id"
+                app:adUnitId="@string/admob_banner3_id"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

@@ -45,6 +45,8 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -756,7 +758,7 @@ public class CadastrarAnuncioFragment extends Fragment
         try {
             Context ctx = Objects.requireNonNull(getActivity()).getApplicationContext();
 
-            if(ctx != null) {
+            if (ctx != null) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
                 builder.setTitle(getString(R.string.permissoes_negadas));
                 builder.setMessage(getString(R.string.necessario_aceitar_permissoes));
@@ -800,22 +802,28 @@ public class CadastrarAnuncioFragment extends Fragment
         //admob
         //MobileAds.initialize(this, String.valueOf(R.string.app_id));
         //teste do google
-        MobileAds.initialize(getContext(), getString(R.string.admob_app_id));
+        //MobileAds.initialize(getContext(), getString(R.string.admob_app_id));
+
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+                Log.d("INFO22", "MobileAds inicializado em cad");
+            }
+        });
 
         //AdView
         try {
-            //teste
             InterstitialAd mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getContext()));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial4_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial2_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
-            //mInterstitialAd.show();
+            prepareInterstitialAd();
+            mostraInterstitialAd();
 
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
                     Log.d("INFO22", "cad int loaded");
                     super.onAdLoaded();
-                    mostraInterstitialAd();
                 }
 
                 @Override
@@ -835,28 +843,29 @@ public class CadastrarAnuncioFragment extends Fragment
         }
     }
 
-    private void prepareInterstitialAd() {
-
+    private void mostraInterstitialAd() {
         try {
-            mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getActivity()));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial4_id));
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            if (mInterstitialAd == null) {
+                prepareInterstitialAd();
+            } else {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                    Log.d("INFO22", "cad int exibida");
+                    prepareInterstitialAd();
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void mostraInterstitialAd() {
-        try {
-            if (mInterstitialAd == null) {
-                prepareInterstitialAd();
-            }
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-                Log.d("INFO22", "cad int exibida");
-            }
-            prepareInterstitialAd();
+    private void prepareInterstitialAd() {
 
+        try {
+            InterstitialAd mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getContext()));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial2_id));
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            Log.d("INFO22", "cad prepareIntersticial");
         } catch (Exception e) {
             e.printStackTrace();
         }

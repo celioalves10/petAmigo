@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.FragmentManager;
@@ -355,6 +357,7 @@ public class MainActivity extends AppCompatActivity
                 mostraInterstitialAd();
 
             } else if (id == R.id.pet_cad) {
+                mostraInterstitialAd();
                 // fragment pet_cad cadastrar anuncio
                 fragmentTransaction.replace(R.id.view_pager, new CadastrarAnuncioFragment()).addToBackStack("tag").commit();
             } else if (id == R.id.pet_adote) {
@@ -444,10 +447,17 @@ public class MainActivity extends AppCompatActivity
         try {
 
             //admob
-            MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+            //MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+            MobileAds.initialize(this, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+                    Log.d("INFO22", "MobileAds inicializado em main");
+                }
+            });
             //teste Interstitial
             mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
+            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial1_id));
 
             AdRequest.Builder adRequistBuilder = new AdRequest.Builder();
             AdRequest adIRequest = adRequistBuilder.build();
@@ -462,12 +472,12 @@ public class MainActivity extends AppCompatActivity
                 public void onAdLoaded() {
                     Log.d("INFO22", "main int loaded");
                     super.onAdLoaded();
-                    //mostraInterstitialAd();
                 }
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
                     Log.d("INFO22", "main int failed: " + errorCode);
+                    prepareInterstitialAd();
                 }
 
                 @Override
@@ -513,7 +523,8 @@ public class MainActivity extends AppCompatActivity
 
         try {
             mInterstitialAd = new InterstitialAd(MainActivity.this);
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
+            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial1_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
         } catch (Exception e) {
             e.printStackTrace();

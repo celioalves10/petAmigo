@@ -24,6 +24,8 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -120,6 +122,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
 
+                                            mostraInterstitialAd();
                                             if (usuarios.child("telefone").getValue() != null) {
 
                                                 final String telefone = Objects.requireNonNull(usuarios.child("telefone").getValue()).toString();
@@ -166,7 +169,14 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     private void configuraAdMob() {
 
         //admob
-        MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+        //MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+                Log.d("INFO22", "MobileAds inicializado em det");
+            }
+        });
+
         //AdView
         try {
 
@@ -199,7 +209,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
         try {
 
             InterstitialAd mInterstitialAd = new InterstitialAd(Objects.requireNonNull(this));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial5_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
             //mInterstitialAd.show();
 
@@ -208,7 +218,6 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                 public void onAdLoaded() {
                     Log.d("INFO22", "det int loaded");
                     super.onAdLoaded();
-                    mostraInterstitialAd();
                 }
 
                 @Override
@@ -232,7 +241,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
         try {
             mInterstitialAd = new InterstitialAd(Objects.requireNonNull(this));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial4_id));
+            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
         } catch (Exception e) {
             e.printStackTrace();
@@ -256,7 +265,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
