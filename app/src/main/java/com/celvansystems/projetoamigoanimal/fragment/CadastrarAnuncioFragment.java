@@ -476,6 +476,7 @@ public class CadastrarAnuncioFragment extends Fragment
                             FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
+                            //mostraInterstitialAd();
                         }
                     } else {
                         Util.setSnackBar(layout, getString(R.string.falha_upload));
@@ -816,8 +817,6 @@ public class CadastrarAnuncioFragment extends Fragment
             InterstitialAd mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getContext()));
             mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial2_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
-            prepareInterstitialAd();
-            mostraInterstitialAd();
 
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override

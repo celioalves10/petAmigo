@@ -287,7 +287,9 @@ public class ComentariosActivity extends AppCompatActivity {
     public static void hideKeyboard(Context context, View editText) {
         try {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -300,7 +302,7 @@ public class ComentariosActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;

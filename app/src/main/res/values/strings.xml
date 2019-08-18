@@ -254,6 +254,7 @@
     <string name="seguir_instagram">Seguir instagram</string>
     <string name="deu_algo_errado" >Deu algo errado? Comunica a gente!</string>
     <string name="srd">SRD</string>
+    <string name="observacao_comentarios">Leia sempre o cadastro do Pet. Pode conter informações importantes como um número de telefone para contato em caso de dúvidas.</string>
 
     <string-array name="idade">
         <item>0–3 meses</item>
