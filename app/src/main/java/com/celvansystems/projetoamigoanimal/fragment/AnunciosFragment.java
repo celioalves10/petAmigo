@@ -208,10 +208,8 @@ public class AnunciosFragment extends Fragment {
                 }
             }
             swipeRefreshLayout.setRefreshing(false);
-        } catch (IndexOutOfBoundsException iEx) {
+        } catch (Exception iEx) {
             iEx.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

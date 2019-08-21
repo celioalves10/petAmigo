@@ -36,12 +36,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             Handler handle = new Handler();
-            handle.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mostrarLogin();
-                }
-            }, 1000);
+            handle.postDelayed(this::mostrarLogin, 800);
         } else {
             mostrarLogin();
         }
@@ -55,7 +50,9 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void inicializarComponentes() {
 
         TextView txvVersaoSplash = findViewById(R.id.txvVersaoSplash);
-        txvVersaoSplash.setText(String.format("%s %s", txvVersaoSplash.getText(), BuildConfig.VERSION_NAME));
+        if(txvVersaoSplash != null && txvVersaoSplash.getText() != null) {
+            txvVersaoSplash.setText(String.format("%s %s", txvVersaoSplash.getText(), BuildConfig.VERSION_NAME));
+        }
     }
 
     private void mostrarLogin() {

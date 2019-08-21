@@ -414,10 +414,7 @@ public class ComplementoLoginActivity extends AppCompatActivity {
 
             stream.close();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-
             e.printStackTrace();
         }
         return byteArray;

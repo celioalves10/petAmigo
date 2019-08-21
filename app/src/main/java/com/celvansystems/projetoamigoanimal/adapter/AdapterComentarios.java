@@ -73,7 +73,7 @@ public class AdapterComentarios extends RecyclerView.Adapter<AdapterComentarios.
                                     //nome
                                     String nomeUsuario = "";
                                     if(usuarios.child("nome").getValue() != null) {
-                                        nomeUsuario = usuarios.child("nome").getValue().toString();
+                                            nomeUsuario = Objects.requireNonNull(usuarios.child("nome").getValue()).toString();
                                     }
                                     //foto
                                     if (usuarios.child("foto").getValue() != null) {

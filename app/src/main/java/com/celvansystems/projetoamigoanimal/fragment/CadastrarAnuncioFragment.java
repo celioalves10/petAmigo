@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +40,6 @@ import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -60,7 +53,6 @@ import com.vansuita.pickimage.listeners.IPickCancel;
 import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -96,7 +88,6 @@ public class CadastrarAnuncioFragment extends Fragment
     private ArrayAdapter<String> adapterEstados, adapterPortes;
     private boolean editando = false;
     private String idEditando;
-    private InterstitialAd mInterstitialAd;
 
     //Permissoes
     private String[] permissoes = new String[]{
@@ -190,9 +181,6 @@ public class CadastrarAnuncioFragment extends Fragment
                 validarDadosAnuncio();
             }
         });
-
-        //propagandas
-        configuraAdMob();
     }
 
     private void preencheCampos(Animal anuncio) {
@@ -510,10 +498,7 @@ public class CadastrarAnuncioFragment extends Fragment
 
             stream.close();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-
             e.printStackTrace();
         }
         return byteArray;
@@ -790,81 +775,6 @@ public class CadastrarAnuncioFragment extends Fragment
             if (imm != null) {
                 imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * método que configura as propagandas via AdMob
-     */
-    private void configuraAdMob() {
-
-        //admob
-        //MobileAds.initialize(this, String.valueOf(R.string.app_id));
-        //teste do google
-        //MobileAds.initialize(getContext(), getString(R.string.admob_app_id));
-
-        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-                Log.d("INFO22", "MobileAds inicializado em cad");
-            }
-        });
-
-        //AdView
-        try {
-            InterstitialAd mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getContext()));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial2_id));
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    Log.d("INFO22", "cad int loaded");
-                    super.onAdLoaded();
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    Log.d("INFO22", "cad int failed: " + errorCode);
-                }
-
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    Log.d("INFO22", "cad int closed");
-                    prepareInterstitialAd();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void mostraInterstitialAd() {
-        try {
-            if (mInterstitialAd == null) {
-                prepareInterstitialAd();
-            } else {
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                    Log.d("INFO22", "cad int exibida");
-                    prepareInterstitialAd();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void prepareInterstitialAd() {
-
-        try {
-            InterstitialAd mInterstitialAd = new InterstitialAd(Objects.requireNonNull(getContext()));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial2_id));
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-            Log.d("INFO22", "cad prepareIntersticial");
         } catch (Exception e) {
             e.printStackTrace();
         }

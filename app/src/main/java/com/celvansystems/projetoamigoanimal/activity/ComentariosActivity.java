@@ -1,6 +1,7 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.adapter.AdapterComentarios;
@@ -63,6 +65,7 @@ public class ComentariosActivity extends AppCompatActivity {
             layout = findViewById(R.id.constraint_comentarios);
 
             recyclercomentarios = findViewById(R.id.recyclerComentarios);
+            ImageView imvInfoComentarios = findViewById(R.id.imv_info_comentarios);
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
             recyclercomentarios.setLayoutManager(mLayoutManager);
@@ -72,6 +75,14 @@ public class ComentariosActivity extends AppCompatActivity {
 
             if (anuncioSelecionado != null) {
 
+                imvInfoComentarios.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent detalhesIntent = new Intent(ComentariosActivity.this, DetalhesAnimalActivity.class);
+                        detalhesIntent.putExtra("anuncioSelecionado", anuncioSelecionado);
+                        startActivity(detalhesIntent);
+                    }
+                });
                 //comentarios
                 List<Comentario> listaComentarios = anuncioSelecionado.getListaComentarios();
                 edtComentario = findViewById(R.id.editTextComentarAnuncio);
@@ -79,6 +90,7 @@ public class ComentariosActivity extends AppCompatActivity {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     imbComentario.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+                    imvInfoComentarios.setImageTintList(getResources().getColorStateList(R.color.colorAccent));
                 }
 
                 imbComentario.setOnClickListener(new View.OnClickListener() {
@@ -254,29 +266,30 @@ public class ComentariosActivity extends AppCompatActivity {
         //AdView
         try {
             //banner teste
-            final AdRequest adRequest = new AdRequest.Builder()
+            /*final AdRequest adRequest = new AdRequest.Builder()
                     //.addTestDevice(getString(R.string.testeDeviceId))
-                    .build();
+                    .build();*/
 
-            AdView adView = findViewById(R.id.banner_comentarios);
-            //final AdRequest adRequest = new AdRequest.Builder().build();
+            final AdView adView = findViewById(R.id.banner_comentarios);
+            final AdRequest adRequest = new AdRequest.Builder().build();
             //adView.setAdUnitId(getString(R.string.admob_banner2_id));
             adView.loadAd(adRequest);
 
             adView.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
-                    Log.d("INFO22", "com loaded");
+                    Log.d("INFO22", "ban com loaded");
                 }
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    Log.d("INFO22", "com failed: " + errorCode);
+                    Log.d("INFO22", "ban com failed: " + errorCode);
                 }
 
                 @Override
                 public void onAdClosed() {
-                    Log.d("INFO22", "com closed");
+                    adView.loadAd(adRequest);
+                    Log.d("INFO22", "ban com closed");
                 }
             });
         } catch (Exception e) {

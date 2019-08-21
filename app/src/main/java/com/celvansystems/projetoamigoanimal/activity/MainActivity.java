@@ -9,8 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.FragmentManager;
@@ -339,25 +337,12 @@ public class MainActivity extends AppCompatActivity
             if (id == R.id.nav_minha_conta) {
 
                 fragmentTransaction.replace(R.id.view_pager, new PerfilUsuarioFragment()).addToBackStack("tag").commit();
-            }
-        /*else if (id == R.id.nav_config_notificacoes) {
-
-            fragmentTransaction.replace(R.id.view_pager, new NotificacoesFragment()).addToBackStack("tag").commit();
-
-            //    setContentView(R.layout.content_notificacoes);
-            Toast.makeText(getApplicationContext(),
-                    "implementar content configuração de notificação na activity dentro da pasta fragment",
-                    Toast.LENGTH_SHORT).show();
-
-        } */
-            else if (id == R.id.nav_meus_anuncios) {
+            } else if (id == R.id.nav_meus_anuncios) {
 
                 //reuso da activit meus anuncios
                 fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack("tag").commit();
-                mostraInterstitialAd();
 
             } else if (id == R.id.pet_cad) {
-                mostraInterstitialAd();
                 // fragment pet_cad cadastrar anuncio
                 fragmentTransaction.replace(R.id.view_pager, new CadastrarAnuncioFragment()).addToBackStack("tag").commit();
             } else if (id == R.id.pet_adote) {
@@ -447,25 +432,20 @@ public class MainActivity extends AppCompatActivity
         try {
 
             //admob
-            //MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
-            MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+            /*MobileAds.initialize(this, new OnInitializationCompleteListener() {
                 @Override
                 public void onInitializationComplete(InitializationStatus initializationStatus) {
                     Log.d("INFO22", "MobileAds inicializado em main");
                 }
-            });
+            });*/
             //teste Interstitial
             mInterstitialAd = new InterstitialAd(this);
-            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
             mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial1_id));
 
             AdRequest.Builder adRequistBuilder = new AdRequest.Builder();
             AdRequest adIRequest = adRequistBuilder.build();
             mInterstitialAd.loadAd(adIRequest);
-
-            /*if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-            }*/
 
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
@@ -483,7 +463,6 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onAdClosed() {
                     super.onAdClosed();
-
                     Log.d("INFO22", "main int closed");
                     prepareInterstitialAd();
                 }
@@ -493,7 +472,7 @@ public class MainActivity extends AppCompatActivity
 
             //banner
             adView = findViewById(R.id.banner_main);
-            AdRequest adRequest = new AdRequest.Builder().build();
+            final AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
 
             adView.setAdListener(new AdListener() {
@@ -510,7 +489,7 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onAdClosed() {
                     Log.d("INFO22", "main ban closed");
-                    //adView.loadAd(adRequest);
+                    adView.loadAd(adRequest);
                 }
             });
         } catch (Exception e) {
@@ -534,12 +513,12 @@ public class MainActivity extends AppCompatActivity
 
     private void mostraInterstitialAd() {
         try {
-            if (mInterstitialAd == null) {
-                prepareInterstitialAd();
-            }
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-                Log.d("INFO22", "main int exibida");
+            if (mInterstitialAd != null) {
+
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                    Log.d("INFO22", "main int exibida");
+                }
             }
             prepareInterstitialAd();
 

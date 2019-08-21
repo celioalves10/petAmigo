@@ -3,7 +3,6 @@ package com.celvansystems.projetoamigoanimal.adapter;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -23,13 +22,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
 import com.celvansystems.projetoamigoanimal.activity.DetalhesAnimalActivity;
-import com.celvansystems.projetoamigoanimal.activity.MainActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
@@ -41,9 +38,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
@@ -230,18 +224,13 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 //PhotoViewAttacher mAttacher =  new PhotoViewAttacher(myViewHolder.foto);
                 //mAttacher.update();
                 // ação de clique na foto do anuncio
-                myViewHolder.foto.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                myViewHolder.foto.setOnClickListener(v -> {
+                    mostraInterstitialAd();
 
-                        mostraInterstitialAd();
-                        Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
-                        detalhesIntent.putExtra("anuncioSelecionado", anuncio);
-                        v.getContext().startActivity(detalhesIntent);
-                    }
+                    Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
+                    detalhesIntent.putExtra("anuncioSelecionado", anuncio);
+                    v.getContext().startActivity(detalhesIntent);
                 });
-
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -282,156 +271,118 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
     private void configuraAcoes(final MyViewHolder myViewHolder, final Animal anuncio) {
 
         //acao de clique no botao curtir anuncio
-        myViewHolder.imvCurtirAnuncio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                curtirAnuncio(myViewHolder,
-                        anuncio, myViewHolder.imvCurtirAnuncio);
-            }
-        });
+        myViewHolder.imvCurtirAnuncio.setOnClickListener(v -> curtirAnuncio(myViewHolder,
+                anuncio, myViewHolder.imvCurtirAnuncio));
 
         //acao de clique no botao detalhes
-        myViewHolder.imvDetalhes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
-                detalhesIntent.putExtra("anuncioSelecionado", anuncio);
-                v.getContext().startActivity(detalhesIntent);
-            }
+        myViewHolder.imvDetalhes.setOnClickListener(v -> {
+            Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
+            detalhesIntent.putExtra("anuncioSelecionado", anuncio);
+            v.getContext().startActivity(detalhesIntent);
         });
 
-        myViewHolder.imvComentarAnuncio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ConfiguracaoFirebase.isUsuarioLogado()) {
-                    Intent comentariosIntent = new Intent(v.getContext(), ComentariosActivity.class);
-                    comentariosIntent.putExtra("anuncioSelecionado", anuncio);
-                    v.getContext().startActivity(comentariosIntent);
+        myViewHolder.imvComentarAnuncio.setOnClickListener(v -> {
+            if (ConfiguracaoFirebase.isUsuarioLogado()) {
+                Intent comentariosIntent = new Intent(v.getContext(), ComentariosActivity.class);
+                comentariosIntent.putExtra("anuncioSelecionado", anuncio);
+                v.getContext().startActivity(comentariosIntent);
 
-                } else {
-                    Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
-                }
+            } else {
+                Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
             }
         });
 
         //acao de clique no botao comentar anuncio
-        myViewHolder.imbComentarAnuncio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ConfiguracaoFirebase.isUsuarioLogado()) {
-                    comentarAnuncio(myViewHolder,
-                            anuncio);
-                } else {
-                    Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
-                }
+        myViewHolder.imbComentarAnuncio.setOnClickListener(v -> {
+            if (ConfiguracaoFirebase.isUsuarioLogado()) {
+                comentarAnuncio(myViewHolder,
+                        anuncio);
+            } else {
+                Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
             }
         });
 
         //acao de clique no botao compartilhar anuncio
-        myViewHolder.imvCompartilharAnuncio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        myViewHolder.imvCompartilharAnuncio.setOnClickListener(v -> compartilharAnuncio(myViewHolder, anuncio));
 
-                compartilharAnuncio(myViewHolder, anuncio);
+        myViewHolder.textViewTodosComentarios.setOnClickListener(v -> {
+
+            if (ConfiguracaoFirebase.isUsuarioLogado()) {
+                Intent comentariosIntent = new Intent(v.getContext(), ComentariosActivity.class);
+                comentariosIntent.putExtra("anuncioSelecionado", anuncio);
+                v.getContext().startActivity(comentariosIntent);
+            } else {
+                Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
             }
         });
 
-        myViewHolder.textViewTodosComentarios.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        myViewHolder.imvMaisOpcoesAnuncios.setOnClickListener(v -> {
 
-                if (ConfiguracaoFirebase.isUsuarioLogado()) {
-                    Intent comentariosIntent = new Intent(v.getContext(), ComentariosActivity.class);
-                    comentariosIntent.putExtra("anuncioSelecionado", anuncio);
-                    v.getContext().startActivity(comentariosIntent);
-                } else {
-                    Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
-                }
+            final Context ctx = myViewHolder.itemView.getContext();
+
+            List<String> opcoesLista = new ArrayList<>();
+
+            if (ConfiguracaoFirebase.isUsuarioLogado()) {
+                opcoesLista.add(ctx.getString(R.string.curtir));
+                opcoesLista.add(ctx.getString(R.string.compartilhar));
+                opcoesLista.add(ctx.getString(R.string.comentar));
+                opcoesLista.add(ctx.getString(R.string.adotar));
+                opcoesLista.add(ctx.getString(R.string.denunciar));
             }
-        });
 
-        myViewHolder.imvMaisOpcoesAnuncios.setOnClickListener(new View.OnClickListener() {
+            final String[] opcoes = new String[opcoesLista.size()];
 
+            for (int i = 0; i < opcoesLista.size(); i++) {
+                opcoes[i] = opcoesLista.get(i);
+            }
 
-            @Override
-            public void onClick(final View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolder.imvMaisOpcoesAnuncios.getContext());
 
-                final Context ctx = myViewHolder.itemView.getContext();
+            builder.setItems(opcoes, (dialog, which) -> {
 
-                List<String> opcoesLista = new ArrayList<>();
+                if (ctx.getString(R.string.curtir).equalsIgnoreCase(opcoes[which])) {
 
-                if (ConfiguracaoFirebase.isUsuarioLogado()) {
-                    opcoesLista.add(ctx.getString(R.string.curtir));
-                    opcoesLista.add(ctx.getString(R.string.compartilhar));
-                    opcoesLista.add(ctx.getString(R.string.comentar));
-                    opcoesLista.add(ctx.getString(R.string.adotar));
-                    opcoesLista.add(ctx.getString(R.string.denunciar));
-                }
+                    if (ConfiguracaoFirebase.isUsuarioLogado()) {
+                        curtirAnuncio(myViewHolder,
+                                anuncio, myViewHolder.imvCurtirAnuncio);
+                    } else {
+                        Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
+                    }
+                } else if (ctx.getString(R.string.compartilhar).equalsIgnoreCase(opcoes[which])) {
 
-                final String[] opcoes = new String[opcoesLista.size()];
+                    compartilharAnuncio(myViewHolder, anuncio);
 
-                for (int i = 0; i < opcoesLista.size(); i++) {
-                    opcoes[i] = opcoesLista.get(i);
-                }
+                } else if (ctx.getString(R.string.comentar).equalsIgnoreCase(opcoes[which])) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolder.imvMaisOpcoesAnuncios.getContext());
-
-                builder.setItems(opcoes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        if (ctx.getString(R.string.curtir).equalsIgnoreCase(opcoes[which])) {
-
-                            if (ConfiguracaoFirebase.isUsuarioLogado()) {
-                                curtirAnuncio(myViewHolder,
-                                        anuncio, myViewHolder.imvCurtirAnuncio);
-                            } else {
-                                Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
-                            }
-                        } else if (ctx.getString(R.string.compartilhar).equalsIgnoreCase(opcoes[which])) {
-
-                            compartilharAnuncio(myViewHolder, anuncio);
-
-                        } else if (ctx.getString(R.string.comentar).equalsIgnoreCase(opcoes[which])) {
-
-                            if (ConfiguracaoFirebase.isUsuarioLogado()) {
-                                Intent detalhesIntent = new Intent(v.getContext(), ComentariosActivity.class);
-                                detalhesIntent.putExtra("anuncioSelecionado", anuncio);
-                                v.getContext().startActivity(detalhesIntent);
-                            } else {
-                                Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
-                            }
-
-                        } else if (ctx.getString(R.string.adotar).equalsIgnoreCase(opcoes[which])) {
-
-                            Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
-                            detalhesIntent.putExtra("anuncioSelecionado", anuncio);
-                            v.getContext().startActivity(detalhesIntent);
-
-                        } else if (ctx.getString(R.string.denunciar).equalsIgnoreCase(opcoes[which])) {
-                            if (ConfiguracaoFirebase.isUsuarioLogado()) {
-                                new AlertDialog.Builder(myViewHolder.itemView.getContext())
-                                        .setMessage(ctx.getText(R.string.tem_certeza_denunciar_anuncio))
-                                        .setCancelable(false)
-                                        .setPositiveButton(ctx.getText(R.string.sim), new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-
-                                                denunciarAnuncio(myViewHolder,
-                                                        anuncio);
-                                            }
-                                        })
-                                        .setNegativeButton(ctx.getText(R.string.nao), null)
-                                        .show();
-                            } else {
-                                Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
-                            }
-                        }
+                    if (ConfiguracaoFirebase.isUsuarioLogado()) {
+                        Intent detalhesIntent = new Intent(v.getContext(), ComentariosActivity.class);
+                        detalhesIntent.putExtra("anuncioSelecionado", anuncio);
+                        v.getContext().startActivity(detalhesIntent);
+                    } else {
+                        Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
                     }
 
-                });
-                builder.show();
-            }
+                } else if (ctx.getString(R.string.adotar).equalsIgnoreCase(opcoes[which])) {
+
+                    Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
+                    detalhesIntent.putExtra("anuncioSelecionado", anuncio);
+                    v.getContext().startActivity(detalhesIntent);
+
+                } else if (ctx.getString(R.string.denunciar).equalsIgnoreCase(opcoes[which])) {
+                    if (ConfiguracaoFirebase.isUsuarioLogado()) {
+                        new AlertDialog.Builder(myViewHolder.itemView.getContext())
+                                .setMessage(ctx.getText(R.string.tem_certeza_denunciar_anuncio))
+                                .setCancelable(false)
+                                .setPositiveButton(ctx.getText(R.string.sim), (dialog1, id) -> denunciarAnuncio(myViewHolder,
+                                        anuncio))
+                                .setNegativeButton(ctx.getText(R.string.nao), null)
+                                .show();
+                    } else {
+                        Util.setSnackBar(myViewHolder.layout, myViewHolder.itemView.getContext().getString(R.string.usuario_nao_logado));
+                    }
+                }
+            });
+            builder.show();
         });
     }
 
@@ -473,16 +424,13 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                             .child("denuncias")
                             .setValue(listaDenuncias);
 
-                    anuncioDenunciasRef.addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                    anuncioDenunciasRef.addOnCompleteListener(task -> {
 
-                            //envia email sobre denuncia do anuncio
-                            if (anuncio.getDenuncias().size() >= Constantes.MAX_DENUNCIAS) {
-                                anuncio.remover();
-                            }
-                            Util.setSnackBar(((MyViewHolder) myViewHolder).layout, ctx.getString(R.string.anuncio_denunciado));
+                        //envia email sobre denuncia do anuncio
+                        if (anuncio.getDenuncias().size() >= Constantes.MAX_DENUNCIAS) {
+                            anuncio.remover();
                         }
+                        Util.setSnackBar(((MyViewHolder) myViewHolder).layout, ctx.getString(R.string.anuncio_denunciado));
                     });
                 }
             }
@@ -548,13 +496,10 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                                         Comentario coment = new Comentario(usuario, texto, Util.getDataAtualBrasil());
 
                                         comentarioRef.push().setValue(coment)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                .addOnCompleteListener(task -> {
 
-                                                        Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.comentario_inserido));
-                                                        myViewHolder.edtComentar.setText(null);
-                                                    }
+                                                    Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.comentario_inserido));
+                                                    myViewHolder.edtComentar.setText(null);
                                                 });
                                     } else {
                                         Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.comentario_invalido));
@@ -665,12 +610,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
                     imageView.setImageResource(R.drawable.ic_coracao_vermelho_24dp);
 
-                    anuncioCurtidasRef.addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            atualizaCurtidas(anuncio, (MyViewHolder) myViewHolder);
-                        }
-                    });
+                    anuncioCurtidasRef.addOnCompleteListener(task -> atualizaCurtidas(anuncio, (MyViewHolder) myViewHolder));
                 }
             }
         } else {
@@ -760,31 +700,16 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
             //admob
             //MobileAds.initialize(intContext, intContext.getString(R.string.admob_app_id));
-            MobileAds.initialize(intContext, new OnInitializationCompleteListener() {
-                @Override
-                public void onInitializationComplete(InitializationStatus initializationStatus) {
-                    Log.d("INFO22", "MobileAds inicializado em adapter anuncios");
-                }
-            });
+            MobileAds.initialize(intContext, initializationStatus -> Log.d("INFO22", "MobileAds inicializado em adapter anuncios"));
             //teste Interstitial
-            mInterstitialAd = new InterstitialAd(intContext);
-            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
-            mInterstitialAd.setAdUnitId(intContext.getString(R.string.admob_interstitial3_id));
 
-            AdRequest.Builder adRequistBuilder = new AdRequest.Builder();
-            AdRequest adIRequest = adRequistBuilder.build();
-            mInterstitialAd.loadAd(adIRequest);
-
-            /*if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-            }*/
+            prepareInterstitialAd();
 
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
                     Log.d("INFO22", "det int loaded");
                     super.onAdLoaded();
-                    //mostraInterstitialAd();
                 }
 
                 @Override
@@ -795,17 +720,14 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 @Override
                 public void onAdClosed() {
                     super.onAdClosed();
-
                     Log.d("INFO22", "det int closed");
                     prepareInterstitialAd();
                 }
             });
 
-            prepareInterstitialAd();
-
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("INFO22", "det  exception " + e.getMessage());
+            Log.d("INFO22", "det  int exception " + e.getMessage());
         }
     }
 
@@ -813,7 +735,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
         try {
             mInterstitialAd = new InterstitialAd(intContext);
-            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
             mInterstitialAd.setAdUnitId(intContext.getString(R.string.admob_interstitial3_id));
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
         } catch (Exception e) {
@@ -824,12 +745,11 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
     private void mostraInterstitialAd() {
         try {
-            if (mInterstitialAd == null) {
-                prepareInterstitialAd();
-            }
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-                Log.d("INFO22", "det int exibida");
+            if (mInterstitialAd != null) {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                    Log.d("INFO22", "det int exibida");
+                }
             }
             prepareInterstitialAd();
 
