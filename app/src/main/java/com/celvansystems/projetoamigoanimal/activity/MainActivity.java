@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
+import com.google.ads.mediation.inmobi.InMobiConsent;
+import com.google.android.ads.mediationtestsuite.MediationTestSuite;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.FragmentManager;
@@ -49,7 +51,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.inmobi.sdk.InMobiSdk;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -81,6 +87,18 @@ public class MainActivity extends AppCompatActivity
 
         //Propagandas
         configuraAdMob();
+        //MediationTestSuite.launch(MainActivity.this);
+        //MediationTestSuite.addTestDevice("33BE2250B43518CCDA7DE426D04EE231");
+
+        JSONObject consentObject = new JSONObject();
+        try {
+            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, true);
+            consentObject.put("gdpr", "1");
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+
+        InMobiConsent.updateGDPRConsent(consentObject);
     }
 
     public static void reconfiguraNotificacoes(Context ctx) {

@@ -221,8 +221,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
                 Picasso.get().load(urlCapa).into(myViewHolder.foto);
 
-                //PhotoViewAttacher mAttacher =  new PhotoViewAttacher(myViewHolder.foto);
-                //mAttacher.update();
                 // ação de clique na foto do anuncio
                 myViewHolder.foto.setOnClickListener(v -> {
                     mostraInterstitialAd();

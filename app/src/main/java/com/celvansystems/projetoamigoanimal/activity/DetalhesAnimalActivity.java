@@ -83,8 +83,11 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                     Picasso.get().load(urlString).into(imageView);
                 }
             };
-            carouselView.setPageCount(anuncioSelecionado.getFotos().size());
+            if(anuncioSelecionado.getFotos()!= null) {
+                carouselView.setPageCount(anuncioSelecionado.getFotos().size());
+            }
             carouselView.setImageListener(imageListener);
+
 
             //características do animal
             textNome.setText(anuncioSelecionado.getNome());

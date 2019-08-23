@@ -7,8 +7,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 39
-        versionName "2.39.526"
+        versionCode 40
+        versionName "2.40.527"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -50,10 +50,19 @@ configurations.all {
 dependencies {
 
     //admob
-    implementation 'com.google.android.gms:play-services-ads:17.2.0'
+    implementation 'com.google.android.gms:play-services-ads:18.1.1'
     implementation 'com.google.android.gms:play-services-measurement:17.1.0'
     implementation 'com.google.android.gms:play-services-measurement-sdk:17.1.0'
     implementation 'com.google.android.gms:play-services-measurement-api:17.1.0'
+    implementation 'com.android.support:support-annotations:28.0.0' // Required Dependency by Audience Network SDK
+    implementation 'com.google.ads.mediation:facebook:5.4.1.1' // facebook mediation
+    implementation 'com.google.android.ads:mediation-test-suite:1.1.1'
+
+    //inMob
+    implementation 'com.google.ads.mediation:inmobi:7.2.9.0'
+    implementation 'com.google.android.gms:play-services-basement:17.1.0'
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
@@ -107,7 +116,6 @@ dependencies {
 
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'
-
 
 }
 apply plugin: 'com.google.gms.google-services'

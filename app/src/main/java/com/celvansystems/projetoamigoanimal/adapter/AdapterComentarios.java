@@ -120,8 +120,6 @@ public class AdapterComentarios extends RecyclerView.Adapter<AdapterComentarios.
         TextView ttvNomeUsuario;
         ImageView fotousuario;
 
-        //private View layout;
-
         MyViewHolder(View itemView) {
             super(itemView);
 
@@ -129,8 +127,6 @@ public class AdapterComentarios extends RecyclerView.Adapter<AdapterComentarios.
             ttvDataHora = itemView.findViewById(R.id.textView_dataHora);
             ttvNomeUsuario = itemView.findViewById(R.id.textView_nome_usuario);
             fotousuario = itemView.findViewById(R.id.imageView_foto_usuario_comentarios);
-
-            //layout = itemView.findViewById(R.id.constraint_comentarios);
         }
     }
 }

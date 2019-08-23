@@ -65,7 +65,32 @@ public class ComentariosActivity extends AppCompatActivity {
             layout = findViewById(R.id.constraint_comentarios);
 
             recyclercomentarios = findViewById(R.id.recyclerComentarios);
+
             ImageView imvInfoComentarios = findViewById(R.id.imv_info_comentarios);
+            imvInfoComentarios.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent detalhesIntent = new Intent(ComentariosActivity.this, DetalhesAnimalActivity.class);
+                    detalhesIntent.putExtra("anuncioSelecionado", anuncioSelecionado);
+                    startActivity(detalhesIntent);
+                }
+            });
+
+            ImageButton imbComentario = findViewById(R.id.imageButton_comentarAnuncio);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imbComentario.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
+                imvInfoComentarios.setImageTintList(getResources().getColorStateList(R.color.colorAccent));
+            }
+
+            imbComentario.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    comentarAnuncio(anuncioSelecionado);
+                    hideKeyboard(getApplicationContext(), edtComentario);
+                }
+            });
+
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
             recyclercomentarios.setLayoutManager(mLayoutManager);
@@ -74,32 +99,79 @@ public class ComentariosActivity extends AppCompatActivity {
             anuncioSelecionado = (Animal) getIntent().getSerializableExtra("anuncioSelecionado");
 
             if (anuncioSelecionado != null) {
+                String idAnimal = anuncioSelecionado.getIdAnimal();
+                final DatabaseReference anunciosRef = ConfiguracaoFirebase.getFirebase()
+                        .child("meus_animais");
+                final DatabaseReference fotosRef = anunciosRef.child(idAnimal).child("fotos");
 
-                imvInfoComentarios.setOnClickListener(new View.OnClickListener() {
+                ///////////////////////////////////
+
+                anunciosRef.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onClick(View view) {
-                        Intent detalhesIntent = new Intent(ComentariosActivity.this, DetalhesAnimalActivity.class);
-                        detalhesIntent.putExtra("anuncioSelecionado", anuncioSelecionado);
-                        startActivity(detalhesIntent);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (final DataSnapshot anuncios : dataSnapshot.getChildren()) {
+
+                            if (anuncios != null) {
+                                if (Objects.requireNonNull(anuncios.child("idAnimal").getValue()).toString().equalsIgnoreCase(idAnimal)) {
+
+                                    if (anuncios.child("especie").getValue() != null) {
+                                        anuncioSelecionado.setEspecie(Objects.requireNonNull(anuncios.child("especie").getValue()).toString());
+                                    }
+                                    if (anuncios.child("raca").getValue() != null) {
+                                        anuncioSelecionado.setRaca(Objects.requireNonNull(anuncios.child("raca").getValue()).toString());
+                                    }
+                                    if (anuncios.child("porte").getValue() != null) {
+                                        anuncioSelecionado.setPorte(Objects.requireNonNull(anuncios.child("porte").getValue()).toString());
+                                    }
+                                    if (anuncios.child("sexo").getValue() != null) {
+                                        anuncioSelecionado.setSexo(Objects.requireNonNull(anuncios.child("sexo").getValue()).toString());
+                                    }
+                                    if (anuncios.child("cidade").getValue() != null) {
+                                        anuncioSelecionado.setCidade(Objects.requireNonNull(anuncios.child("cidade").getValue()).toString());
+                                    }
+                                    if (anuncios.child("uf").getValue() != null) {
+                                        anuncioSelecionado.setUf(Objects.requireNonNull(anuncios.child("uf").getValue()).toString());
+                                    }
+                                    if (anuncios.child("idade").getValue() != null) {
+                                        anuncioSelecionado.setIdade(Objects.requireNonNull(anuncios.child("idade").getValue()).toString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
                     }
                 });
+                /////////////////////////////////
+                Log.d("INFO13", "id animal: " + idAnimal);
+
+                fotosRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        List<String> listaFotos = new ArrayList<>();
+
+                        for (final DataSnapshot fotos : dataSnapshot.getChildren()) {
+
+                            String foto = Objects.requireNonNull(fotos.getValue()).toString();
+                            listaFotos.add(foto);
+                            Log.d("INFO13", "foto: " + foto);
+                        }
+                        anuncioSelecionado.setFotos(listaFotos);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
                 //comentarios
                 List<Comentario> listaComentarios = anuncioSelecionado.getListaComentarios();
                 edtComentario = findViewById(R.id.editTextComentarAnuncio);
-                ImageButton imbComentario = findViewById(R.id.imageButton_comentarAnuncio);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    imbComentario.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
-                    imvInfoComentarios.setImageTintList(getResources().getColorStateList(R.color.colorAccent));
-                }
-
-                imbComentario.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        comentarAnuncio(anuncioSelecionado);
-                        hideKeyboard(getApplicationContext(), edtComentario);
-                    }
-                });
 
                 //configurar recyclerview
                 recyclercomentarios.setHasFixedSize(true);
@@ -107,6 +179,10 @@ public class ComentariosActivity extends AppCompatActivity {
                 recyclercomentarios.setAdapter(adapterComentarios);
 
                 updateRecycler(anuncioSelecionado);
+                Log.i("INFO13", "anuncioselecionado != null");
+            } else {
+                Log.i("INFO13", "anuncioselecionado == null");
+
             }
             configuraAdMob();
         } catch (Exception e) {
