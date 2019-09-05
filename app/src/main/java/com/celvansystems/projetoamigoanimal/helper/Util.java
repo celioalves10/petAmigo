@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Objects;
+import java.util.Random;
 
 public class Util {
 
@@ -27,16 +29,15 @@ public class Util {
         JSONObject obj;
         JSONArray jaEstados;
         String[] estados = new String[0];
+
         try {
-            obj = new JSONObject(loadJSONFromAsset(ctx));
+            obj = new JSONObject(Objects.requireNonNull(loadJSONFromAsset(ctx)));
             jaEstados = obj.getJSONArray("estados");
 
-            if (jaEstados != null) {
-                estados = new String[jaEstados.length()];
+            estados = new String[jaEstados.length()];
 
-                for (int i = 0; i < jaEstados.length(); i++) {
-                    estados[i] = jaEstados.getJSONObject(i).getString("sigla");
-                }
+            for (int i = 0; i < jaEstados.length(); i++) {
+                estados[i] = jaEstados.getJSONObject(i).getString("sigla");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,18 +104,15 @@ public class Util {
 
         String[] cidades = new String[0];
         try {
-            obj = new JSONObject(loadJSONFromAsset(ctx));
+            obj = new JSONObject(Objects.requireNonNull(loadJSONFromAsset(ctx)));
             jaEstados = obj.getJSONArray("estados");
 
-            if (jaEstados != null) {
+            for (int i = 0; i < jaEstados.length(); i++) {
+                String sigla = jaEstados.getJSONObject(i).getString("sigla");
 
-                for (int i = 0; i < jaEstados.length(); i++) {
-                    String sigla = jaEstados.getJSONObject(i).getString("sigla");
-
-                    if (sigla.equalsIgnoreCase(uf)) {
-                        array = jaEstados.getJSONObject(i).getJSONArray("cidades");
-                        break;
-                    }
+                if (sigla.equalsIgnoreCase(uf)) {
+                    array = jaEstados.getJSONObject(i).getJSONArray("cidades");
+                    break;
                 }
             }
 
@@ -203,5 +201,15 @@ public class Util {
                     .length() > 0 && !texto.isEmpty());
         }
         return retorno;
+    }
+
+    public static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
     }
 }

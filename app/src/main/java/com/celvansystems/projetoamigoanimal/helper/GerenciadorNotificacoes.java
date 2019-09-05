@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.os.Build;
@@ -25,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class GerenciadorNotificacoes {
@@ -200,52 +203,63 @@ public class GerenciadorNotificacoes {
     private void createNotificationMessage(final Context ctx, String Title, String Msg, final Animal anuncio) {
 
         try {
-            if (anuncio != null) {
-                int size = anuncio.getListaComentarios().size();
 
-                String comentarista = anuncio.getListaComentarios().get(size - 1).getUsuario().getId();
+            SharedPreferences prefs = ctx.getSharedPreferences("preferencias", MODE_PRIVATE);
+            boolean notificacoes = prefs.getBoolean("notificacoes", false);
 
-                if (!anuncio.getDonoAnuncio().equalsIgnoreCase(comentarista)) {
+            if(notificacoes) {
 
-                    int id = anuncio.getIdAnimal().hashCode();
+                if (anuncio != null) {
+                    int size = anuncio.getListaComentarios().size();
 
-                    Intent intent = new Intent(ctx, ComentariosActivity.class);
-                    intent.putExtra("anuncioSelecionado", anuncio);
+                    String comentarista = anuncio.getListaComentarios().get(size - 1).getUsuario().getId();
 
-                    PendingIntent contentIntent = PendingIntent.getActivity(ctx, id, intent, 0);
+                    if (!anuncio.getDonoAnuncio().equalsIgnoreCase(comentarista)) {
 
-                    Notification.Builder b = new Notification.Builder(ctx);
+                        int id = anuncio.getIdAnimal().hashCode();
 
-                    NotificationChannel mChannel = null;
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        b.setColor(ctx.getResources().getColor(R.color.colorPrimary));
+                        Intent intent = new Intent(ctx, ComentariosActivity.class);
+                        intent.putExtra("anuncioSelecionado", anuncio);
+
+                        PendingIntent contentIntent = PendingIntent.getActivity(ctx, id, intent, 0);
+
+                        Notification.Builder b = new Notification.Builder(ctx);
+
+                        NotificationChannel mChannel = null;
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            b.setColor(ctx.getResources().getColor(R.color.colorPrimary));
+                        }
+                        b.setAutoCancel(true)
+                                .setSmallIcon(R.mipmap.ic_launcher_novo_icon)
+                                .setContentTitle(Title)
+                                .setTicker(Title)
+                                .setContentText(Msg)
+                                .setContentIntent(contentIntent)
+                                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+                            mChannel = new NotificationChannel("cid", "name", NotificationManager.IMPORTANCE_HIGH);
+                            b.setChannelId("cid");
+                            mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), new AudioAttributes.Builder()
+                                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+
+                                    .build());
+                        }
+
+                        NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            if (notificationManager != null) {
+                                notificationManager.createNotificationChannel(mChannel);
+                            }
+                        }
+
+                        if (notificationManager != null) {
+                            notificationManager.notify(id, b.build());
+                        }
                     }
-                    b.setAutoCancel(true)
-                            .setSmallIcon(R.mipmap.ic_launcher_novo_icon)
-                            .setContentTitle(Title)
-                            .setTicker(Title)
-                            .setContentText(Msg)
-                            .setContentIntent(contentIntent)
-                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE));
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-                        mChannel = new NotificationChannel("cid", "name", NotificationManager.IMPORTANCE_HIGH);
-                        b.setChannelId("cid");
-                        mChannel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), new AudioAttributes.Builder()
-                                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-
-                                .build());
-                    }
-
-                    NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(NOTIFICATION_SERVICE);
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        notificationManager.createNotificationChannel(mChannel);
-                    }
-
-                    notificationManager.notify(id, b.build());
                 }
             }
         } catch (Exception e) {

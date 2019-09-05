@@ -39,6 +39,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.ironsource.mediationsdk.IronSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -348,7 +349,6 @@ public class ComentariosActivity extends AppCompatActivity {
 
             final AdView adView = findViewById(R.id.banner_comentarios);
             final AdRequest adRequest = new AdRequest.Builder().build();
-            //adView.setAdUnitId(getString(R.string.admob_banner2_id));
             adView.loadAd(adRequest);
 
             adView.setAdListener(new AdListener() {
@@ -359,6 +359,7 @@ public class ComentariosActivity extends AppCompatActivity {
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
+                    adView.loadAd(adRequest);
                     Log.d("INFO22", "ban com failed: " + errorCode);
                 }
 
@@ -397,5 +398,17 @@ public class ComentariosActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IronSource.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        IronSource.onPause(this);
     }
 }

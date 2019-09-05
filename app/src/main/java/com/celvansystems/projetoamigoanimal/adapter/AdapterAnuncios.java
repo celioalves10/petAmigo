@@ -624,7 +624,30 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
      */
     private void compartilharAnuncio(MyViewHolder myViewHolder, Animal anuncio) {
 
+
         try {
+            Context ctx = myViewHolder.itemView.getContext();
+            Drawable mDrawable = myViewHolder.foto.getDrawable();
+            Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
+
+            String path = MediaStore.Images.Media.insertImage(myViewHolder.itemView.getContext()
+                    .getContentResolver(), mBitmap, null, null);
+            Uri uri = Uri.parse(path);
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(Intent.EXTRA_TEXT, ctx.getString(R.string.instale_e_conheca) + " " + anuncio.getNome() + ctx.getString(R.string.disponivel_em) +
+                    " https://play.google.com/store/apps/details?id=" + Constantes.APPLICATION_ID + "\n\n");
+            intent.putExtra(Intent.EXTRA_SUBJECT, ctx.getString(R.string.nome_app));
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            intent.setType("image/*");
+            myViewHolder.itemView.getContext().startActivity(Intent.createChooser(intent, ctx.getString(R.string.compartilhando_imagem)));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*try {
             Context ctx = myViewHolder.itemView.getContext();
             Drawable mDrawable = myViewHolder.foto.getDrawable();
             Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
@@ -642,7 +665,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /**

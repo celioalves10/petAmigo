@@ -30,6 +30,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.ironsource.mediationsdk.IronSource;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -195,6 +196,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
+                    adView.loadAd(adRequest);
                     Log.d("INFO22", "det ban failed: " + errorCode);
                 }
 
@@ -280,5 +282,17 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IronSource.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        IronSource.onPause(this);
     }
 }

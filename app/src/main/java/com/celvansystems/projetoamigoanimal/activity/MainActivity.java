@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
 import com.google.ads.mediation.inmobi.InMobiConsent;
-import com.google.android.ads.mediationtestsuite.MediationTestSuite;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.FragmentManager;
@@ -52,11 +51,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.inmobi.sdk.InMobiSdk;
+import com.ironsource.mediationsdk.IronSource;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity
     private AdView adView;
     private ImageView imageViewPerfil;
     private View headerView;
+    private TextView txvUsuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity
 
         InMobiConsent.updateGDPRConsent(consentObject);
     }
+
 
     public static void reconfiguraNotificacoes(Context ctx) {
         try {
@@ -148,6 +151,8 @@ public class MainActivity extends AppCompatActivity
                     this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.addDrawerListener(toggle);
             toggle.syncState();
+
+            txvUsuarios = findViewById(R.id.txvUsuarios);
 
             navigationView = findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
@@ -269,13 +274,10 @@ public class MainActivity extends AppCompatActivity
 
             } else {
                 nav_minha_conta.setTitle(R.string.txt_entrar);
-                nav_minha_conta.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        finish();
-                        return true;
-                    }
+                nav_minha_conta.setOnMenuItemClickListener(item -> {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                    return true;
                 });
                 //nav_config_notificacoes.setEnabled(false);
                 nav_meus_anuncios.setEnabled(false);
@@ -311,6 +313,7 @@ public class MainActivity extends AppCompatActivity
                 adView.pause();
             }
             super.onPause();
+            IronSource.onPause(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -319,6 +322,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         try {
+            IronSource.onResume(this);
             super.onResume();
             if (adView != null) {
                 adView.resume();
@@ -327,7 +331,27 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        preencheQuantidadeUsuarios();
     }
+
+    private void preencheQuantidadeUsuarios() {
+
+        Calendar rightNow = Calendar.getInstance();
+        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
+        int usuarios;
+
+        if (hour < 8 || hour > 22) {
+            usuarios = Util.getRandomNumberInRange(50, 99);
+        } else if (hour < 18){
+            usuarios = Util.getRandomNumberInRange(200, 300);
+        } else if (hour < 21){
+            usuarios = Util.getRandomNumberInRange(250, 360);
+        } else {
+            usuarios = Util.getRandomNumberInRange(150, 250);
+        }
+
+        txvUsuarios.setText(String.valueOf(usuarios));}
 
     @Override
     protected void onDestroy() {
@@ -474,6 +498,7 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
                     Log.d("INFO22", "main int failed: " + errorCode);
                     prepareInterstitialAd();
                 }
@@ -501,6 +526,7 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
+                    adView.loadAd(adRequest);
                     Log.d("INFO22", "main ban failed: " + errorCode);
                 }
 

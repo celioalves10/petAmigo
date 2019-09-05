@@ -2,13 +2,16 @@ package com.celvansystems.projetoamigoanimal.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class PerfilUsuarioFragment extends Fragment {
 
     private View viewFragment;
@@ -45,6 +50,7 @@ public class PerfilUsuarioFragment extends Fragment {
     private TextView txvEstado;
     //private TextView txvPais;
     private TextView txvTelefone;
+    private Switch swtNotificacoes;
     //private TextView txvSexo;
     //private TextView txvResumo;
     //private TextView txvPerfilHumano;
@@ -76,6 +82,25 @@ public class PerfilUsuarioFragment extends Fragment {
         txvEstado = viewFragment.findViewById(R.id.textView_estado);
         //txvPais = viewFragment.findViewById(R.id.textView_pais);
         txvTelefone = viewFragment.findViewById(R.id.textView_telefone);
+        swtNotificacoes = viewFragment.findViewById(R.id.swt_notificacoes_perfil);
+
+
+
+        SharedPreferences.Editor editor = viewFragment.getContext().getSharedPreferences("preferencias", MODE_PRIVATE).edit();
+
+        swtNotificacoes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    editor.putBoolean("notificacoes", true);
+                    editor.apply();
+                } else {
+                    editor.putBoolean("notificacoes", false);
+                    editor.apply();
+                }
+            }
+        });
+
+
         //txvSexo = viewFragment.findViewById(R.id.textView_sexo);
         //txvResumo = viewFragment.findViewById(R.id.textView_resumo);
         //txvResumo.setVisibility(View.INVISIBLE);
@@ -131,6 +156,19 @@ public class PerfilUsuarioFragment extends Fragment {
         });
 
         carregarDados();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences prefs = viewFragment.getContext().getSharedPreferences("preferencias", MODE_PRIVATE);
+        boolean notificacoes = prefs.getBoolean("notificacoes", false);
+
+        if(notificacoes) {
+            swtNotificacoes.setChecked(true);
+        } else {
+            swtNotificacoes.setChecked(false);
+        }
     }
 
     private void carregarDados() {
