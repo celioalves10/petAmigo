@@ -26,12 +26,6 @@ import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.celvansystems.projetoamigoanimal.model.Comentario;
 import com.celvansystems.projetoamigoanimal.model.Usuario;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.UserInfo;
@@ -185,7 +179,6 @@ public class ComentariosActivity extends AppCompatActivity {
                 Log.i("INFO13", "anuncioselecionado == null");
 
             }
-            configuraAdMob();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -327,52 +320,7 @@ public class ComentariosActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * método que configura as propagandas via AdMob
-     */
-    private void configuraAdMob() {
 
-        //admob
-        //MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-                Log.d("INFO22", "MobileAds inicializado em comentarios");
-            }
-        });
-        //AdView
-        try {
-            //banner teste
-            /*final AdRequest adRequest = new AdRequest.Builder()
-                    //.addTestDevice(getString(R.string.testeDeviceId))
-                    .build();*/
-
-            final AdView adView = findViewById(R.id.banner_comentarios);
-            final AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    Log.d("INFO22", "ban com loaded");
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    adView.loadAd(adRequest);
-                    Log.d("INFO22", "ban com failed: " + errorCode);
-                }
-
-                @Override
-                public void onAdClosed() {
-                    adView.loadAd(adRequest);
-                    Log.d("INFO22", "ban com closed");
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void hideKeyboard(Context context, View editText) {
         try {

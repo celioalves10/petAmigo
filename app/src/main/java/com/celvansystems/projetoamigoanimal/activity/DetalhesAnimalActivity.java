@@ -8,24 +8,22 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.applovin.adview.AppLovinInterstitialAd;
+import com.applovin.adview.AppLovinInterstitialAdDialog;
+import com.applovin.sdk.AppLovinAd;
+import com.applovin.sdk.AppLovinAdLoadListener;
+import com.applovin.sdk.AppLovinAdSize;
+import com.applovin.sdk.AppLovinSdk;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +39,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
     private View layout;
     private Animal anuncioSelecionado;
-    private InterstitialAd mInterstitialAd;
+    private AppLovinAd loadedAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +123,6 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                                     btnVerTelefone.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            mostraInterstitialAd();
 
                                             if (usuarios.child("telefone").getValue() != null) {
 
@@ -151,8 +148,32 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                 }
             });
         }
+        configuraAppLovinIntersticial();
+    }
 
-        configuraAdMob();
+    public void configuraAppLovinIntersticial() {
+        AppLovinSdk.initializeSdk(this);
+        // Load an Interstitial Ad
+        AppLovinSdk.getInstance(this).getAdService().loadNextAd(AppLovinAdSize.INTERSTITIAL, new AppLovinAdLoadListener() {
+            @Override
+            public void adReceived(AppLovinAd ad) {
+                loadedAd = ad;
+            }
+
+            @Override
+            public void failedToReceiveAd(int errorCode) {
+                // Look at AppLovinErrorCodes.java for list of error codes.
+            }
+        });
+    }
+
+    public void mostraAppLovinIntersticial() {
+        AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
+        // Optional: Assign listeners
+        //interstitialAd.setAdDisplayListener( ... );
+        //interstitialAd.setAdClickListener( ... );
+        //interstitialAd.setAdVideoPlaybackListener( ... );
+        interstitialAd.showAndRender(loadedAd);
     }
 
     private void configuraNavBar() {
@@ -167,117 +188,18 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * método que configura as propagandas via AdMob
-     */
-    private void configuraAdMob() {
 
-        //admob
-        //MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-                Log.d("INFO22", "MobileAds inicializado em det");
-            }
-        });
-
-        //AdView
-        try {
-
-            final AdRequest adRequest = new AdRequest.Builder().build();
-            final AdView adView = findViewById(R.id.banner_detalhes_animal);
-            adView.loadAd(adRequest);
-
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    Log.d("INFO22", "det ban loaded");
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    adView.loadAd(adRequest);
-                    Log.d("INFO22", "det ban failed: " + errorCode);
-                }
-
-                @Override
-                public void onAdClosed() {
-                    adView.loadAd(adRequest);
-                    Log.d("INFO22", "det ban closed");
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("INFO22", "det ban exception " + e.getMessage());
-        }
-
-        //AdView
-        try {
-
-            mInterstitialAd = new InterstitialAd(Objects.requireNonNull(this));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    Log.d("INFO22", "det int loaded");
-                    super.onAdLoaded();
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    Log.d("INFO22", "det int failed: " + errorCode);
-                }
-
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    Log.d("INFO22", "det int closed");
-                    prepareInterstitialAd();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void prepareInterstitialAd() {
-
-        try {
-            mInterstitialAd = new InterstitialAd(DetalhesAnimalActivity.this);
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void mostraInterstitialAd() {
-        try {
-            if (mInterstitialAd != null) {
-
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                    Log.d("INFO22", "det int exibida");
-                }
-            }
-            prepareInterstitialAd();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mostraInterstitialAd();
+        mostraAppLovinIntersticial();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            mostraAppLovinIntersticial();
             finish();
             return true;
         }

@@ -8,6 +8,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.applovin.adview.AppLovinAdView;
+import com.applovin.adview.AppLovinInterstitialAd;
+import com.applovin.adview.AppLovinInterstitialAdDialog;
+import com.applovin.sdk.AppLovinAd;
+import com.applovin.sdk.AppLovinAdLoadListener;
+import com.applovin.sdk.AppLovinAdSize;
+import com.applovin.sdk.AppLovinSdk;
+import com.applovin.sdk.AppLovinSdkUtils;
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
 import com.google.ads.mediation.inmobi.InMobiConsent;
 import com.google.android.material.navigation.NavigationView;
@@ -24,6 +32,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,11 +49,6 @@ import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Usuario;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -65,11 +70,10 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseAuth autenticacao;
     private NavigationView navigationView;
-    private InterstitialAd mInterstitialAd;
-    private AdView adView;
     private ImageView imageViewPerfil;
     private View headerView;
     private TextView txvUsuarios;
+    private AppLovinAd loadedAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +91,6 @@ public class MainActivity extends AppCompatActivity
         //Notificações
         reconfiguraNotificacoes(this);
 
-        //Propagandas
-        configuraAdMob();
-        //MediationTestSuite.launch(MainActivity.this);
-        //MediationTestSuite.addTestDevice("33BE2250B43518CCDA7DE426D04EE231");
-
         JSONObject consentObject = new JSONObject();
         try {
             consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, true);
@@ -101,8 +100,34 @@ public class MainActivity extends AppCompatActivity
         }
 
         InMobiConsent.updateGDPRConsent(consentObject);
+
+        configuraAppLovinIntersticial();
     }
 
+    public void configuraAppLovinIntersticial() {
+        AppLovinSdk.initializeSdk(this);
+        // Load an Interstitial Ad
+        AppLovinSdk.getInstance(this).getAdService().loadNextAd(AppLovinAdSize.INTERSTITIAL, new AppLovinAdLoadListener() {
+            @Override
+            public void adReceived(AppLovinAd ad) {
+                loadedAd = ad;
+            }
+
+            @Override
+            public void failedToReceiveAd(int errorCode) {
+                // Look at AppLovinErrorCodes.java for list of error codes.
+            }
+        });
+    }
+
+    public void mostraAppLovinIntersticial() {
+        AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
+        // Optional: Assign listeners
+        //interstitialAd.setAdDisplayListener( ... );
+        //interstitialAd.setAdClickListener( ... );
+        //interstitialAd.setAdVideoPlaybackListener( ... );
+        interstitialAd.showAndRender(loadedAd);
+    }
 
     public static void reconfiguraNotificacoes(Context ctx) {
         try {
@@ -295,6 +320,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         try {
+
+
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -309,9 +336,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         try {
-            if (adView != null) {
-                adView.pause();
-            }
+
             super.onPause();
             IronSource.onPause(this);
         } catch (Exception e) {
@@ -324,9 +349,7 @@ public class MainActivity extends AppCompatActivity
         try {
             IronSource.onResume(this);
             super.onResume();
-            if (adView != null) {
-                adView.resume();
-            }
+
             carregaDadosUsuario();
         } catch (Exception e) {
             e.printStackTrace();
@@ -343,22 +366,21 @@ public class MainActivity extends AppCompatActivity
 
         if (hour < 8 || hour > 22) {
             usuarios = Util.getRandomNumberInRange(50, 99);
-        } else if (hour < 18){
+        } else if (hour < 18) {
             usuarios = Util.getRandomNumberInRange(200, 300);
-        } else if (hour < 21){
+        } else if (hour < 21) {
             usuarios = Util.getRandomNumberInRange(250, 360);
         } else {
             usuarios = Util.getRandomNumberInRange(150, 250);
         }
 
-        txvUsuarios.setText(String.valueOf(usuarios));}
+        txvUsuarios.setText(String.valueOf(usuarios));
+    }
 
     @Override
     protected void onDestroy() {
         try {
-            if (adView != null) {
-                adView.destroy();
-            }
+
             super.onDestroy();
         } catch (Exception e) {
             e.printStackTrace();
@@ -426,7 +448,7 @@ public class MainActivity extends AppCompatActivity
 
                 startActivity(new Intent(this, LoginActivity.class));
 
-                mostraInterstitialAd();
+                mostraAppLovinIntersticial();
 
                 if (ConfiguracaoFirebase.isUsuarioLogado()) {
                     autenticacao.signOut();
@@ -465,110 +487,5 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /**
-     * método que configura as propagandas via AdMob
-     */
-    private void configuraAdMob() {
 
-        //AdView
-        try {
-
-            //admob
-            MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
-            /*MobileAds.initialize(this, new OnInitializationCompleteListener() {
-                @Override
-                public void onInitializationComplete(InitializationStatus initializationStatus) {
-                    Log.d("INFO22", "MobileAds inicializado em main");
-                }
-            });*/
-            //teste Interstitial
-            mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial1_id));
-
-            AdRequest.Builder adRequistBuilder = new AdRequest.Builder();
-            AdRequest adIRequest = adRequistBuilder.build();
-            mInterstitialAd.loadAd(adIRequest);
-
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    Log.d("INFO22", "main int loaded");
-                    super.onAdLoaded();
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                    Log.d("INFO22", "main int failed: " + errorCode);
-                    prepareInterstitialAd();
-                }
-
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    Log.d("INFO22", "main int closed");
-                    prepareInterstitialAd();
-                }
-            });
-
-            prepareInterstitialAd();
-
-            //banner
-            adView = findViewById(R.id.banner_main);
-            final AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    Log.d("INFO22", "main ban loaded");
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    adView.loadAd(adRequest);
-                    Log.d("INFO22", "main ban failed: " + errorCode);
-                }
-
-                @Override
-                public void onAdClosed() {
-                    Log.d("INFO22", "main ban closed");
-                    adView.loadAd(adRequest);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("INFO22", "main ban exception " + e.getMessage());
-        }
-    }
-
-    private void prepareInterstitialAd() {
-
-        try {
-            mInterstitialAd = new InterstitialAd(MainActivity.this);
-            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
-            mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial1_id));
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("INFO22", "main int exception1 " + e.getMessage());
-        }
-    }
-
-    private void mostraInterstitialAd() {
-        try {
-            if (mInterstitialAd != null) {
-
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                    Log.d("INFO22", "main int exibida");
-                }
-            }
-            prepareInterstitialAd();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("INFO22", "main int exception2 " + e.getMessage());
-        }
-    }
 }

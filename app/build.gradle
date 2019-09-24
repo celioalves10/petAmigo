@@ -7,8 +7,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 41
-        versionName "2.41.528"
+        versionCode 42
+        versionName "2.42.529"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -55,13 +55,13 @@ repositories {
 dependencies {
 
     //admob
-    implementation 'com.google.android.gms:play-services-ads:18.2.0'
+    //implementation 'com.google.android.gms:play-services-ads:18.2.0'
     implementation 'com.google.android.gms:play-services-measurement:17.2.0'
     implementation 'com.google.android.gms:play-services-measurement-sdk:17.2.0'
     implementation 'com.google.android.gms:play-services-measurement-api:17.2.0'
     implementation 'com.android.support:support-annotations:28.0.0' // Required Dependency by Audience Network SDK
     implementation 'com.google.ads.mediation:facebook:5.4.1.1' // facebook mediation
-    implementation 'com.google.android.ads:mediation-test-suite:1.1.1'
+    //implementation 'com.google.android.ads:mediation-test-suite:1.2.0'
 
     //inMob
     implementation 'com.google.ads.mediation:inmobi:7.2.9.0'
@@ -69,12 +69,15 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
+    //AppLovin
+    implementation 'com.applovin:applovin-sdk:9.9.1'
+
     //ironsource
     implementation 'com.google.ads.mediation:ironsource:6.9.0.0'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.0.0'
@@ -82,7 +85,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta03'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
     /* Dependências firebase */
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-database:19.0.0'
@@ -111,7 +114,7 @@ dependencies {
     //compressor de imagens
     implementation 'id.zelory:compressor:2.1.0'
 
-    implementation 'com.facebook.android:facebook-android-sdk:5.0.3'
+    implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
 
     //login google
     implementation 'com.google.android.gms:play-services-auth:17.0.0'

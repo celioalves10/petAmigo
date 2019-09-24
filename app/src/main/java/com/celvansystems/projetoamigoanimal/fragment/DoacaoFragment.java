@@ -29,7 +29,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
     private BillingProcessor bp;
     private View layout;
     private ImageView imvDoacao;
-    private Button btnDoar2, btnDoar5, btnDoar10, btnDoar50, btnDoar100, btnDoar500;
+    private Button btnDoar2, btnDoar5, btnDoar10, btnDoar50, btnDoar100;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -82,7 +82,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
         btnDoar10 = view.findViewById(R.id.btn_doar10_reais);
         btnDoar50 = view.findViewById(R.id.btn_doar50_reais);
         btnDoar100 = view.findViewById(R.id.btn_doar100_reais);
-        btnDoar500 = view.findViewById(R.id.btn_doar500_reais);
+        //btnDoar500 = view.findViewById(R.id.btn_doar500_reais);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             btnDoar2.setElevation(10);
@@ -141,13 +141,13 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             }
         });
 
-        btnDoar500.setOnClickListener(new View.OnClickListener() {
+        /*btnDoar500.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bp.consumePurchase(Constantes.PRODUCT_ID_500_REAIS);
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_500_REAIS);
             }
-        });
+        });*/
     }
 
     @Override

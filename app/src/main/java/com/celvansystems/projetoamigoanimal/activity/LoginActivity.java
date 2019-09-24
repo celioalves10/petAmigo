@@ -139,9 +139,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 md.update(signature.toByteArray());
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (NameNotFoundException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
@@ -923,7 +921,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public static void hideKeyboard(Context context, View editText) {
         try {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
