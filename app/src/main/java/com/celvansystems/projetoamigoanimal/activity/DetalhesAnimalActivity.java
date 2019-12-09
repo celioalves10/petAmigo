@@ -148,7 +148,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                 }
             });
         }
-        configuraAppLovinIntersticial();
+        //configuraAppLovinIntersticial();
     }
 
     public void configuraAppLovinIntersticial() {
@@ -167,14 +167,14 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
         });
     }
 
-    public void mostraAppLovinIntersticial() {
+    /*public void mostraAppLovinIntersticial() {
         AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
         // Optional: Assign listeners
         //interstitialAd.setAdDisplayListener( ... );
         //interstitialAd.setAdClickListener( ... );
         //interstitialAd.setAdVideoPlaybackListener( ... );
         interstitialAd.showAndRender(loadedAd);
-    }
+    }*/
 
     private void configuraNavBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -193,13 +193,13 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mostraAppLovinIntersticial();
+        //mostraAppLovinIntersticial();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            mostraAppLovinIntersticial();
+            //mostraAppLovinIntersticial();
             finish();
             return true;
         }

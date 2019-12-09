@@ -8,14 +8,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.applovin.adview.AppLovinAdView;
 import com.applovin.adview.AppLovinInterstitialAd;
 import com.applovin.adview.AppLovinInterstitialAdDialog;
 import com.applovin.sdk.AppLovinAd;
 import com.applovin.sdk.AppLovinAdLoadListener;
 import com.applovin.sdk.AppLovinAdSize;
 import com.applovin.sdk.AppLovinSdk;
-import com.applovin.sdk.AppLovinSdkUtils;
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
 import com.google.ads.mediation.inmobi.InMobiConsent;
 import com.google.android.material.navigation.NavigationView;
@@ -32,8 +30,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -101,7 +97,7 @@ public class MainActivity extends AppCompatActivity
 
         InMobiConsent.updateGDPRConsent(consentObject);
 
-        configuraAppLovinIntersticial();
+        //configuraAppLovinIntersticial();
     }
 
     public void configuraAppLovinIntersticial() {
@@ -120,14 +116,14 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void mostraAppLovinIntersticial() {
+    /*public void mostraAppLovinIntersticial() {
         AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
         // Optional: Assign listeners
         //interstitialAd.setAdDisplayListener( ... );
         //interstitialAd.setAdClickListener( ... );
         //interstitialAd.setAdVideoPlaybackListener( ... );
         interstitialAd.showAndRender(loadedAd);
-    }
+    }*/
 
     public static void reconfiguraNotificacoes(Context ctx) {
         try {
@@ -448,7 +444,7 @@ public class MainActivity extends AppCompatActivity
 
                 startActivity(new Intent(this, LoginActivity.class));
 
-                mostraAppLovinIntersticial();
+                //mostraAppLovinIntersticial();
 
                 if (ConfiguracaoFirebase.isUsuarioLogado()) {
                     autenticacao.signOut();
