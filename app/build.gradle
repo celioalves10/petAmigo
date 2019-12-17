@@ -7,8 +7,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 43
-        versionName "2.43.530"
+        versionCode 44
+        versionName "2.44.531"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -55,7 +55,7 @@ repositories {
 dependencies {
 
     //admob
-    //implementation 'com.google.android.gms:play-services-ads:18.2.0'
+    implementation 'com.google.android.gms:play-services-ads:18.3.0'
     implementation 'com.google.android.gms:play-services-measurement:17.2.0'
     implementation 'com.google.android.gms:play-services-measurement-sdk:17.2.0'
     implementation 'com.google.android.gms:play-services-measurement-api:17.2.0'
@@ -85,7 +85,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     /* Dependências firebase */
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-database:19.0.0'

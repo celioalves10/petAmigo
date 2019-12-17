@@ -61,13 +61,9 @@
     <string name="curtidas">Curtidas</string>
     <string name="desativarConta">Desativar Conta</string>
     <string name="facebook_app_id">314424992539028</string>
-    <string name="admob_app_id">ca-app-pub-6718857112988900~9519509403</string>
-    <string name="admob_banner_id">ca-app-pub-6718857112988900/9409443166</string>
-    <string name="admob_banner2_id">ca-app-pub-6718857112988900/6755018062</string>
-    <string name="admob_banner3_id">ca-app-pub-6718857112988900/2815773058</string>
-    <string name="admob_banner4_id">ca-app-pub-6718857112988900/7828798684</string>
-    <string name="admob_banner5_id">ca-app-pub-6718857112988900/5540959964</string>
-    <string name="admob_banner6_id">ca-app-pub-6718857112988900/9288633280</string>
+    <string name="admob_app_id">ca-app-pub-1548105513525903~9075021388</string>
+    <string name="admob_banner_main">ca-app-pub-1548105513525903/2778535338</string>
+
     <!--string name="admob_banner_teste">ca-app-pub-3940256099942544/6300978111</string-->
     <string name="admob_interstitial1_id">ca-app-pub-6718857112988900/4598670156</string>
     <string name="admob_interstitial2_id">ca-app-pub-6718857112988900/2376789353</string>

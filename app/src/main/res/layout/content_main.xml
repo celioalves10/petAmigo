@@ -167,7 +167,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.applovin.adview.AppLovinAdView
+    <!--com.applovin.adview.AppLovinAdView
         android:id="@+id/appLovinBannerMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -177,5 +177,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        applovin:loadAdOnCreate="true" />
+        applovin:loadAdOnCreate="true" /-->
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/banner_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="BANNER"
+        app:adUnitId="@string/admob_banner_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_pager">
+
+    </com.google.android.gms.ads.AdView>
 </androidx.constraintlayout.widget.ConstraintLayout>

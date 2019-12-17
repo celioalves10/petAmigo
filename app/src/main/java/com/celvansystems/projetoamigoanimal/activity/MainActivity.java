@@ -8,14 +8,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.applovin.adview.AppLovinInterstitialAd;
-import com.applovin.adview.AppLovinInterstitialAdDialog;
-import com.applovin.sdk.AppLovinAd;
-import com.applovin.sdk.AppLovinAdLoadListener;
-import com.applovin.sdk.AppLovinAdSize;
-import com.applovin.sdk.AppLovinSdk;
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
 import com.google.ads.mediation.inmobi.InMobiConsent;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.FragmentManager;
@@ -69,7 +70,9 @@ public class MainActivity extends AppCompatActivity
     private ImageView imageViewPerfil;
     private View headerView;
     private TextView txvUsuarios;
-    private AppLovinAd loadedAd;
+    //private AppLovinAd loadedAd;
+    //private InterstitialAd mInterstitialAd;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +98,15 @@ public class MainActivity extends AppCompatActivity
             exception.printStackTrace();
         }
 
-        InMobiConsent.updateGDPRConsent(consentObject);
+        //InMobiConsent.updateGDPRConsent(consentObject);
 
         //configuraAppLovinIntersticial();
+
+        //Propagandas
+        configuraAdMob();
     }
 
-    public void configuraAppLovinIntersticial() {
+    /*public void configuraAppLovinIntersticial() {
         AppLovinSdk.initializeSdk(this);
         // Load an Interstitial Ad
         AppLovinSdk.getInstance(this).getAdService().loadNextAd(AppLovinAdSize.INTERSTITIAL, new AppLovinAdLoadListener() {
@@ -114,7 +120,7 @@ public class MainActivity extends AppCompatActivity
                 // Look at AppLovinErrorCodes.java for list of error codes.
             }
         });
-    }
+    }*/
 
     /*public void mostraAppLovinIntersticial() {
         AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
@@ -483,5 +489,108 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void configuraAdMob() {
 
+        //AdView
+        try {
+
+            //admob
+            //MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
+            MobileAds.initialize(this, new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+                }
+            });
+            //teste Interstitial
+            //mInterstitialAd = new InterstitialAd(this);
+            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
+
+            //AdRequest.Builder adRequistBuilder = new AdRequest.Builder();
+            //AdRequest adIRequest = adRequistBuilder.build();
+            //mInterstitialAd.loadAd(adIRequest);
+
+            /*if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            }*/
+
+            /*mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    Log.d("INFO22", "main int loaded");
+                    super.onAdLoaded();
+                    //mostraInterstitialAd();
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Log.d("INFO22", "main int failed: " + errorCode);
+                }
+
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+
+                    Log.d("INFO22", "main int closed");
+                    prepareInterstitialAd();
+                }
+            });*/
+
+            prepareInterstitialAd();
+
+            //banner
+            adView = findViewById(R.id.banner_main);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adView.loadAd(adRequest);
+
+            adView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    Log.d("INFO22", "main ban loaded");
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Log.d("INFO22", "main ban failed: " + errorCode);
+                }
+
+                @Override
+                public void onAdClosed() {
+                    Log.d("INFO22", "main ban closed");
+                    //adView.loadAd(adRequest);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("INFO22", "main ban exception " + e.getMessage());
+        }
+    }
+
+    private void prepareInterstitialAd() {
+
+        try {
+            //mInterstitialAd = new InterstitialAd(MainActivity.this);
+            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
+            //mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("INFO22", "main int exception1 " + e.getMessage());
+        }
+    }
+
+    /*private void mostraInterstitialAd() {
+        try {
+            if (mInterstitialAd == null) {
+                prepareInterstitialAd();
+            }
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+                Log.d("INFO22", "main int exibida");
+            }
+            prepareInterstitialAd();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("INFO22", "main int exception2 " + e.getMessage());
+        }
+    }*/
 }

@@ -76,9 +76,9 @@
         </provider>
         <meta-data android:name="applovin.sdk.key"
             android:value="LVbeMc9CVddL-UeXBNDAt-PsWoXnhuaMwfOt1f4SLyq8avrHpF2Ekc0E8F-zxKcLpPaOd1WxgS_lQ9sBgDmirK"/>
-        <!--meta-data
+        <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_app_id" /-->
+            android:value="@string/admob_app_id" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
