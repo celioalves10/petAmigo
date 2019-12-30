@@ -33,7 +33,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.ironsource.mediationsdk.IronSource;
+//import com.ironsource.mediationsdk.IronSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -324,9 +324,13 @@ public class ComentariosActivity extends AppCompatActivity {
 
     public static void hideKeyboard(Context context, View editText) {
         try {
-            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm != null) {
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            InputMethodManager imm = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
+                imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -351,12 +355,12 @@ public class ComentariosActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        IronSource.onResume(this);
+        //IronSource.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        IronSource.onPause(this);
+        //IronSource.onPause(this);
     }
 }

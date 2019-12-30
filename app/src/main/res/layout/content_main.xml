@@ -24,7 +24,7 @@
         android:id="@+id/view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="53dp"
         android:background="@color/default_circle_indicator_fill_color"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -167,19 +167,32 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--com.applovin.adview.AppLovinAdView
-        android:id="@+id/appLovinBannerMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintTop_toBottomOf="@id/view_pager"
+    <FrameLayout
+        android:id="@+id/frame_banner_main"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        applovin:loadAdOnCreate="true" /-->
+        app:layout_constraintTop_toBottomOf="@id/view_pager"
+        app:layout_constraintVertical_bias="0.0">
 
-    <com.google.android.gms.ads.AdView
+        <com.applovin.adview.AppLovinAdView
+            android:id="@+id/appLovinBannerMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            applovin:loadAdOnCreate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+    </FrameLayout>
+
+
+    <!--com.google.android.gms.ads.AdView
         android:id="@+id/banner_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -191,5 +204,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_pager">
 
-    </com.google.android.gms.ads.AdView>
+    </com.google.android.gms.ads.AdView-->
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,8 +7,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 44
-        versionName "2.44.531"
+        versionCode 46
+        versionName "2.46.532"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -34,6 +34,12 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 configurations.all {
@@ -48,11 +54,19 @@ configurations.all {
 }
 
 repositories {
+
     maven {
-        url 'https://dl.bintray.com/ironsource-mobile/android-sdk'
+        url "https://dl.bintray.com/ironsource-mobile/android-sdk"
     }
+    //maven { url 'http://android-sdk.aatkit.com/maven/' }
 }
+
 dependencies {
+
+    //AATKit
+    implementation ('com.intentsoftware.addapptr:AATKit:2.26.13') {
+        transitive = true
+    }
 
     //admob
     implementation 'com.google.android.gms:play-services-ads:18.3.0'
@@ -63,14 +77,17 @@ dependencies {
     implementation 'com.google.ads.mediation:facebook:5.4.1.1' // facebook mediation
     //implementation 'com.google.android.ads:mediation-test-suite:1.2.0'
 
+    implementation('com.facebook.android:audience-network-sdk:5.3.0') {
+        exclude group: 'com.google.android.gms', module: 'play-services-ads'
+    }
     //inMob
-    implementation 'com.google.ads.mediation:inmobi:7.2.9.0'
+    //implementation 'com.google.ads.mediation:inmobi:7.2.9.0'
     implementation 'com.google.android.gms:play-services-basement:17.1.0'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
     //AppLovin
-    implementation 'com.applovin:applovin-sdk:9.9.1'
+    //implementation 'com.applovin:applovin-sdk:9.9.1'
 
     //ironsource
     implementation 'com.google.ads.mediation:ironsource:6.9.0.0'
@@ -120,13 +137,17 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     //billing
-    implementation 'com.anjlab.android.iab.v3:library:1.0.44'
+    implementation 'com.anjlab.android.iab.v3:library:1.1.0'
 
     //circulo de imagem
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
 
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'
+
+
+
 }
+
 apply plugin: 'com.google.gms.google-services'
 

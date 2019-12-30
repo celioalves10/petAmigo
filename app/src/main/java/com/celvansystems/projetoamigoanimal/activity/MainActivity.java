@@ -8,15 +8,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.applovin.adview.AppLovinInterstitialAd;
+import com.applovin.adview.AppLovinInterstitialAdDialog;
+import com.applovin.sdk.AppLovinAd;
+import com.applovin.sdk.AppLovinAdLoadListener;
+import com.applovin.sdk.AppLovinAdSize;
+import com.applovin.sdk.AppLovinSdk;
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
-import com.google.ads.mediation.inmobi.InMobiConsent;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.fragment.app.FragmentManager;
@@ -53,7 +51,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.inmobi.sdk.InMobiSdk;
-import com.ironsource.mediationsdk.IronSource;
+//import com.ironsource.mediationsdk.IronSource;
+
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -70,9 +69,10 @@ public class MainActivity extends AppCompatActivity
     private ImageView imageViewPerfil;
     private View headerView;
     private TextView txvUsuarios;
-    //private AppLovinAd loadedAd;
+    private AppLovinAd loadedAd;
     //private InterstitialAd mInterstitialAd;
-    private AdView adView;
+    //private AdView adView;
+    //private int bannerPlacementId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +100,35 @@ public class MainActivity extends AppCompatActivity
 
         //InMobiConsent.updateGDPRConsent(consentObject);
 
-        //configuraAppLovinIntersticial();
+        configuraAppLovinIntersticial();
 
         //Propagandas
-        configuraAdMob();
+        //configuraAdMob();
+
+        //AATKit
+        //configuraAATKit();
+        //bannerPlacementId = AATKit.createPlacement("Banner",
+        //        PlacementSize.Banner320x53);
     }
 
-    /*public void configuraAppLovinIntersticial() {
+    /*private void configuraAATKit() {
+
+        AATKitConfiguration configuration = new AATKitConfiguration( getApplication());
+        configuration.setUseDebugShake(false);
+        configuration.setDetailedConsent(new ConsentAutomatic());
+        configuration.setUseGeoLocation(true);
+
+        ///// TEST MODE //////////
+        //configuration.setTestModeAccountId(2052);
+        //////////////////////////
+        AATKit.init(configuration);
+    }
+
+    public int getBannerPlacementId() {
+        return bannerPlacementId;
+    }*/
+
+    public void configuraAppLovinIntersticial() {
         AppLovinSdk.initializeSdk(this);
         // Load an Interstitial Ad
         AppLovinSdk.getInstance(this).getAdService().loadNextAd(AppLovinAdSize.INTERSTITIAL, new AppLovinAdLoadListener() {
@@ -120,16 +142,16 @@ public class MainActivity extends AppCompatActivity
                 // Look at AppLovinErrorCodes.java for list of error codes.
             }
         });
-    }*/
+    }
 
-    /*public void mostraAppLovinIntersticial() {
+    public void mostraAppLovinIntersticial() {
         AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
         // Optional: Assign listeners
         //interstitialAd.setAdDisplayListener( ... );
         //interstitialAd.setAdClickListener( ... );
         //interstitialAd.setAdVideoPlaybackListener( ... );
         interstitialAd.showAndRender(loadedAd);
-    }*/
+    }
 
     public static void reconfiguraNotificacoes(Context ctx) {
         try {
@@ -322,8 +344,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         try {
-
-
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -338,9 +358,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         try {
-
+            /*int bannerPlacementId = getBannerPlacementId();
+            AATKit.stopPlacementAutoReload(bannerPlacementId);
+            removePlacementView(bannerPlacementId);
+            AATKit.onActivityPause(this);*/
             super.onPause();
-            IronSource.onPause(this);
+            //IronSource.onPause(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -349,16 +372,45 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         try {
-            IronSource.onResume(this);
+            //IronSource.onResume(this);
             super.onResume();
 
             carregaDadosUsuario();
+
+            /*if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this) != ConnectionResult.SUCCESS) {
+                Dialog d = GoogleApiAvailability.getInstance().getErrorDialog(this,
+                        GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this), 4);
+                d.show();
+            }
+            AATKit.onActivityResume(this);
+            int bannerPlacementId = getBannerPlacementId();
+            addPlacementView(bannerPlacementId);
+            AATKit.startPlacementAutoReload(bannerPlacementId);*/
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         preencheQuantidadeUsuarios();
     }
+
+    /*private void addPlacementView(int placementId) {
+        FrameLayout mainLayout = findViewById(R.id.frame_banner_main);
+        View placementView = AATKit.getPlacementView(placementId);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
+        mainLayout.addView(placementView, layoutParams);
+    }
+
+    private void removePlacementView(int placementId) {
+        View placementView = AATKit.getPlacementView(placementId);
+
+        if (placementView.getParent() != null) {
+            ViewGroup parent = (ViewGroup) placementView.getParent();
+            parent.removeView(placementView);
+        }
+    }*/
 
     private void preencheQuantidadeUsuarios() {
 
@@ -450,7 +502,7 @@ public class MainActivity extends AppCompatActivity
 
                 startActivity(new Intent(this, LoginActivity.class));
 
-                //mostraAppLovinIntersticial();
+                mostraAppLovinIntersticial();
 
                 if (ConfiguracaoFirebase.isUsuarioLogado()) {
                     autenticacao.signOut();
@@ -489,7 +541,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void configuraAdMob() {
+    /*private void configuraAdMob() {
 
         //AdView
         try {
@@ -534,7 +586,7 @@ public class MainActivity extends AppCompatActivity
                     prepareInterstitialAd();
                 }
             });*/
-
+/*
             prepareInterstitialAd();
 
             //banner
@@ -575,7 +627,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
             Log.d("INFO22", "main int exception1 " + e.getMessage());
         }
-    }
+    }*/
 
     /*private void mostraInterstitialAd() {
         try {

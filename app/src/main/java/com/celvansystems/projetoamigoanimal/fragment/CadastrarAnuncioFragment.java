@@ -557,20 +557,22 @@ public class CadastrarAnuncioFragment extends Fragment
         Animal animal = this.getAnimalDaActivity();
 
         if (listaFotosRecuperadas.size() != 0) {
-            if (!animal.getNome().isEmpty()) {
-                if (!animal.getRaca().isEmpty()) {
-                    if (!animal.getDescricao().isEmpty()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                if (!animal.getNome().isEmpty()) {
+                    if (!animal.getRaca().isEmpty()) {
+                        if (!animal.getDescricao().isEmpty()) {
 
-                        salvarAnuncio(animal);
+                            salvarAnuncio(animal);
 
+                        } else {
+                            Util.setSnackBar(layout, getString(R.string.preencha_descricao));
+                        }
                     } else {
-                        Util.setSnackBar(layout, getString(R.string.preencha_descricao));
+                        Util.setSnackBar(layout, getString(R.string.preencha_raca));
                     }
                 } else {
-                    Util.setSnackBar(layout, getString(R.string.preencha_raca));
+                    Util.setSnackBar(layout, getString(R.string.preencha_nome));
                 }
-            } else {
-                Util.setSnackBar(layout, getString(R.string.preencha_nome));
             }
         } else {
             Util.setSnackBar(layout, getString(R.string.selecione_foto));
@@ -771,9 +773,13 @@ public class CadastrarAnuncioFragment extends Fragment
      */
     private static void hideKeyboard(Context context, View editText) {
         try {
-            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (imm != null) {
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            InputMethodManager imm = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
+                imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

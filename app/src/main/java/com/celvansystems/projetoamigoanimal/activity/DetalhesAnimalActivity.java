@@ -28,7 +28,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.ironsource.mediationsdk.IronSource;
+//import com.ironsource.mediationsdk.IronSource;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -124,6 +124,8 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
 
+                                            mostraAppLovinIntersticial();
+
                                             if (usuarios.child("telefone").getValue() != null) {
 
                                                 final String telefone = Objects.requireNonNull(usuarios.child("telefone").getValue()).toString();
@@ -148,7 +150,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                 }
             });
         }
-        //configuraAppLovinIntersticial();
+        configuraAppLovinIntersticial();
     }
 
     public void configuraAppLovinIntersticial() {
@@ -167,14 +169,14 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
         });
     }
 
-    /*public void mostraAppLovinIntersticial() {
+    public void mostraAppLovinIntersticial() {
         AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
         // Optional: Assign listeners
         //interstitialAd.setAdDisplayListener( ... );
         //interstitialAd.setAdClickListener( ... );
         //interstitialAd.setAdVideoPlaybackListener( ... );
         interstitialAd.showAndRender(loadedAd);
-    }*/
+    }
 
     private void configuraNavBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -193,13 +195,13 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //mostraAppLovinIntersticial();
+        mostraAppLovinIntersticial();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            //mostraAppLovinIntersticial();
+            mostraAppLovinIntersticial();
             finish();
             return true;
         }
@@ -209,12 +211,12 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        IronSource.onResume(this);
+        //IronSource.onResume(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        IronSource.onPause(this);
+        //IronSource.onPause(this);
     }
 }
