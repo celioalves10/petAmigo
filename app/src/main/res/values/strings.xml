@@ -223,7 +223,7 @@
     <string name="carregando_fotos">Carregando fotos…</string>
     <string name="cooperight">CelVanSystems® 2019</string>
     <string name="editar_perfil">Editar perfil</string>
-    <string name="coment_excluido">Comentário excluído</string>
+    <string name="coment_excluido"></string>
     <string name="sobre">Sobre</string>
     <string name="localizacao">Localização</string>
     <string name="conteudo">conteúdo</string>

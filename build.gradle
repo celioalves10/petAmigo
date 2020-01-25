@@ -9,7 +9,7 @@ buildscript {
             url 'https://maven.fabric.io/public'
 
         }
-        maven { url 'http://android-sdk.aatkit.com/maven/' }
+        //maven { url 'http://android-sdk.aatkit.com/maven/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.3'
@@ -26,7 +26,7 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
         //maven { url 'https://maven.google.com' }
-        maven { url 'http://android-sdk.aatkit.com/maven/' }
+        //maven { url 'http://android-sdk.aatkit.com/maven/' }
     }
 }
 

@@ -50,7 +50,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.inmobi.sdk.InMobiSdk;
+//import com.inmobi.sdk.InMobiSdk;
 //import com.ironsource.mediationsdk.IronSource;
 
 import com.squareup.picasso.Picasso;
@@ -91,12 +91,12 @@ public class MainActivity extends AppCompatActivity
         reconfiguraNotificacoes(this);
 
         JSONObject consentObject = new JSONObject();
-        try {
+        /*try {
             consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, true);
             consentObject.put("gdpr", "1");
         } catch (JSONException exception) {
             exception.printStackTrace();
-        }
+        }*/
 
         //InMobiConsent.updateGDPRConsent(consentObject);
 

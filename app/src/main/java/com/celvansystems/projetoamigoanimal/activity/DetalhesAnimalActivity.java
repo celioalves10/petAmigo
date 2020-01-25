@@ -124,7 +124,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
 
-                                            mostraAppLovinIntersticial();
+                                            //mostraAppLovinIntersticial();
 
                                             if (usuarios.child("telefone").getValue() != null) {
 
@@ -195,13 +195,13 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mostraAppLovinIntersticial();
+        //mostraAppLovinIntersticial();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            mostraAppLovinIntersticial();
+            //mostraAppLovinIntersticial();
             finish();
             return true;
         }
