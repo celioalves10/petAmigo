@@ -328,9 +328,8 @@ public class AnunciosFragment extends Fragment {
                         Collections.reverse(listaAnuncios);
                         adapterAnuncios.notifyDataSetChanged();
 
-                        if(dialog != null) {
-                            dialog.dismiss();
-                        }
+                        dismissProgressDialog();
+
                         verificaRecyclerZerada();
                     }
                 }
@@ -344,6 +343,11 @@ public class AnunciosFragment extends Fragment {
         }
     }
 
+    private void dismissProgressDialog() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
     /**
      * açao do botao especie
      */
@@ -543,5 +547,11 @@ public class AnunciosFragment extends Fragment {
             e.printStackTrace();
         }
         return count;
+    }
+
+    @Override
+    public void onDestroy() {
+        dismissProgressDialog();
+        super.onDestroy();
     }
 }

@@ -129,8 +129,10 @@ public class MainActivity extends AppCompatActivity
     }*/
 
     public void configuraAppLovinIntersticial() {
-        AppLovinSdk.initializeSdk(this);
+        AppLovinSdk.initializeSdk(getApplicationContext());
         // Load an Interstitial Ad
+
+
         AppLovinSdk.getInstance(this).getAdService().loadNextAd(AppLovinAdSize.INTERSTITIAL, new AppLovinAdLoadListener() {
             @Override
             public void adReceived(AppLovinAd ad) {
@@ -145,6 +147,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void mostraAppLovinIntersticial() {
+
         AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
         // Optional: Assign listeners
         //interstitialAd.setAdDisplayListener( ... );
@@ -315,7 +318,7 @@ public class MainActivity extends AppCompatActivity
 
             if (ConfiguracaoFirebase.isUsuarioLogado()) {
 
-                Log.d("INFO100", "email verificado");
+                //Log.d("INFO100", "email verificado");
                 nav_minha_conta.setEnabled(true);
                 nav_minha_conta.setTitle(R.string.txt_minha_conta);
 

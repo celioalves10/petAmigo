@@ -75,7 +75,7 @@ public class GerenciadorNotificacoes {
                                     final Animal anuncioUsuarioAtual = anuncio;
                                     final DatabaseReference comentariosRef = anunciosRef.child(idAnimal).child("comentarios");
 
-                                    Log.d("INFO13", "id animal: " + idAnimal);
+                                    //Log.d("INFO13", "id animal: " + idAnimal);
 
                                     comentariosRef.addValueEventListener(new ValueEventListener() {
                                         @Override
@@ -159,7 +159,7 @@ public class GerenciadorNotificacoes {
                         usuario.setNome(Objects.requireNonNull(dataSnapshot.child("usuario").child("nome").getValue()).toString());
 
                         coment.setUsuario(usuario);
-                        Log.d("INFO13", "comentário: " + coment.getTexto());
+                        //Log.d("INFO13", "comentário: " + coment.getTexto());
                         listaComentarios.add(coment);
                         anuncioUsuarioAtual.setListaComentarios(listaComentarios);
 

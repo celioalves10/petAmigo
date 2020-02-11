@@ -24,7 +24,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txvObservacao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -119,7 +118,6 @@
     </ScrollView>
 
     <com.applovin.adview.AppLovinAdView
-        android:id="@+id/appLovinBannerComentarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

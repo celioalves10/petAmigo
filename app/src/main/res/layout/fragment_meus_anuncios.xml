@@ -11,7 +11,6 @@
     tools:context=".fragment.AnunciosFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/const_layout_meus_anuncios"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:applovin="http://schemas.applovin.com/android/1.0"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_perfil_humano"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -36,7 +35,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout_deletar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -155,7 +153,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView_telefone" />
 
         <TextView
-            android:id="@+id/textView_sexo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -168,7 +165,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
-        android:id="@+id/frame_banner_main"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -178,7 +174,6 @@
         app:layout_constraintVertical_bias="0.0">
 
         <com.applovin.adview.AppLovinAdView
-            android:id="@+id/appLovinBannerMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

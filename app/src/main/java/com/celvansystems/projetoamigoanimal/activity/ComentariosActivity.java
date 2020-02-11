@@ -141,7 +141,7 @@ public class ComentariosActivity extends AppCompatActivity {
                     }
                 });
                 /////////////////////////////////
-                Log.d("INFO13", "id animal: " + idAnimal);
+                //Log.d("INFO13", "id animal: " + idAnimal);
 
                 fotosRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -153,7 +153,7 @@ public class ComentariosActivity extends AppCompatActivity {
 
                             String foto = Objects.requireNonNull(fotos.getValue()).toString();
                             listaFotos.add(foto);
-                            Log.d("INFO13", "foto: " + foto);
+                            //Log.d("INFO13", "foto: " + foto);
                         }
                         anuncioSelecionado.setFotos(listaFotos);
                     }
@@ -174,9 +174,9 @@ public class ComentariosActivity extends AppCompatActivity {
                 recyclercomentarios.setAdapter(adapterComentarios);
 
                 updateRecycler(anuncioSelecionado);
-                Log.i("INFO13", "anuncioselecionado != null");
+                //Log.i("INFO13", "anuncioselecionado != null");
             } else {
-                Log.i("INFO13", "anuncioselecionado == null");
+                //Log.i("INFO13", "anuncioselecionado == null");
 
             }
         } catch (Exception e) {

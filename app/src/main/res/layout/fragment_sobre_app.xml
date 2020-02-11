@@ -2,7 +2,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.SobreAppFragment">
@@ -18,12 +17,10 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLogoSobre"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <View
-                    android:id="@+id/divider6"
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="8dp"
@@ -75,7 +72,6 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <ImageView
-                        android:id="@+id/imvLogo"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_marginStart="16dp"
@@ -119,7 +115,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView_seguir_insta">
 
                     <TextView
-                        android:id="@+id/txvAvaliar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -143,7 +138,6 @@
                         app:srcCompat="@drawable/ic_estrelas" />
 
                     <TextView
-                        android:id="@+id/txvAvaliarApp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -193,7 +187,6 @@
                         android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/txvCompartilhar2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -242,7 +235,6 @@
                         app:srcCompat="@drawable/ic_faleconosco" />
 
                     <TextView
-                        android:id="@+id/txvFeedback3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -294,7 +286,6 @@
                         android:focusable="true" />
 
                     <TextView
-                        android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -317,7 +308,6 @@
                     app:srcCompat="@drawable/ic_instagram_logo" />
 
                 <View
-                    android:id="@+id/divider"
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:layout_marginStart="8dp"
@@ -357,14 +347,12 @@
                     app:srcCompat="@drawable/ic_facebook_logo" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintGuide_begin="24dp" />
 
                 <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"

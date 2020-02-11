@@ -17,9 +17,7 @@
             android:icon="@xml/ic_menu_slideshow"
             android:title="@string/txt_meus_anuncios" />
     </group>
-    <item
-        android:id="@+id/cad_pet"
-        android:title="@string/cad_novo_animal">
+    <item android:title="@string/cad_novo_animal">
         <menu>
             <group android:checkableBehavior="single">
                 <item

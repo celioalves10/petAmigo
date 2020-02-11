@@ -7,7 +7,6 @@
     tools:context=".activity.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -50,7 +49,6 @@
                     app:layout_constraintTop_toTopOf="@+id/imvUsuarios" />
 
                 <TextView
-                    android:id="@+id/txvAppName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/application_name"

@@ -170,6 +170,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
     public void configuraAppLovinIntersticial() {
         AppLovinSdk.initializeSdk(this);
+
         // Load an Interstitial Ad
         AppLovinSdk.getInstance(this).getAdService().loadNextAd(AppLovinAdSize.INTERSTITIAL, new AppLovinAdLoadListener() {
             @Override

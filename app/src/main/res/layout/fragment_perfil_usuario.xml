@@ -198,7 +198,6 @@
         app:layout_constraintTop_toBottomOf="@+id/divider_perfil1" />
 
     <TextView
-        android:id="@+id/textView_perfil_humano"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/perfis"
@@ -208,7 +207,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_edit_nome"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="22dp"

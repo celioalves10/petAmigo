@@ -18,12 +18,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="ReisedButtom" parent="Widget.AppCompat.Button.Colored">
-        <item name="backgroundTint" tools:targetApi="lollipop">@color/colorPrimaryDark
-        </item>
-        <item name="android:animation">@android:anim/fade_out</item>
-    </style>
-
     <style name="flaButtom" parent="Widget.AppCompat.Button.Borderless">
         <item name="backgroundTint" tools:targetApi="lollipop">@color/colorPrimaryDark
         </item>
@@ -34,8 +28,7 @@
     <style name="AppTheme.NoActionBar.navheader">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent
-        </item>
+
     </style>
 
     <style name="FacebookLoginButton">
@@ -49,14 +42,6 @@
         <item name="android:paddingBottom">11dp</item>
         <item name="android:layout_marginLeft">4dp</item>
         <item name="android:layout_marginRight">5dp</item>
-    </style>
-
-    <style name="Theme.Transparent" parent="@style/Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
     <style name="SCBSwitch" parent="Theme.AppCompat.Light">
