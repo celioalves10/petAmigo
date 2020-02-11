@@ -153,6 +153,7 @@ public class CadastrarAnuncioFragment extends Fragment
         imagem1.setOnClickListener(this);
         imagem2.setOnClickListener(this);
         imagem3.setOnClickListener(this);
+        imagem3.setOnClickListener(this);
 
         //listaFotosRecuperadas = new ArrayList<>();
         listaFotosRecuperadas = new HashMap<>();
@@ -720,6 +721,7 @@ public class CadastrarAnuncioFragment extends Fragment
             adapterEstados = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, estados);
             adapterEstados.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spnEstado.setAdapter(adapterEstados);
+            spnEstado.setSelection(25);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -44,7 +44,7 @@
     <string name="txt_minha_conta">Minha Conta</string>
     <string name="txt_config_notificar">Configurar Notificações</string>
     <string name="cad_novo_animal">Pet</string>
-    <string name="txt_ajudar">Como Contribuir</string>
+    <string name="txt_ajudar">Doações</string>
     <string name="txt_conversas">Minhas Mensagens</string>
     <string name="txt_Sobre_App">Sobre o App</string>
     <string name="comunication">Comunicações</string>
@@ -143,7 +143,7 @@
     <string name="txt_nascimento">Data de Nascimento</string>
     <string name="txt_ocupação">Qual sua profissão?</string>
     <string name="atualizar_cadastro">Atualizar cadastro</string>
-    <string name="txt_saber_mais">Quero Saber Mais…</string>
+    <string name="txt_saber_mais">Telefone</string>
     <string name="txt_locallização">Localização do Pet</string>
     <string name="txt_pouco_sobre">Sobre o Pet</string>
     <string name="txt_diz">Diz:</string>
@@ -229,7 +229,7 @@
     <string name="conteudo">conteúdo</string>
     <string name="valor_indisponivel" tools:ignore="Typos">Valor indisponível no momento. Tente novamente ou escolha outra opção, por favor!</string>
     <string name="error">Erro!</string>
-    <string name="escolha_opcao_ajude_manter_app">Escolha uma opção e ajude a manter este App! Os bichanos agradecem!</string>
+    <string name="escolha_opcao_ajude_manter_app">Faça uma doação e tenha acesso ao número de telefone de todos os anunciantes!</string>
     <string name="client_id">c8736f8e2090400eaddbc57a3c2a59b1</string>
     <string name="busca_pet_promove">O App Busca Pet promove a vida incentivando a adoção responsável de animais de estimação.</string>
     <string name="versao_app">Versão</string>
@@ -251,6 +251,7 @@
     <string name="deu_algo_errado" >Deu algo errado? Comunica a gente!</string>
     <string name="srd">SRD</string>
     <string name="observacao_comentarios">Leia sempre o cadastro do Pet. Pode conter informações importantes como um número de telefone para contato em caso de dúvidas.</string>
+    <string name="faca">Faça uma doação e tenha acesso aos números de telefone cadastrados pelos anunciantes!</string>
 
     <string-array name="idade">
         <item>0–3 meses</item>

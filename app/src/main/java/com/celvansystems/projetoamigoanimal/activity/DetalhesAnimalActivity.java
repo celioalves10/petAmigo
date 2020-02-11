@@ -1,12 +1,15 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +24,8 @@ import com.applovin.sdk.AppLovinAdLoadListener;
 import com.applovin.sdk.AppLovinAdSize;
 import com.applovin.sdk.AppLovinSdk;
 import com.celvansystems.projetoamigoanimal.R;
+import com.celvansystems.projetoamigoanimal.fragment.AnunciosFragment;
+import com.celvansystems.projetoamigoanimal.fragment.DoacaoFragment;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
@@ -128,11 +133,21 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
                                             if (usuarios.child("telefone").getValue() != null) {
 
-                                                final String telefone = Objects.requireNonNull(usuarios.child("telefone").getValue()).toString();
-                                                Intent i = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
-                                                        telefone, null));
-                                                startActivity(i);
+                                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                                //SharedPreferences.Editor editor = pref.edit();
+                                                boolean purchased = pref.getBoolean("purchased", false); // getting boolean
 
+                                                if(purchased) {
+                                                    final String telefone = Objects.requireNonNull(usuarios.child("telefone").getValue()).toString();
+                                                    Intent i = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
+                                                            telefone, null));
+                                                    startActivity(i);
+                                                } else {
+                                                    //abre a main activity que abre o DoacaoFragment
+                                                    Intent i = new Intent(DetalhesAnimalActivity.this, MainActivity.class);
+                                                    i.putExtra("telefone", true);
+                                                    startActivity(i);
+                                                }
                                             } else {
                                                 Util.setSnackBar(layout, getString(R.string.telefone_nao_cadastrado));
                                             }

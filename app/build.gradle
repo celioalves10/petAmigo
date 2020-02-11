@@ -7,14 +7,17 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 48
-        versionName "2.48.533"
+        versionCode 51
+        versionName "2.51.534"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
-        ndk {
-            ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-        }
+        //ndk {
+            //ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            //abiFilters "armeabi-v7a", "x86","arm64-v8a","x86_64"
+        ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64'
+        //}
+
     }
 
     buildTypes {
@@ -126,7 +129,7 @@ dependencies {
     //PickImage
     implementation 'com.github.jrvansuita:PickImage:2.2.4'
 
-    implementation 'com.zxy.android:tiny:1.1.0'
+    //implementation 'com.zxy.android:tiny:1.1.0'
 
     //compressor de imagens
     implementation 'id.zelory:compressor:2.1.0'

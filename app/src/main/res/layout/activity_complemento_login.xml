@@ -14,6 +14,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="@string/txt_cadastro"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -88,6 +89,7 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="8dp"
             android:text="@string/txt_inserir_foto"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -133,6 +135,7 @@
             android:layout_marginBottom="4dp"
             android:text="@string/txt_nome"
             android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/edt_cad_nome"
             app:layout_constraintStart_toStartOf="@+id/edt_cad_nome" />
 
@@ -162,6 +165,7 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="8dp"
             android:text="@string/txt_qual_nome"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -193,6 +197,7 @@
             android:layout_marginBottom="4dp"
             android:text="@string/txt_estado"
             android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/spinner_cad_pais_complemento"
             app:layout_constraintStart_toStartOf="@+id/spinner_cad_estado_complemento" />
 
@@ -200,9 +205,10 @@
             android:id="@+id/textView23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="@string/cidade"
             android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/spinner_cad_cidade_complemento"
             app:layout_constraintTop_toBottomOf="@+id/spinner_cad_pais_complemento" />
 
@@ -213,6 +219,7 @@
             android:layout_marginBottom="4dp"
             android:text="@string/txt_pais"
             android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/spinner_cad_pais_complemento"
             app:layout_constraintEnd_toEndOf="@+id/spinner_cad_pais_complemento"
             app:layout_constraintHorizontal_bias="0.0"
@@ -226,6 +233,7 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="8dp"
             android:text="@string/txt_local_user"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -256,7 +264,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -310,6 +317,7 @@
             android:layout_marginBottom="4dp"
             android:text="@string/txt_contato"
             android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/edt_cad_telefone"
             app:layout_constraintStart_toStartOf="@+id/edt_cad_telefone" />
 
@@ -321,6 +329,7 @@
             android:layout_marginTop="100dp"
             android:layout_marginEnd="8dp"
             android:text="@string/txt_seu_telefon"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

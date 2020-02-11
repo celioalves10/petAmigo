@@ -218,9 +218,15 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
+            boolean telefone = getIntent().getBooleanExtra("telefone", false);
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.view_pager, new AnunciosFragment()).commit();
+            if (telefone) {
+                fragmentTransaction.replace(R.id.view_pager, new DoacaoFragment()).commit();
+            } else {
+                fragmentTransaction.replace(R.id.view_pager, new AnunciosFragment()).commit();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -502,7 +508,7 @@ public class MainActivity extends AppCompatActivity
 
                 startActivity(new Intent(this, LoginActivity.class));
 
-                mostraAppLovinIntersticial();
+                //mostraAppLovinIntersticial();
 
                 if (ConfiguracaoFirebase.isUsuarioLogado()) {
                     autenticacao.signOut();
