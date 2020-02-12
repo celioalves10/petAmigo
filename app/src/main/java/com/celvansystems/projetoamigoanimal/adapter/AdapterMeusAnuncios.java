@@ -2,7 +2,6 @@ package com.celvansystems.projetoamigoanimal.adapter;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -105,92 +104,73 @@ public class AdapterMeusAnuncios extends RecyclerView.Adapter<AdapterMeusAnuncio
                     }
 
                     // ação de clique na foto do anuncio
-                    myViewHolder.foto.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
-                            detalhesIntent.putExtra("anuncioSelecionado", anuncio);
-                            v.getContext().startActivity(detalhesIntent);
-                        }
+                    myViewHolder.foto.setOnClickListener(v -> {
+                        Intent detalhesIntent = new Intent(v.getContext(), DetalhesAnimalActivity.class);
+                        detalhesIntent.putExtra("anuncioSelecionado", anuncio);
+                        v.getContext().startActivity(detalhesIntent);
                     });
 
-                    myViewHolder.imvCompartilharMeusAnuncios.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            myViewHolder.imvCompartilharMeusAnuncios.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    compartilharAnuncio(myViewHolder, anuncio);
-                                }
-                            });
+                    myViewHolder.imvCompartilharMeusAnuncios.setOnClickListener(v ->
+                            myViewHolder.imvCompartilharMeusAnuncios.setOnClickListener(v1 ->
+                                    compartilharAnuncio(myViewHolder, anuncio)));
+
+                    myViewHolder.imvMaisOpcoesMeusAnuncios.setOnClickListener(v -> {
+
+                        List<String> opcoesLista = new ArrayList<>();
+
+                        if (ConfiguracaoFirebase.getIdUsuario().equalsIgnoreCase(anuncio.getDonoAnuncio())) {
+                            opcoesLista.add(ctx.getString(R.string.editar));
+                            opcoesLista.add(ctx.getString(R.string.compartilhar));
+                            opcoesLista.add(ctx.getString(R.string.remover));
                         }
-                    });
 
-                    myViewHolder.imvMaisOpcoesMeusAnuncios.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                        final String[] opcoes = new String[opcoesLista.size()];
 
-                            List<String> opcoesLista = new ArrayList<>();
-
-                            if (ConfiguracaoFirebase.getIdUsuario().equalsIgnoreCase(anuncio.getDonoAnuncio())) {
-                                opcoesLista.add(ctx.getString(R.string.editar));
-                                opcoesLista.add(ctx.getString(R.string.compartilhar));
-                                opcoesLista.add(ctx.getString(R.string.remover));
-                            }
-
-                            final String[] opcoes = new String[opcoesLista.size()];
-
-                            for (int i = 0; i < opcoesLista.size(); i++) {
-                                opcoes[i] = opcoesLista.get(i);
-                            }
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolder.imvMaisOpcoesMeusAnuncios.getContext());
-
-                            builder.setItems(opcoes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    if (ctx.getString(R.string.editar).equals(opcoes[which])) {
-
-                                        Bundle data = new Bundle();
-                                        data.putSerializable("anuncioSelecionado", anuncio);
-
-                                        CadastrarAnuncioFragment cadFragment = new CadastrarAnuncioFragment();
-                                        cadFragment.setArguments(data);
-
-                                        AppCompatActivity activity = (AppCompatActivity) myViewHolder.itemView.getContext();
-                                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                        fragmentTransaction.replace(R.id.view_pager, cadFragment).addToBackStack("tag").commit();
-
-                                    } else if (ctx.getString(R.string.compartilhar).equalsIgnoreCase(opcoes[which])) {
-
-                                        compartilharAnuncio(myViewHolder, anuncio);
-
-                                    } else if (ctx.getString(R.string.remover).equals(opcoes[which])) {
-
-                                        new AlertDialog.Builder(myViewHolder.itemView.getContext())
-                                                .setMessage(ctx.getString(R.string.tem_certeza_excluir_anuncio))
-                                                .setCancelable(false)
-                                                .setPositiveButton(ctx.getString(R.string.sim), new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int id) {
-                                                        anuncio.remover();
-                                                        AppCompatActivity activity = (AppCompatActivity) myViewHolder.itemView.getContext();
-                                                        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                                        fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
-                                                    }
-                                                })
-                                                .setNegativeButton(ctx.getString(R.string.nao), null)
-                                                .show();
-
-                                    } else if (ctx.getString(R.string.denunciar).equals(opcoes[which])) {
-                                        Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.denunciar));
-                                    }
-                                }
-                            });
-                            builder.show();
+                        for (int i1 = 0; i1 < opcoesLista.size(); i1++) {
+                            opcoes[i1] = opcoesLista.get(i1);
                         }
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(myViewHolder.imvMaisOpcoesMeusAnuncios.getContext());
+
+                        builder.setItems(opcoes, (dialog, which) -> {
+
+                            if (ctx.getString(R.string.editar).equals(opcoes[which])) {
+
+                                Bundle data = new Bundle();
+                                data.putSerializable("anuncioSelecionado", anuncio);
+
+                                CadastrarAnuncioFragment cadFragment = new CadastrarAnuncioFragment();
+                                cadFragment.setArguments(data);
+
+                                AppCompatActivity activity = (AppCompatActivity) myViewHolder.itemView.getContext();
+                                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.view_pager, cadFragment).addToBackStack("tag").commit();
+
+                            } else if (ctx.getString(R.string.compartilhar).equalsIgnoreCase(opcoes[which])) {
+
+                                compartilharAnuncio(myViewHolder, anuncio);
+
+                            } else if (ctx.getString(R.string.remover).equals(opcoes[which])) {
+
+                                new AlertDialog.Builder(myViewHolder.itemView.getContext())
+                                        .setMessage(ctx.getString(R.string.tem_certeza_excluir_anuncio))
+                                        .setCancelable(false)
+                                        .setPositiveButton(ctx.getString(R.string.sim), (dialog1, id) -> {
+                                            anuncio.remover();
+                                            AppCompatActivity activity = (AppCompatActivity) myViewHolder.itemView.getContext();
+                                            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                            fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
+                                        })
+                                        .setNegativeButton(ctx.getString(R.string.nao), null)
+                                        .show();
+
+                            } else if (ctx.getString(R.string.denunciar).equals(opcoes[which])) {
+                                Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.denunciar));
+                            }
+                        });
+                        builder.show();
                     });
                 }
             }

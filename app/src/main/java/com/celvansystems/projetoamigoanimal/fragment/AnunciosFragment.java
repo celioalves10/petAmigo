@@ -1,7 +1,6 @@
 package com.celvansystems.projetoamigoanimal.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -97,18 +96,8 @@ public class AnunciosFragment extends Fragment {
             txvSemAnuncios.setTextSize(15);
             txvSemAnuncios.setVisibility(View.GONE);
 
-            btnLocal.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    filtraPorCidade(v);
-                }
-            });
-            btnEspecie.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    filtraPorEspecie(v);
-                }
-            });
+            btnLocal.setOnClickListener(this::filtraPorCidade);
+            btnEspecie.setOnClickListener(this::filtraPorEspecie);
 
             //configurar recyclerview
             try {
@@ -133,12 +122,7 @@ public class AnunciosFragment extends Fragment {
 
             //refresh
             swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    refreshRecyclerAnuncios();
-                }
-            });
+            swipeRefreshLayout.setOnRefreshListener(this::refreshRecyclerAnuncios);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 LinearLayout llBotoes = view.findViewById(R.id.linearLayoutBotoes);
@@ -378,23 +362,15 @@ public class AnunciosFragment extends Fragment {
             dialogEspecie.setView(viewSpinnerEspecie
             );
 
-            dialogEspecie.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            dialogEspecie.setPositiveButton("Ok", (dialog, which) -> {
 
-                    String filtroEspecie = spinnerEspecie.getSelectedItem().toString();
-                    btnEspecie.setText(filtroEspecie);
-                    refreshRecyclerAnuncios();
-                }
-
-
+                String filtroEspecie = spinnerEspecie.getSelectedItem().toString();
+                btnEspecie.setText(filtroEspecie);
+                refreshRecyclerAnuncios();
             });
 
-            dialogEspecie.setNegativeButton(getString(R.string.cancelar), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            dialogEspecie.setNegativeButton(getString(R.string.cancelar), (dialog, which) -> {
 
-                }
             });
 
             AlertDialog dialog = dialogEspecie.create();
@@ -472,34 +448,28 @@ public class AnunciosFragment extends Fragment {
             });
 
             dialogCidade.setView(viewSpinner);
-            dialogCidade.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            dialogCidade.setPositiveButton("Ok", (dialog, which) -> {
 
-                    String filtroEstado;
-                    String filtroCidade;
+                String filtroEstado;
+                String filtroCidade;
 
-                    if (spinnerEstado.getSelectedItem() != null) {
+                if (spinnerEstado.getSelectedItem() != null) {
 
-                        filtroEstado = spinnerEstado.getSelectedItem().toString();
-                        btnLocal.setText(filtroEstado);
-                    }
-                    if (spinnerCidade.getSelectedItem() != null) {
-                        if (!spinnerCidade.getSelectedItem().toString().equalsIgnoreCase("Todas")) {
-
-                            filtroCidade = spinnerCidade.getSelectedItem().toString();
-                            btnLocal.setText(filtroCidade);
-                        }
-                    }
-                    refreshRecyclerAnuncios();
+                    filtroEstado = spinnerEstado.getSelectedItem().toString();
+                    btnLocal.setText(filtroEstado);
                 }
+                if (spinnerCidade.getSelectedItem() != null) {
+                    if (!spinnerCidade.getSelectedItem().toString().equalsIgnoreCase("Todas")) {
+
+                        filtroCidade = spinnerCidade.getSelectedItem().toString();
+                        btnLocal.setText(filtroCidade);
+                    }
+                }
+                refreshRecyclerAnuncios();
             });
 
-            dialogCidade.setNegativeButton(getString(R.string.cancelar), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+            dialogCidade.setNegativeButton(getString(R.string.cancelar), (dialog, which) -> {
 
-                }
             });
             AlertDialog dialog = dialogCidade.create();
             dialog.show();

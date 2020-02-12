@@ -63,7 +63,7 @@ public class PerfilUsuarioFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        viewFragment = inflater.inflate(R.layout.fragment_perfil_usuario, container, false);
+        viewFragment = inflater.inflate(R.layout.fragment_perfilusuario, container, false);
 
         inicializarComponentes();
 
@@ -83,8 +83,6 @@ public class PerfilUsuarioFragment extends Fragment {
         //txvPais = viewFragment.findViewById(R.id.textView_pais);
         txvTelefone = viewFragment.findViewById(R.id.textView_telefone);
         swtNotificacoes = viewFragment.findViewById(R.id.swt_notificacoes_perfil);
-
-
 
         SharedPreferences.Editor editor = viewFragment.getContext().getSharedPreferences("preferencias", MODE_PRIVATE).edit();
 

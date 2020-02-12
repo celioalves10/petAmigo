@@ -8,13 +8,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.applovin.adview.AppLovinInterstitialAd;
@@ -24,8 +21,6 @@ import com.applovin.sdk.AppLovinAdLoadListener;
 import com.applovin.sdk.AppLovinAdSize;
 import com.applovin.sdk.AppLovinSdk;
 import com.celvansystems.projetoamigoanimal.R;
-import com.celvansystems.projetoamigoanimal.fragment.AnunciosFragment;
-import com.celvansystems.projetoamigoanimal.fragment.DoacaoFragment;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
@@ -49,7 +44,7 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detalhes_animal);
+        setContentView(R.layout.activity_detalhesanimal);
 
         //configurar toolbar
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -80,12 +75,9 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
         if (anuncioSelecionado != null) {
 
-            ImageListener imageListener = new ImageListener() {
-                @Override
-                public void setImageForPosition(int position, ImageView imageView) {
-                    String urlString = anuncioSelecionado.getFotos().get(position);
-                    Picasso.get().load(urlString).into(imageView);
-                }
+            ImageListener imageListener = (position, imageView) -> {
+                String urlString = anuncioSelecionado.getFotos().get(position);
+                Picasso.get().load(urlString).into(imageView);
             };
             if(anuncioSelecionado.getFotos()!= null) {
                 carouselView.setPageCount(anuncioSelecionado.getFotos().size());
@@ -125,32 +117,29 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                                 if (Objects.requireNonNull(usuarios.child("id").getValue()).toString()
                                         .equalsIgnoreCase(anuncioSelecionado.getDonoAnuncio())) {
 
-                                    btnVerTelefone.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
+                                    btnVerTelefone.setOnClickListener(v -> {
 
-                                            //mostraAppLovinIntersticial();
+                                        //mostraAppLovinIntersticial();
 
-                                            if (usuarios.child("telefone").getValue() != null) {
+                                        if (usuarios.child("telefone").getValue() != null) {
 
-                                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                                                //SharedPreferences.Editor editor = pref.edit();
-                                                boolean purchased = pref.getBoolean("purchased", false); // getting boolean
+                                            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                            //SharedPreferences.Editor editor = pref.edit();
+                                            boolean purchased = pref.getBoolean("purchased", false); // getting boolean
 
-                                                if(purchased) {
-                                                    final String telefone = Objects.requireNonNull(usuarios.child("telefone").getValue()).toString();
-                                                    Intent i = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
-                                                            telefone, null));
-                                                    startActivity(i);
-                                                } else {
-                                                    //abre a main activity que abre o DoacaoFragment
-                                                    Intent i = new Intent(DetalhesAnimalActivity.this, MainActivity.class);
-                                                    i.putExtra("telefone", true);
-                                                    startActivity(i);
-                                                }
+                                            if(purchased) {
+                                                final String telefone = Objects.requireNonNull(usuarios.child("telefone").getValue()).toString();
+                                                Intent i = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
+                                                        telefone, null));
+                                                startActivity(i);
                                             } else {
-                                                Util.setSnackBar(layout, getString(R.string.telefone_nao_cadastrado));
+                                                //abre a main activity que abre o DoacaoFragment
+                                                Intent i = new Intent(DetalhesAnimalActivity.this, MainActivity.class);
+                                                i.putExtra("telefone", true);
+                                                startActivity(i);
                                             }
+                                        } else {
+                                            Util.setSnackBar(layout, getString(R.string.telefone_nao_cadastrado));
                                         }
                                     });
                                 }

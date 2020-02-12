@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Base64;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -53,12 +52,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -164,51 +160,37 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             layout = findViewById(R.id.login_layout);
 
             TextView txtAnuncios = findViewById(R.id.txtAnuncios);
-            txtAnuncios.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(ConfiguracaoFirebase.isUsuarioLogado()) {
-                        ConfiguracaoFirebase.getFirebaseAutenticacao().signOut();
-                    }
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    finish();
+            txtAnuncios.setOnClickListener(v -> {
+                if(ConfiguracaoFirebase.isUsuarioLogado()) {
+                    ConfiguracaoFirebase.getFirebaseAutenticacao().signOut();
                 }
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
             });
 
             mEmailView.setText("");
             mPasswordView.setText("");
 
-            mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                    if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                        tentarLogin();
-                        return true;
-                    }
-                    return false;
-                }
-            });
-
-            txvEsqueciSenha.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    hideKeyboard(LoginActivity.this, mEmailView);
-                    if (mEmailView.getText() != null &&
-                            !mEmailView.getText().toString().equalsIgnoreCase("") &&
-                            mEmailView.getText().toString().contains("@")) {
-                        enviarEmailRecuperacao(mEmailView.getText().toString());
-                    } else {
-                        Util.setSnackBar(layout, getString(R.string.insira_seu_email));
-                    }
-                }
-            });
-
-            btnLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
+                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
                     tentarLogin();
+                    return true;
+                }
+                return false;
+            });
+
+            txvEsqueciSenha.setOnClickListener(v -> {
+                hideKeyboard(LoginActivity.this, mEmailView);
+                if (mEmailView.getText() != null &&
+                        !mEmailView.getText().toString().equalsIgnoreCase("") &&
+                        mEmailView.getText().toString().contains("@")) {
+                    enviarEmailRecuperacao(mEmailView.getText().toString());
+                } else {
+                    Util.setSnackBar(layout, getString(R.string.insira_seu_email));
                 }
             });
+
+            btnLogin.setOnClickListener(view -> tentarLogin());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 btnLogin.setElevation(50);
@@ -267,35 +249,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
 
             authentication.signInWithCredential(credential)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            try {
-                                if (task.isSuccessful()) {
+                    .addOnCompleteListener(this, task -> {
+                        try {
+                            if (task.isSuccessful()) {
 
-                                    FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
+                                FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
 
-                                    concluiCadastroUsuario(user);
+                                concluiCadastroUsuario(user);
 
-                                    //finish();
+                                //finish();
 
-                                    Util.setSnackBar(layout, getString(R.string.login_sucesso));
-                                } else {
-                                    Util.setSnackBar(layout, getString(R.string.falha_login));
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                Util.setSnackBar(layout, getString(R.string.login_sucesso));
+                            } else {
+                                Util.setSnackBar(layout, getString(R.string.falha_login));
                             }
-                            showProgress(false);
-                            mImageBg_color.setVisibility(View.INVISIBLE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Util.setSnackBar(layout, e.getMessage());
-                }
-            });
+                        showProgress(false);
+                        mImageBg_color.setVisibility(View.INVISIBLE);
+                    }).addOnFailureListener(e -> Util.setSnackBar(layout, e.getMessage()));
         } catch (Exception e) {
             e.printStackTrace();
             Util.setSnackBar(layout, e.getMessage());
@@ -318,13 +291,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             //Google Login
             btnLoginGoogle.setSize(SignInButton.SIZE_WIDE);
-            btnLoginGoogle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    signInGoogle();
-                }
-            });
+            btnLoginGoogle.setOnClickListener(v -> signInGoogle());
         } catch (Exception e) {
             e.printStackTrace();
             Util.setSnackBar(layout, "1-" + e.getMessage());
@@ -378,35 +345,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
-                task.addOnCompleteListener(new OnCompleteListener<GoogleSignInAccount>() {
-                    @Override
-                    public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                task.addOnCompleteListener(task1 -> {
 
-                        // Google Sign In was successful, authenticate with Firebase
-                        try {
+                    // Google Sign In was successful, authenticate with Firebase
+                    try {
 
-                            GoogleSignInAccount account = task.getResult(ApiException.class);
+                        GoogleSignInAccount account = task1.getResult(ApiException.class);
 
-                            if (account != null) {
-                                firebaseAuthWithGoogle(account);
-                            } else {
-                                Util.setSnackBar(layout, "account = null");
-                            }
-                            //handleSignInResult(task);
-                        } catch (ApiException e) {
-                            e.printStackTrace();
-                            Util.setSnackBar(layout, "4-" + e.getMessage());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Util.setSnackBar(layout, "14-" + e.getMessage());
+                        if (account != null) {
+                            firebaseAuthWithGoogle(account);
+                        } else {
+                            Util.setSnackBar(layout, "account = null");
                         }
+                        //handleSignInResult(task);
+                    } catch (ApiException e) {
+                        e.printStackTrace();
+                        Util.setSnackBar(layout, "4-" + e.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Util.setSnackBar(layout, "14-" + e.getMessage());
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Util.setSnackBar(layout, "5-" + e.getMessage());
-                    }
-                });
+                }).addOnFailureListener(e -> Util.setSnackBar(layout, "5-" + e.getMessage()));
 
             } else {
                 //Facebook
@@ -430,37 +389,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         try {
             AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
             authentication.signInWithCredential(credential)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                    .addOnCompleteListener(this, task -> {
 
-                            try {
-                                if (task.isSuccessful()) {
+                        try {
+                            if (task.isSuccessful()) {
 
-                                    FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
+                                FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
 
-                                    concluiCadastroUsuario(user);
+                                concluiCadastroUsuario(user);
 
-                                    //finish();
+                                //finish();
 
-                                    Util.setSnackBar(layout, getString(R.string.login_sucesso));
-                                } else {
-                                    Util.setSnackBar(layout, getString(R.string.falha_login));
-                                }
-                                showProgress(false);
-                                mImageBg_color.setVisibility(View.INVISIBLE);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Util.setSnackBar(layout, "7-" + e.getMessage());
+                                Util.setSnackBar(layout, getString(R.string.login_sucesso));
+                            } else {
+                                Util.setSnackBar(layout, getString(R.string.falha_login));
                             }
+                            showProgress(false);
+                            mImageBg_color.setVisibility(View.INVISIBLE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Util.setSnackBar(layout, "7-" + e.getMessage());
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                    Util.setSnackBar(layout, "8-" + e.getMessage());
-                }
-            });
+                    }).addOnFailureListener(e -> Util.setSnackBar(layout, "8-" + e.getMessage()));
         } catch (Exception e) {
             Util.setSnackBar(layout, "9-" + e.getMessage());
         }
@@ -564,41 +514,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     if (swtLoginCadastrar.isChecked()) {
 
                         authentication.createUserWithEmailAndPassword(email, password)
-                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                .addOnCompleteListener(task -> {
 
-                                        if (task.isSuccessful()) {
+                                    if (task.isSuccessful()) {
 
-                                            swtLoginCadastrar.setChecked(false);
-                                            Util.setSnackBar(layout, getString(R.string.cadastro_realizado));
-                                            sendVerificationEmail();
+                                        swtLoginCadastrar.setChecked(false);
+                                        Util.setSnackBar(layout, getString(R.string.cadastro_realizado));
+                                        sendVerificationEmail();
 
-                                            //criando usuario...
-                                            Usuario usuario = new Usuario();
-                                            usuario.setId(Objects.requireNonNull(task.getResult()).getUser().getUid());
-                                            // usuario.setNome(txiNome.getText().toString());
-                                            usuario.setEmail(email);
-                                            usuario.salvar();
+                                        //criando usuario...
+                                        Usuario usuario = new Usuario();
+                                        usuario.setId(Objects.requireNonNull(Objects.requireNonNull(task.getResult()).getUser()).getUid());
+                                        // usuario.setNome(txiNome.getText().toString());
+                                        usuario.setEmail(email);
+                                        usuario.salvar();
 
-                                        } else {
-                                            String erroExcecao;
-                                            try {
-                                                throw Objects.requireNonNull(task.getException());
-                                            } catch (FirebaseAuthWeakPasswordException e) {
-                                                erroExcecao = getString(R.string.digite_senha_forte);
-                                            } catch (FirebaseAuthInvalidCredentialsException e) {
-                                                erroExcecao = getString(R.string.digite_email_valido);
-                                            } catch (FirebaseAuthUserCollisionException e) {
-                                                erroExcecao = getString(R.string.conta_cadastrada);
-                                            } catch (FirebaseAuthInvalidUserException e) {
-                                                erroExcecao = getString(R.string.usuario_inexistente);
-                                            } catch (Exception e) {
-                                                erroExcecao = getString(R.string.falha_cadastro_usuario) + e.getMessage();
-                                                e.printStackTrace();
-                                            }
-                                            Util.setSnackBar(layout, getString(R.string.erro) + erroExcecao);
+                                    } else {
+                                        String erroExcecao;
+                                        try {
+                                            throw Objects.requireNonNull(task.getException());
+                                        } catch (FirebaseAuthWeakPasswordException e) {
+                                            erroExcecao = getString(R.string.digite_senha_forte);
+                                        } catch (FirebaseAuthInvalidCredentialsException e) {
+                                            erroExcecao = getString(R.string.digite_email_valido);
+                                        } catch (FirebaseAuthUserCollisionException e) {
+                                            erroExcecao = getString(R.string.conta_cadastrada);
+                                        } catch (FirebaseAuthInvalidUserException e) {
+                                            erroExcecao = getString(R.string.usuario_inexistente);
+                                        } catch (Exception e) {
+                                            erroExcecao = getString(R.string.falha_cadastro_usuario) + e.getMessage();
+                                            e.printStackTrace();
                                         }
+                                        Util.setSnackBar(layout, getString(R.string.erro) + erroExcecao);
                                     }
                                 });
 
@@ -607,29 +554,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                         //direciona para a activity principal
                         authentication.signInWithEmailAndPassword(email, password)
-                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
 
-                                            if (checkIfEmailVerified()) {
+                                        if (checkIfEmailVerified()) {
 
-                                                //redirecionamento de acordo com o cadastro do usuario (completo ou incompleto)
-                                                String usuarioId = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getUid();
-                                                redireciona(usuarioId);
+                                            //redirecionamento de acordo com o cadastro do usuario (completo ou incompleto)
+                                            String usuarioId = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getUid();
+                                            redireciona(usuarioId);
 
-                                            } else {
-                                                Util.setSnackBar(layout, getString(R.string.email_nao_verificado));
-
-                                                //envia e-mail de verificacao
-                                                sendVerificationEmail();
-                                            }
                                         } else {
-                                            Util.setSnackBar(layout, getString(R.string.email_senha_invalido));
+                                            Util.setSnackBar(layout, getString(R.string.email_nao_verificado));
+
+                                            //envia e-mail de verificacao
+                                            sendVerificationEmail();
                                         }
-                                        showProgress(false);
-                                        mImageBg_color.setVisibility(View.INVISIBLE);
+                                    } else {
+                                        Util.setSnackBar(layout, getString(R.string.email_senha_invalido));
                                     }
+                                    showProgress(false);
+                                    mImageBg_color.setVisibility(View.INVISIBLE);
                                 });
                         showProgress(true);
                         mImageBg_color.setVisibility(View.VISIBLE);
@@ -699,13 +643,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             assert user != null;
             user.sendEmailVerification()
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                // email enviado
-                                FirebaseAuth.getInstance().signOut();
-                            }
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // email enviado
+                            FirebaseAuth.getInstance().signOut();
                         }
                     });
         } catch (Exception e) {
@@ -717,17 +658,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         try {
             authentication.sendPasswordResetEmail(email)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                    .addOnCompleteListener(task -> {
 
-                            if (task.isSuccessful()) {
+                        if (task.isSuccessful()) {
 
-                                Util.setSnackBar(layout, getString(R.string.email_enviado));
+                            Util.setSnackBar(layout, getString(R.string.email_enviado));
 
-                            } else {
-                                Util.setSnackBar(layout, getString(R.string.nao_foi_possivel_email));
-                            }
+                        } else {
+                            Util.setSnackBar(layout, getString(R.string.nao_foi_possivel_email));
                         }
                     });
         } catch (Exception e) {
@@ -869,13 +807,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             Snackbar.make(mEmailView, R.string.permissoes_requeridas, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
+                    .setAction(android.R.string.ok, v -> requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS));
         } else {
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
         }

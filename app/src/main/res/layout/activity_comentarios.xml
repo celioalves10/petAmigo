@@ -92,8 +92,6 @@
                     app:layout_constraintBottom_toBottomOf="@+id/imageButton_comentarAnuncio"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:srcCompat="@drawable/ic_info_outline_cinza_24dp" />
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

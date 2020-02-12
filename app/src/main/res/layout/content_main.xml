@@ -23,7 +23,6 @@
         android:id="@+id/view_pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="53dp"
         android:background="@color/default_circle_indicator_fill_color"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -164,9 +163,18 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
+    <com.applovin.adview.AppLovinAdView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        applovin:loadAdOnCreate="true" />
+    <!--FrameLayout
         android:layout_width="match_parent"
         android:layout_height="53dp"
+        android:gravity="center|center_horizontal|center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -176,15 +184,16 @@
         <com.applovin.adview.AppLovinAdView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal|center_vertical"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            applovin:loadAdOnCreate="true"
+            android:gravity="center|center_horizontal|center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            />
-    </FrameLayout>
+            applovin:loadAdOnCreate="true" />
+    </FrameLayout-->
 
 
     <!--com.google.android.gms.ads.AdView

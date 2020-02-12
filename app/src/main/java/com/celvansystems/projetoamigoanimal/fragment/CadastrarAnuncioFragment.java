@@ -102,7 +102,7 @@ public class CadastrarAnuncioFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        viewFragment = inflater.inflate(R.layout.fragment_cadastrar_anuncio, container, false);
+        viewFragment = inflater.inflate(R.layout.fragment_cadastraranuncio, container, false);
         Bundle bundle = this.getArguments();
 
         inicializarComponentes();
@@ -176,12 +176,7 @@ public class CadastrarAnuncioFragment extends Fragment
 
         carregarDadosSpinner();
 
-        btnCadastrarAnuncio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validarDadosAnuncio();
-            }
-        });
+        btnCadastrarAnuncio.setOnClickListener(v -> validarDadosAnuncio());
     }
 
     private void preencheCampos(Animal anuncio) {
@@ -443,33 +438,30 @@ public class CadastrarAnuncioFragment extends Fragment
                     // Continue with the task to get the download URL
                     return imagemAnimal.getDownloadUrl();
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
 
-                        Uri firebaseUrl = task.getResult();
-                        String urlConvertida = Objects.requireNonNull(firebaseUrl).toString();
-                        listaURLFotos.add(urlConvertida);
+                    Uri firebaseUrl = task.getResult();
+                    String urlConvertida = Objects.requireNonNull(firebaseUrl).toString();
+                    listaURLFotos.add(urlConvertida);
 
-                        if (totalFotos == listaURLFotos.size()) {
-                            animal.setFotos(listaURLFotos);
-                            animal.salvar();
-                            Util.setSnackBar(layout, getString(R.string.sucesso_ao_fazer_upload));
+                    if (totalFotos == listaURLFotos.size()) {
+                        animal.setFotos(listaURLFotos);
+                        animal.salvar();
+                        Util.setSnackBar(layout, getString(R.string.sucesso_ao_fazer_upload));
 
-                            MainActivity.reconfiguraNotificacoes(getActivity());
+                        MainActivity.reconfiguraNotificacoes(getActivity());
 
-                            dialog.dismiss();
+                        dialog.dismiss();
 
-                            //redireciona para MeusAnunciosFragment
-                            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
-                            //mostraInterstitialAd();
-                        }
-                    } else {
-                        Util.setSnackBar(layout, getString(R.string.falha_upload));
+                        //redireciona para MeusAnunciosFragment
+                        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
+                        //mostraInterstitialAd();
                     }
+                } else {
+                    Util.setSnackBar(layout, getString(R.string.falha_upload));
                 }
             });
         } catch (Exception e) {

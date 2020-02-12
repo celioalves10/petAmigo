@@ -32,15 +32,14 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_height="0dp"
             android:keepScreenOn="true"
             android:nextFocusDown="@id/btn_doar5_reais"
             android:overScrollMode="always"
             android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView_doacao">
+            app:layout_constraintTop_toBottomOf="@+id/textFaca">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,7 +71,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@xml/bg_bt_redes_sociais"
@@ -87,7 +85,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@xml/bg_bt_redes_sociais"
@@ -102,7 +99,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@xml/bg_bt_redes_sociais"
@@ -117,7 +113,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@xml/bg_bt_redes_sociais"
@@ -131,10 +126,11 @@
         </ScrollView>
 
         <TextView
+            android:id="@+id/textFaca"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/faca"
             android:textSize="18sp"

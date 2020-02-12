@@ -25,7 +25,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,13 +49,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-//import com.inmobi.sdk.InMobiSdk;
-//import com.ironsource.mediationsdk.IronSource;
 
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -90,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         //Notificações
         reconfiguraNotificacoes(this);
 
-        JSONObject consentObject = new JSONObject();
+        //JSONObject consentObject = new JSONObject();
         /*try {
             consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, true);
             consentObject.put("gdpr", "1");

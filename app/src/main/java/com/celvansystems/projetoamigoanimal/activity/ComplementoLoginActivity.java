@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -28,10 +29,6 @@ import com.celvansystems.projetoamigoanimal.helper.Mask;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Usuario;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,14 +36,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
-import com.vansuita.pickimage.listeners.IPickCancel;
-import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -98,7 +91,7 @@ public class ComplementoLoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complemento_login);
+        setContentView(R.layout.activity_complementologin);
 
         inicializarComponentes();
 
@@ -124,7 +117,7 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             imvFoto = findViewById(R.id.imv_foto_complemento);
             edtNome = findViewById(R.id.edt_cad_nome);
             int maxLengthofEditText = 30;
-            edtNome.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLengthofEditText)});
+            edtNome.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLengthofEditText)});
 
             edtTelefone = findViewById(R.id.edt_cad_telefone);
             edtTelefone.addTextChangedListener(Mask.insert("(##)#########", edtTelefone));
@@ -159,6 +152,10 @@ public class ComplementoLoginActivity extends AppCompatActivity {
     private void preencheDadosDoUsuario() {
 
         try {
+
+            SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("preferencias", MODE_PRIVATE).edit();
+            editor.putBoolean("notificacoes", true);
+            editor.apply();
 
             DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
                     .child("usuarios");
@@ -236,90 +233,64 @@ public class ComplementoLoginActivity extends AppCompatActivity {
     private void configuraAcoes() {
 
         try {
-            btn_proximo_nome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    layout_inserir_nome.setVisibility(View.INVISIBLE);
-                    layout_inserir_fone.setVisibility(View.VISIBLE);
-                }
+            btn_proximo_nome.setOnClickListener(v -> {
+                layout_inserir_nome.setVisibility(View.INVISIBLE);
+                layout_inserir_fone.setVisibility(View.VISIBLE);
             });
 
-            btn_proximo_fone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    layout_inserir_fone.setVisibility(View.INVISIBLE);
-                    layout_inserir_foto.setVisibility(View.VISIBLE);
-                }
+            btn_proximo_fone.setOnClickListener(v -> {
+                layout_inserir_fone.setVisibility(View.INVISIBLE);
+                layout_inserir_foto.setVisibility(View.VISIBLE);
             });
 
-            btn_proximo_foto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    layout_inserir_foto.setVisibility(View.INVISIBLE);
-                    layout_inserir_cidade.setVisibility(View.VISIBLE);
-                }
+            btn_proximo_foto.setOnClickListener(v -> {
+                layout_inserir_foto.setVisibility(View.INVISIBLE);
+                layout_inserir_cidade.setVisibility(View.VISIBLE);
             });
 
-            btn_voltar_fone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    layout_inserir_nome.setVisibility(View.VISIBLE);
-                    layout_inserir_fone.setVisibility(View.INVISIBLE);
-                }
+            btn_voltar_fone.setOnClickListener(v -> {
+                layout_inserir_nome.setVisibility(View.VISIBLE);
+                layout_inserir_fone.setVisibility(View.INVISIBLE);
             });
 
-            btn_voltar_foto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    layout_inserir_foto.setVisibility(View.INVISIBLE);
-                    layout_inserir_fone.setVisibility(View.VISIBLE);
-                }
+            btn_voltar_foto.setOnClickListener(v -> {
+                layout_inserir_foto.setVisibility(View.INVISIBLE);
+                layout_inserir_fone.setVisibility(View.VISIBLE);
             });
 
-            btn_voltar_cidade.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    layout_inserir_cidade.setVisibility(View.INVISIBLE);
-                    layout_inserir_foto.setVisibility(View.VISIBLE);
-                }
+            btn_voltar_cidade.setOnClickListener(v -> {
+                layout_inserir_cidade.setVisibility(View.INVISIBLE);
+                layout_inserir_foto.setVisibility(View.VISIBLE);
             });
 
-            btnFinalizarComplemento.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            btnFinalizarComplemento.setOnClickListener(v -> {
 
-                    //Id
-                    usuario.setId(ConfiguracaoFirebase.getIdUsuario());
-                    //Email
-                    usuario.setEmail(Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getEmail());
-                    //Nome
-                    if (edtNome.getText() != null && !edtNome.getText().toString().equalsIgnoreCase("")) {
-                        usuario.setNome(edtNome.getText().toString());
+                //Id
+                usuario.setId(ConfiguracaoFirebase.getIdUsuario());
+                //Email
+                usuario.setEmail(Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getEmail());
+                //Nome
+                if (edtNome.getText() != null && !edtNome.getText().toString().equalsIgnoreCase("")) {
+                    usuario.setNome(edtNome.getText().toString());
+                }
+                //Telefone
+                if (edtTelefone.getText() != null && !edtTelefone.getText().toString().equalsIgnoreCase("")) {
+                    usuario.setTelefone(edtTelefone.getText().toString());
+                }
+                //Pais
+                usuario.setPais(spnPais.getSelectedItem().toString());
+                //Estado
+                if (spnEstado.getSelectedItem() != null && !spnEstado.getSelectedItem().toString().equalsIgnoreCase("")) {
+                    //Cidade
+                    if (spnCidade.getSelectedItem() != null && !spnCidade.getSelectedItem().toString().equalsIgnoreCase("")) {
+                        usuario.setUf(spnEstado.getSelectedItem().toString());
+                        usuario.setCidade(spnCidade.getSelectedItem().toString());
                     }
-                    //Telefone
-                    if (edtTelefone.getText() != null && !edtTelefone.getText().toString().equalsIgnoreCase("")) {
-                        usuario.setTelefone(edtTelefone.getText().toString());
-                    }
-                    //Pais
-                    usuario.setPais(spnPais.getSelectedItem().toString());
-                    //Estado
-                    if (spnEstado.getSelectedItem() != null && !spnEstado.getSelectedItem().toString().equalsIgnoreCase("")) {
-                        //Cidade
-                        if (spnCidade.getSelectedItem() != null && !spnCidade.getSelectedItem().toString().equalsIgnoreCase("")) {
-                            usuario.setUf(spnEstado.getSelectedItem().toString());
-                            usuario.setCidade(spnCidade.getSelectedItem().toString());
-                        }
-                    }
-                    salvarUsuario(usuario);
                 }
+                salvarUsuario(usuario);
             });
 
-            imvFoto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    escolherImagem();
-                }
-            });
+            imvFoto.setOnClickListener(v -> escolherImagem());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -448,26 +419,19 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             //.setCameraIcon(yourIcon);
             //PickImageDialog.build(setup).show(this);
             PickImageDialog.build(setup)
-                    .setOnPickResult(new IPickResult() {
-                        @Override
-                        public void onPickResult(PickResult r) {
-                            if (r.getError() == null) {
+                    .setOnPickResult(r -> {
+                        if (r.getError() == null) {
 
-                                isNovaFoto = true;
+                            isNovaFoto = true;
 
-                                Uri imagemSelecionada = r.getUri();
-                                String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
+                            Uri imagemSelecionada = r.getUri();
+                            String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
 
-                                imvFoto.setImageURI(r.getUri());
-                                usuario.setFoto(caminhoImagem);
-                            }
+                            imvFoto.setImageURI(r.getUri());
+                            usuario.setFoto(caminhoImagem);
                         }
                     })
-                    .setOnPickCancel(new IPickCancel() {
-                        @Override
-                        public void onCancelClick() {
-
-                        }
+                    .setOnPickCancel(() -> {
                     }).show(this);
         } catch (Exception e) {
             e.printStackTrace();
@@ -504,45 +468,34 @@ public class ComplementoLoginActivity extends AppCompatActivity {
                 byte[] byteArray = comprimirImagem(selectedImage);
                 UploadTask uploadTask = imagemUsuario.putBytes(byteArray);
 
-                uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw Objects.requireNonNull(task.getException());
-                        }
-
-                        // Continue with the task to get the download URL
-                        return imagemUsuario.getDownloadUrl();
+                uploadTask.continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        throw Objects.requireNonNull(task.getException());
                     }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
 
-                            Uri firebaseUrl = task.getResult();
-                            String urlConvertida = Objects.requireNonNull(firebaseUrl).toString();
+                    // Continue with the task to get the download URL
+                    return imagemUsuario.getDownloadUrl();
+                }).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
 
-                            usuario.setFoto(urlConvertida);
-                            usuario.salvar();
-                            Util.setSnackBar(layout, getString(R.string.sucesso_ao_fazer_upload));
+                        Uri firebaseUrl = task.getResult();
+                        String urlConvertida = Objects.requireNonNull(firebaseUrl).toString();
 
-                            Intent intent = new Intent(ComplementoLoginActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
+                        usuario.setFoto(urlConvertida);
+                        usuario.salvar();
+                        Util.setSnackBar(layout, getString(R.string.sucesso_ao_fazer_upload));
 
-                        } else {
-                            Util.setSnackBar(layout, getString(R.string.falha_upload));
-                        }
-                        dialog.dismiss();
+                        Intent intent = new Intent(ComplementoLoginActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                    } else {
                         Util.setSnackBar(layout, getString(R.string.falha_upload));
                     }
-                });
+                    dialog.dismiss();
+
+                }).addOnFailureListener(e -> Util.setSnackBar(layout, getString(R.string.falha_upload)));
             } else {
                 usuario.setFoto(urlFotoAntiga);
                 usuario.salvar();

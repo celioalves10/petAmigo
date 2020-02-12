@@ -56,7 +56,7 @@ public class MeusAnunciosFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        viewFragment = inflater.inflate(R.layout.fragment_meus_anuncios, container, false);
+        viewFragment = inflater.inflate(R.layout.fragment_meusanuncios, container, false);
         inicializarComponentes();
 
         return viewFragment;

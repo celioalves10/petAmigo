@@ -10,10 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,8 +24,6 @@ import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.celvansystems.projetoamigoanimal.model.Comentario;
 import com.celvansystems.projetoamigoanimal.model.Usuario;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,13 +58,10 @@ public class ComentariosActivity extends AppCompatActivity {
             recyclercomentarios = findViewById(R.id.recyclerComentarios);
 
             ImageView imvInfoComentarios = findViewById(R.id.imv_info_comentarios);
-            imvInfoComentarios.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent detalhesIntent = new Intent(ComentariosActivity.this, DetalhesAnimalActivity.class);
-                    detalhesIntent.putExtra("anuncioSelecionado", anuncioSelecionado);
-                    startActivity(detalhesIntent);
-                }
+            imvInfoComentarios.setOnClickListener(view -> {
+                Intent detalhesIntent = new Intent(ComentariosActivity.this, DetalhesAnimalActivity.class);
+                detalhesIntent.putExtra("anuncioSelecionado", anuncioSelecionado);
+                startActivity(detalhesIntent);
             });
 
             ImageButton imbComentario = findViewById(R.id.imageButton_comentarAnuncio);
@@ -78,12 +71,9 @@ public class ComentariosActivity extends AppCompatActivity {
                 imvInfoComentarios.setImageTintList(getResources().getColorStateList(R.color.colorAccent));
             }
 
-            imbComentario.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    comentarAnuncio(anuncioSelecionado);
-                    hideKeyboard(getApplicationContext(), edtComentario);
-                }
+            imbComentario.setOnClickListener(v -> {
+                comentarAnuncio(anuncioSelecionado);
+                //hideKeyboard();
             });
 
 
@@ -175,9 +165,6 @@ public class ComentariosActivity extends AppCompatActivity {
 
                 updateRecycler(anuncioSelecionado);
                 //Log.i("INFO13", "anuncioselecionado != null");
-            } else {
-                //Log.i("INFO13", "anuncioselecionado == null");
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -242,13 +229,10 @@ public class ComentariosActivity extends AppCompatActivity {
                                             Comentario coment = new Comentario(usuario, texto, Util.getDataAtualBrasil());
 
                                             comentarioRef.push().setValue(coment)
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                    .addOnCompleteListener(task -> {
 
-                                                            Util.setSnackBar(layout, getString(R.string.comentario_inserido));
-                                                            edtComentario.setText(null);
-                                                        }
+                                                        Util.setSnackBar(layout, getString(R.string.comentario_inserido));
+                                                        edtComentario.setText(null);
                                                     });
                                         } else {
                                             Util.setSnackBar(layout, ctx.getString(R.string.insira_comentario_valido));
@@ -320,22 +304,20 @@ public class ComentariosActivity extends AppCompatActivity {
         }
     }
 
-
-
-    public static void hideKeyboard(Context context, View editText) {
+    /*public static void hideKeyboard() {
         try {
             InputMethodManager imm = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
+            /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
                 imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 if (imm != null) {
                     imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 }
-            }
-        } catch (Exception e) {
+            }*/
+        /*} catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

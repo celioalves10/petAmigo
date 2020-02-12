@@ -12,7 +12,6 @@ import android.media.RingtoneManager;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.util.Log;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
 import com.celvansystems.projetoamigoanimal.model.Animal;

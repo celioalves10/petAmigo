@@ -7,8 +7,6 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,15 +18,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        try {
-            setContentView(R.layout.activity_splash_screen);
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-            mostrarLogin();
-        }
+
+        setContentView(R.layout.activity_splashscreen);
 
         inicializarComponentes();
 
@@ -39,9 +30,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         } else {
             mostrarLogin();
         }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ImageView imvPegada = findViewById(R.id.imv_pegada);
+            ImageView imvPegada = findViewById(R.id.imv_pegada2);
             imvPegada.setElevation(35);
         }
     }
@@ -49,7 +39,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void inicializarComponentes() {
 
         TextView txvVersaoSplash = findViewById(R.id.txvVersaoSplash);
-        if(txvVersaoSplash != null && txvVersaoSplash.getText() != null) {
+        if (txvVersaoSplash != null && txvVersaoSplash.getText() != null) {
             txvVersaoSplash.setText(String.format("%s %s", txvVersaoSplash.getText(), BuildConfig.VERSION_NAME));
         }
     }
@@ -60,5 +50,4 @@ public class SplashScreenActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 }
