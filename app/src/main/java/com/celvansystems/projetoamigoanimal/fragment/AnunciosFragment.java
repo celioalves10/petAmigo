@@ -328,8 +328,14 @@ public class AnunciosFragment extends Fragment {
     }
 
     private void dismissProgressDialog() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+
+        try {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+        } catch (IllegalArgumentException e)
+        {
+            e.printStackTrace();
         }
     }
     /**

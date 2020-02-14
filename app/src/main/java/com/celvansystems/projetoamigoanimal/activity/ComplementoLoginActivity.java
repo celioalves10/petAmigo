@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 
@@ -87,6 +88,9 @@ public class ComplementoLoginActivity extends AppCompatActivity {
     };
 
     private Usuario usuario;
+
+    private static void onCancelClick() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,8 +192,10 @@ public class ComplementoLoginActivity extends AppCompatActivity {
                                         urlFotoAntiga = Objects.requireNonNull(usuarios.child("foto").getValue()).toString();
 
                                         String foto = Objects.requireNonNull(usuarios.child("foto").getValue()).toString();
-                                        Picasso.get().load(foto).into(imvFoto);
 
+                                        if(foto!= null) {
+                                            Picasso.get().load(foto).fit().into(imvFoto);
+                                        }
                                     }
 
                                     if (usuarios.child("uf").getValue() != null) {
@@ -290,7 +296,9 @@ public class ComplementoLoginActivity extends AppCompatActivity {
                 salvarUsuario(usuario);
             });
 
-            imvFoto.setOnClickListener(v -> escolherImagem());
+            imvFoto.setOnClickListener((View v) -> {
+                escolherImagem();
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -419,20 +427,8 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             //.setCameraIcon(yourIcon);
             //PickImageDialog.build(setup).show(this);
             PickImageDialog.build(setup)
-                    .setOnPickResult(r -> {
-                        if (r.getError() == null) {
-
-                            isNovaFoto = true;
-
-                            Uri imagemSelecionada = r.getUri();
-                            String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
-
-                            imvFoto.setImageURI(r.getUri());
-                            usuario.setFoto(caminhoImagem);
-                        }
-                    })
-                    .setOnPickCancel(() -> {
-                    }).show(this);
+                    .setOnPickResult(this::onPickResult)
+                    .setOnPickCancel(ComplementoLoginActivity::onCancelClick).show(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -512,6 +508,21 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void onPickResult(PickResult r) {
+        if (r != null) {
+            if (r.getError() == null) {
+
+                isNovaFoto = true;
+
+                Uri imagemSelecionada = r.getUri();
+                String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
+
+                imvFoto.setImageURI(r.getUri());
+                usuario.setFoto(caminhoImagem);
+            }
         }
     }
 }

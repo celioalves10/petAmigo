@@ -2,13 +2,17 @@ package com.celvansystems.projetoamigoanimal.helper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import android.view.View;
+
 import com.celvansystems.projetoamigoanimal.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,7 +86,7 @@ public class Util {
 
             json = new String(buffer, "Windows-1252");
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
@@ -115,24 +119,21 @@ public class Util {
                     break;
                 }
             }
+            if (array != null) {
 
+                int len = array.length();
+                cidades = new String[len];
+                for (int i = 0; i < len; i++) {
+                    try {
+                        cidades[i] = array.getString(i);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if (array != null) {
-
-            int len = array.length();
-            cidades = new String[len];
-            for (int i = 0; i < len; i++) {
-                try {
-                    cidades[i] = array.getString(i);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
         return cidades;
     }
 
@@ -188,8 +189,13 @@ public class Util {
      * @param snackTitle texto
      */
     public static void setSnackBar(View root, String snackTitle) {
-        Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_LONG);
-        snackbar.show();
+
+        try {
+            Snackbar snackbar = Snackbar.make(root, snackTitle, Snackbar.LENGTH_LONG);
+            snackbar.show();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     public static boolean validaTexto(String texto) {

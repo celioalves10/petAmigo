@@ -11,22 +11,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
 
-import android.util.Log;
-import android.view.Gravity;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.android.billingclient.api.BillingClient;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 
+import java.util.Objects;
 import java.util.Random;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -38,13 +36,19 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
     private View layout;
     private ImageView imvDoacao;
     private Button btnDoar5, btnDoar10, btnDoar50, btnDoar100;
-    private Context ctx;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_doacao, container, false);
+        try {
+            view = inflater.inflate(R.layout.fragment_doacao, container, false);
+        } catch (InflateException e) {
+            Objects.requireNonNull(e.getCause()).printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         inializaComponentes();
         carregarFotoMarketing();
         return view;
@@ -92,7 +96,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
         btnDoar100 = view.findViewById(R.id.btn_doar100_reais);
         //btnDoar500 = view.findViewById(R.id.btn_doar500_reais);
 
-        ctx = view.getContext();
+        Context ctx = view.getContext();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //btnDoar2.setElevation(10);
