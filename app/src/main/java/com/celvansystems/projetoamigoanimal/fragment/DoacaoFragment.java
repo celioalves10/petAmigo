@@ -35,7 +35,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
     private BillingProcessor bp;
     private View layout;
     private ImageView imvDoacao;
-    private Button btnDoar5, btnDoar10, btnDoar50, btnDoar100;
+    private Button btnDoar3, btnDoar5, btnDoar10, btnDoar50, btnDoar100;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -72,7 +72,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             } else {
                 imvDoacao.setImageResource(R.drawable.marketing3);
             }
-        } catch (Exception e) {
+        } catch (Exception | Error e) {
             e.printStackTrace();
         }
     }
@@ -89,7 +89,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
 
         imvDoacao = view.findViewById(R.id.imv_doacao);
 
-        //btnDoar2 = view.findViewById(R.id.btn_doar2_reais);
+        btnDoar3 = view.findViewById(R.id.btn_doar3_reais);
         btnDoar5 = view.findViewById(R.id.btn_doar5_reais);
         btnDoar10 = view.findViewById(R.id.btn_doar10_reais);
         btnDoar50 = view.findViewById(R.id.btn_doar50_reais);
@@ -99,7 +99,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
         Context ctx = view.getContext();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //btnDoar2.setElevation(10);
+            btnDoar3.setElevation(10);
             btnDoar5.setElevation(10);
             btnDoar10.setElevation(10);
             btnDoar50.setElevation(10);
@@ -117,14 +117,14 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
      */
     private void configuraAcoesBotoes() {
 
-        /*btnDoar2.setOnClickListener(new View.OnClickListener() {
+        btnDoar3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bp.consumePurchase(Constantes.PRODUCT_ID_2_REAIS);
-                bp.purchase(getActivity(), Constantes.PRODUCT_ID_2_REAIS);
+                bp.consumePurchase(Constantes.PRODUCT_ID_3_REAIS);
+                bp.purchase(getActivity(), Constantes.PRODUCT_ID_3_REAIS);
                 salvaClique();
             }
-        });*/
+        });
 
         btnDoar5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +167,8 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             public void onClick(View view) {
                 bp.consumePurchase(Constantes.PRODUCT_ID_500_REAIS);
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_500_REAIS);
-            }
+                salvaClique();
+}
         });*/
     }
 

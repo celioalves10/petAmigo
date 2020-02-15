@@ -13,7 +13,7 @@ public class Constantes {
     public static int MAX_DENUNCIAS = 10;
 
     //billing
-    //public static String PRODUCT_ID_2_REAIS = "doar_2_reais";
+    public static String PRODUCT_ID_3_REAIS = "doar_3_reais";
     public static String PRODUCT_ID_5_REAIS = "doar_5_reais";
     public static String PRODUCT_ID_10_REAIS = "doar_10_reais";
     public static String PRODUCT_ID_50_REAIS = "doar_50_reais";

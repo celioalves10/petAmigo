@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity
             } else {
                 super.onBackPressed();
             }
-        } catch (Exception e) {
+        } catch (Exception | OutOfMemoryError e) {
             e.printStackTrace();
         }
     }

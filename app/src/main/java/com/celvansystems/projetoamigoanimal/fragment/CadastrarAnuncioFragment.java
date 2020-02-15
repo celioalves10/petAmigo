@@ -41,7 +41,6 @@ import com.celvansystems.projetoamigoanimal.helper.Permissoes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -627,25 +626,33 @@ public class CadastrarAnuncioFragment extends Fragment
                     .setOnPickResult(new IPickResult() {
                         @Override
                         public void onPickResult(PickResult r) {
-                            if (r.getError() == null) {
 
-                                Uri imagemSelecionada = r.getUri();
-                                String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
+                            try {
+                                if (r != null) {
 
-                                if (requisicao == 1) {
+                                    if (r.getError() == null) {
 
-                                    imagem1.setImageURI(r.getUri());
+                                        Uri imagemSelecionada = r.getUri();
+                                        String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
 
-                                } else if (requisicao == 2) {
+                                        if (requisicao == 1) {
 
-                                    imagem2.setImageURI(r.getUri());
+                                            imagem1.setImageURI(r.getUri());
 
-                                } else {
+                                        } else if (requisicao == 2) {
 
-                                    imagem3.setImageURI(r.getUri());
+                                            imagem2.setImageURI(r.getUri());
+
+                                        } else {
+
+                                            imagem3.setImageURI(r.getUri());
+                                        }
+
+                                        listaFotosRecuperadas.put(requisicao, caminhoImagem);
+                                    }
                                 }
-
-                                listaFotosRecuperadas.put(requisicao, caminhoImagem);
+                            } catch (OutOfMemoryError e) {
+                                e.printStackTrace();
                             }
                         }
                     })
