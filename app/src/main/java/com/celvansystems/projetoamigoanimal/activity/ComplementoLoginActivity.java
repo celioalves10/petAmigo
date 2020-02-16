@@ -193,9 +193,7 @@ public class ComplementoLoginActivity extends AppCompatActivity {
 
                                         String foto = Objects.requireNonNull(usuarios.child("foto").getValue()).toString();
 
-                                        if(foto!= null) {
-                                            Picasso.get().load(foto).fit().into(imvFoto);
-                                        }
+                                        Picasso.get().load(foto).fit().into(imvFoto);
                                     }
 
                                     if (usuarios.child("uf").getValue() != null) {
@@ -274,7 +272,10 @@ public class ComplementoLoginActivity extends AppCompatActivity {
                 //Id
                 usuario.setId(ConfiguracaoFirebase.getIdUsuario());
                 //Email
-                usuario.setEmail(Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getEmail());
+                String email = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getEmail();
+                if(email != null) {
+                    usuario.setEmail(email);
+                }
                 //Nome
                 if (edtNome.getText() != null && !edtNome.getText().toString().equalsIgnoreCase("")) {
                     usuario.setNome(edtNome.getText().toString());
@@ -296,9 +297,7 @@ public class ComplementoLoginActivity extends AppCompatActivity {
                 salvarUsuario(usuario);
             });
 
-            imvFoto.setOnClickListener((View v) -> {
-                escolherImagem();
-            });
+            imvFoto.setOnClickListener((View v) -> escolherImagem());
         } catch (Exception e) {
             e.printStackTrace();
         }
