@@ -317,13 +317,13 @@
             </LinearLayout>
         </ScrollView>
 
-        <com.applovin.adview.AppLovinAdView
+        <!--com.applovin.adview.AppLovinAdView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            applovin:loadAdOnCreate="true" />
+            applovin:loadAdOnCreate="true" /-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

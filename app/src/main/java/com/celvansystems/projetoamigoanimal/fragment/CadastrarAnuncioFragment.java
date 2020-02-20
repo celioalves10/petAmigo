@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickCancel;
+import com.vansuita.pickimage.listeners.IPickClick;
 import com.vansuita.pickimage.listeners.IPickResult;
 
 import java.io.ByteArrayOutputStream;
@@ -601,6 +603,7 @@ public class CadastrarAnuncioFragment extends Fragment
     private void escolherImagem() {
         try {
 
+
             PickSetup setup = new PickSetup()
                     .setTitle(getString(R.string.escolha))
                     .setFlip(true)
@@ -608,6 +611,7 @@ public class CadastrarAnuncioFragment extends Fragment
                     .setCameraButtonText(getString(R.string.cameraa))
                     .setCancelText(getString(R.string.cancelar))
                     .setGalleryButtonText(getString(R.string.galeria));
+            Log.d("INFO91", "escolher imagem");
 
             //.setTitleColor(yourColor)
             //.setBackgroundColor(yourColor)
@@ -622,47 +626,56 @@ public class CadastrarAnuncioFragment extends Fragment
             //.setGalleryIcon(yourIcon)
             //.setCameraIcon(yourIcon);
             //PickImageDialog.build(setup).show(this);
+
             PickImageDialog.build(setup)
-                    .setOnPickResult(new IPickResult() {
-                        @Override
-                        public void onPickResult(PickResult r) {
+                    .setOnPickResult(r -> {
 
-                            try {
-                                if (r != null) {
+                        Log.d("INFO91", "pick 1");
+                        try {
+                            if (r != null) {
+                                Log.d("INFO91", "pick 2");
 
-                                    if (r.getError() == null) {
+                                if (r.getError() == null) {
+                                    Log.d("INFO91", "pick 3");
 
-                                        Uri imagemSelecionada = r.getUri();
-                                        String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
+                                    Uri imagemSelecionada = r.getUri();
+                                    String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
 
-                                        if (requisicao == 1) {
+                                    if (requisicao == 1) {
+                                        Log.d("INFO91", "req 1");
 
-                                            imagem1.setImageURI(r.getUri());
+                                        imagem1.setImageURI(r.getUri());
 
-                                        } else if (requisicao == 2) {
+                                    } else if (requisicao == 2) {
+                                        Log.d("INFO91", "req 2");
 
-                                            imagem2.setImageURI(r.getUri());
+                                        imagem2.setImageURI(r.getUri());
 
-                                        } else {
+                                    } else {
+                                        Log.d("INFO91", "req 3");
 
-                                            imagem3.setImageURI(r.getUri());
-                                        }
-
-                                        listaFotosRecuperadas.put(requisicao, caminhoImagem);
+                                        imagem3.setImageURI(r.getUri());
                                     }
+
+                                    listaFotosRecuperadas.put(requisicao, caminhoImagem);
+                                } else {
+                                    Log.d("INFO91", "get error: " + r.getError().getMessage());
                                 }
-                            } catch (OutOfMemoryError e) {
-                                e.printStackTrace();
                             }
+                        } catch (OutOfMemoryError e) {
+                            Log.d("INFO91", "erro: memory " + e.getMessage());
+                            e.printStackTrace();
                         }
                     })
                     .setOnPickCancel(new IPickCancel() {
                         @Override
                         public void onCancelClick() {
+                            Log.d("INFO91", "pick cancel");
 
                         }
                     }).show(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
         } catch (Exception e) {
+            Log.d("INFO91", "erro final: " + e.getMessage());
             e.printStackTrace();
         }
     }

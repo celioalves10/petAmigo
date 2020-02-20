@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -99,6 +100,13 @@ public class ComplementoLoginActivity extends AppCompatActivity {
 
         inicializarComponentes();
 
+        if (ConfiguracaoFirebase.isUsuarioLogado()) {
+            Log.d("INFO89", "usuario logado");
+            verificaUsuarioPROnoBD();
+        } else {
+            Log.d("INFO89", "usuario nao logado");
+        }
+
         preencheDadosSpinners();
 
         configuraAcoes();
@@ -130,8 +138,6 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             spnPais = findViewById(R.id.spinner_cad_pais_complemento);
             spnEstado = findViewById(R.id.spinner_cad_estado_complemento);
             spnCidade = findViewById(R.id.spinner_cad_cidade_complemento);
-            //EditText edtProfissao = findViewById(R.id.editText_cad_profissao);
-            //EditText edtSobreMim = findViewById(R.id.editText_cad_sobremim);
 
             btn_proximo_nome = findViewById(R.id.btn_proximo_nome);
             btn_proximo_fone = findViewById(R.id.btn_proximo_fone);
@@ -141,7 +147,6 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             btn_voltar_fone = findViewById(R.id.btn_volta_fone);
             btn_voltar_foto = findViewById(R.id.btn_voltar_foto);
             btn_voltar_cidade = findViewById(R.id.btn_voltar_cidade);
-
 
             layout_inserir_nome = findViewById(R.id.layout_inserir_nome);
             layout_inserir_foto = findViewById(R.id.layout_inserir_foto);
@@ -177,44 +182,40 @@ public class ComplementoLoginActivity extends AppCompatActivity {
 
                                 String id = ConfiguracaoFirebase.getIdUsuario();
 
-                                if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(id)) {
+                                if (usuarios.child("id").getValue() != null) {
 
-                                    if (usuarios.child("nome").getValue() != null) {
-                                        edtNome.setText(Objects.requireNonNull(usuarios.child("nome").getValue()).toString());
-                                    }
+                                    if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(id)) {
 
-                                    if (usuarios.child("telefone").getValue() != null) {
-                                        edtTelefone.setText(Objects.requireNonNull(usuarios.child("telefone").getValue()).toString());
-                                    }
+                                        if (usuarios.child("nome").getValue() != null) {
+                                            edtNome.setText(Objects.requireNonNull(usuarios.child("nome").getValue()).toString());
+                                        }
 
-                                    if (usuarios.child("foto").getValue() != null) {
+                                        if (usuarios.child("telefone").getValue() != null) {
+                                            edtTelefone.setText(Objects.requireNonNull(usuarios.child("telefone").getValue()).toString());
+                                        }
 
-                                        urlFotoAntiga = Objects.requireNonNull(usuarios.child("foto").getValue()).toString();
+                                        if (usuarios.child("foto").getValue() != null) {
 
-                                        String foto = Objects.requireNonNull(usuarios.child("foto").getValue()).toString();
+                                            urlFotoAntiga = Objects.requireNonNull(usuarios.child("foto").getValue()).toString();
 
-                                        Picasso.get().load(foto).fit().into(imvFoto);
-                                    }
+                                            String foto = Objects.requireNonNull(usuarios.child("foto").getValue()).toString();
 
-                                    if (usuarios.child("uf").getValue() != null) {
+                                            Picasso.get().load(foto).fit().into(imvFoto);
+                                        }
 
-                                        String uf = Objects.requireNonNull(usuarios.child("uf").getValue()).toString();
+                                        if (usuarios.child("uf").getValue() != null) {
 
-                                        //estados
-                                        ArrayList<String> estadosLista = Util.getEstadosLista(ctx);
-                                        estadosLista.remove(0);
-                                        estadosLista.add(0, "");
-                                        final ArrayAdapter<String> adapterEstados = new ArrayAdapter<>(ctx, simple_spinner_item, estadosLista);
-                                        adapterEstados.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                        spnEstado.setAdapter(adapterEstados);
+                                            String uf = Objects.requireNonNull(usuarios.child("uf").getValue()).toString();
 
-                                        spnEstado.setSelection(adapterEstados.getPosition(uf));
-
-                                        /*setAdapterSpinnerCidade();
-
-                                        String cidade = usuarios.child("cidade").getValue().toString();
-
-                                        spnCidade.setSelection(adapterEstados.getPosition(cidade));*/
+                                            //estados
+                                            ArrayList<String> estadosLista = Util.getEstadosLista(ctx);
+                                            estadosLista.remove(0);
+                                            estadosLista.add(0, "");
+                                            final ArrayAdapter<String> adapterEstados = new ArrayAdapter<>(ctx, simple_spinner_item, estadosLista);
+                                            adapterEstados.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            spnEstado.setAdapter(adapterEstados);
+                                            spnEstado.setSelection(adapterEstados.getPosition(uf));
+                                        }
                                     }
                                 }
                             }
@@ -230,6 +231,85 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             });
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Verifica se o usuario eh PRO quando instala o app
+     */
+    private void verificaUsuarioPROnoBD() {
+
+        try {
+            DatabaseReference usuariosRef = ConfiguracaoFirebase.getFirebase()
+                    .child("usuarios");
+
+            usuariosRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot usuarios : dataSnapshot.getChildren()) {
+
+                        if (usuarios != null) {
+
+                            String id = ConfiguracaoFirebase.getIdUsuario();
+
+                            if (usuarios.child("id").getValue() != null) {
+
+                                if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(id)) {
+
+                                    Log.d("INFO89", "ID: " + id);
+
+                                    if (usuarios.child("pro").getValue() != null) {
+
+                                        Log.d("INFO89", "child pro != null");
+
+                                        String pro = Objects.requireNonNull(usuarios.child("pro").getValue()).toString();
+
+                                        if (pro.equalsIgnoreCase("true")) {
+                                            salvaPrefPRO(true);
+                                            Log.d("INFO89", "comp - pro do BD 2");
+                                        } else if (pro.equalsIgnoreCase("false")) {
+                                            salvaPrefPRO(false);
+                                            Log.d("INFO89", "comp - nao eh pro no BD 2");
+                                        }
+                                    } else {
+                                        Log.d("INFO89", "get value null 2");
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        } catch (Exception | Error e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void salvaPrefPRO(boolean pro) {
+
+        Log.d("INFO89", "salvando pref: " + pro);
+
+        try {
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            if (pro) {
+                editor.putBoolean("pro", true);
+                Constantes.isPRO = true;
+            } else {
+                editor.putBoolean("pro", false);
+                Constantes.isPRO = false;
+            }
+            editor.apply();
+        } catch (Exception | Error e) {
             e.printStackTrace();
         }
     }
@@ -273,7 +353,7 @@ public class ComplementoLoginActivity extends AppCompatActivity {
                 usuario.setId(ConfiguracaoFirebase.getIdUsuario());
                 //Email
                 String email = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getEmail();
-                if(email != null) {
+                if (email != null) {
                     usuario.setEmail(email);
                 }
                 //Nome
@@ -302,6 +382,7 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     private void preencheDadosSpinners() {
 
@@ -511,17 +592,22 @@ public class ComplementoLoginActivity extends AppCompatActivity {
     }
 
     private void onPickResult(PickResult r) {
-        if (r != null) {
-            if (r.getError() == null) {
 
-                isNovaFoto = true;
+        try {
+            if (r != null) {
+                if (r.getError() == null) {
 
-                Uri imagemSelecionada = r.getUri();
-                String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
+                    isNovaFoto = true;
 
-                imvFoto.setImageURI(r.getUri());
-                usuario.setFoto(caminhoImagem);
+                    Uri imagemSelecionada = r.getUri();
+                    String caminhoImagem = Objects.requireNonNull(imagemSelecionada).toString();
+
+                    imvFoto.setImageURI(r.getUri());
+                    usuario.setFoto(caminhoImagem);
+                }
             }
+        } catch (Exception | Error e) {
+            e.printStackTrace();
         }
     }
 }

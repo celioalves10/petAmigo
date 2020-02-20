@@ -63,17 +63,18 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
      * @param anuncios lista de animais
      */
     public AdapterAnuncios(List<Animal> anuncios) {
+
         this.anuncios = anuncios;
+
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View item = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_anuncios, viewGroup, false);
-        iniciarComponentes(item);
-        //Propagandas
-        return new MyViewHolder(item);
+            View item = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_anuncios, viewGroup, false);
+            iniciarComponentes(item);
+            return new MyViewHolder(item);
     }
 
     private void iniciarComponentes(View item) {
@@ -98,36 +99,38 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, @SuppressLint("RecyclerView") int i) {
 
-        if (anuncios != null) {
 
-            final Animal anuncio = anuncios.get(i);
-            //anuncioComentado = anuncio;
-            if (anuncio != null) {
+            if (anuncios != null) {
 
-                configuracoesMaisOpcoes(myViewHolder);
+                final Animal anuncio = anuncios.get(i);
+                //anuncioComentado = anuncio;
+                if (anuncio != null) {
 
-                configuraViewHolder(anuncio, myViewHolder);
+                    configuracoesMaisOpcoes(myViewHolder);
 
-                configuraComentarios(anuncio, myViewHolder);
+                    configuraViewHolder(anuncio, myViewHolder);
 
-                //curtidas
-                atualizaCurtidas(anuncio, myViewHolder);
-                //denuncias
-                //atualizaDenuncias(anuncio, myViewHolder);
-                //Foto do anúncio
-                configuraFotoAnuncio(anuncio, myViewHolder);
-                //Acoes dos botoes
-                configuraAcoes(myViewHolder, anuncio);
-                //Texto da quantidade de comentarios
-                configuraVisibilidadeCampoComentario(anuncio, myViewHolder);
+                    configuraComentarios(anuncio, myViewHolder);
 
-                if (anuncio.getListaComentarios() != null) {
-                    atualizaComentarios(anuncio.getListaComentarios().size(), anuncio, myViewHolder);
-                } else {
-                    atualizaComentarios(0, anuncio, myViewHolder);
+                    //curtidas
+                    atualizaCurtidas(anuncio, myViewHolder);
+                    //denuncias
+                    //atualizaDenuncias(anuncio, myViewHolder);
+                    //Foto do anúncio
+                    configuraFotoAnuncio(anuncio, myViewHolder);
+                    //Acoes dos botoes
+                    configuraAcoes(myViewHolder, anuncio);
+                    //Texto da quantidade de comentarios
+                    configuraVisibilidadeCampoComentario(anuncio, myViewHolder);
+
+                    if (anuncio.getListaComentarios() != null) {
+                        atualizaComentarios(anuncio.getListaComentarios().size(), anuncio, myViewHolder);
+                    } else {
+                        atualizaComentarios(0, anuncio, myViewHolder);
+                    }
                 }
             }
-        }
+
     }
 
     /**
@@ -172,12 +175,22 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                         Comentario coment = new Comentario();
 
                         if (comentarios != null) {
-                            coment.setDatahora(Objects.requireNonNull(comentarios.child("datahora").getValue()).toString());
-                            coment.setTexto(Objects.requireNonNull(comentarios.child("texto").getValue()).toString());
+
+                            if(comentarios.child("datahora").getValue() != null) {
+                                coment.setDatahora(Objects.requireNonNull(comentarios.child("datahora").getValue()).toString());
+                            }
+                            if(comentarios.child("texto").getValue() != null) {
+                                coment.setTexto(Objects.requireNonNull(comentarios.child("texto").getValue()).toString());
+                            }
 
                             Usuario usuario = new Usuario();
-                            usuario.setId(Objects.requireNonNull(comentarios.child("usuario").child("id").getValue()).toString());
-                            usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
+
+                            if(comentarios.child("usuario").child("id").getValue() != null) {
+                                usuario.setId(Objects.requireNonNull(comentarios.child("usuario").child("id").getValue()).toString());
+                            }
+                            if(comentarios.child("usuario").child("nome").getValue() != null) {
+                                usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
+                            }
                             coment.setUsuario(usuario);
                             comentsList.add(coment);
                         }
@@ -693,11 +706,31 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
     @Override
     public int getItemCount() {
-        int retorno = 0;
+
+        if (anuncios != null) {
+            //se nao for conta PRO, limita
+            if(!Constantes.isPRO) {
+                if (anuncios.size() > Constantes.LIMIT) {
+                    return Constantes.LIMIT;
+                } else {
+                    return anuncios.size();
+                }
+                // se for conta PRO, exibe todos os resultados
+            } else {
+                if(anuncios.size() < Constantes.LIMIT_TODOS){
+                    return anuncios.size();
+                } else {
+                    return Constantes.LIMIT_TODOS;
+                }
+            }
+        } else {
+            return 0;
+        }
+        /*int retorno = 0;
         if (anuncios != null) {
             retorno = anuncios.size();
         }
-        return retorno;
+        return retorno;*/
     }
 
 

@@ -16,6 +16,11 @@
             android:id="@+id/nav_meus_anuncios"
             android:icon="@xml/ic_menu_slideshow"
             android:title="@string/txt_meus_anuncios" />
+        <item
+            android:id="@+id/nav_pro"
+            android:checkableBehavior="single"
+            android:icon="@drawable/coroa"
+            android:title="@string/versao_pro" />
     </group>
     <item android:title="@string/cad_novo_animal">
         <menu>
@@ -46,10 +51,11 @@
         <item android:title="@string/comunication">
             <menu android:checkableBehavior="single">
                 <group android:checkableBehavior="single">
+
                     <item
                         android:id="@+id/nav_share_app"
                         android:checkableBehavior="single"
-                        android:icon="@xml/ic_menu_share"
+                        android:icon="@android:drawable/ic_menu_share"
                         android:title="@string/txt_compartilhar_app" />
                     <!--item
                         android:checkableBehavior="single"

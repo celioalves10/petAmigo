@@ -2,6 +2,9 @@ package com.celvansystems.projetoamigoanimal.helper;
 
 public class Constantes {
 
+    public static boolean isPRO = false;
+    public static int LIMIT = 30;
+    public static int LIMIT_TODOS = 50;
     //google login
     public static int GOOGLE_REQUEST_CODE = 100;
 

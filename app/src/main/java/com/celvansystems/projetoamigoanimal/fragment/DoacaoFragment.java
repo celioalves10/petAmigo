@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
 
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,51 +121,52 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
         btnDoar3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_3_REAIS);
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_3_REAIS);
-                salvaClique();
             }
         });
 
         btnDoar5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_5_REAIS);
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_5_REAIS);
-                salvaClique();
             }
         });
 
         btnDoar10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_10_REAIS);
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_10_REAIS);
-                salvaClique();
             }
         });
 
         btnDoar50.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_50_REAIS);
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_50_REAIS);
-                salvaClique();
             }
         });
 
         btnDoar100.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_100_REAIS);
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_100_REAIS);
-                salvaClique();
             }
         });
 
         /*btnDoar500.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_500_REAIS);
                 bp.purchase(getActivity(), Constantes.PRODUCT_ID_500_REAIS);
                 salvaClique();
@@ -174,38 +176,37 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
 
     @Override
     public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
-
+        Log.d("INFO89",productId + details);
     }
 
     @Override
     public void onPurchaseHistoryRestored() {
-        //Util.setSnackBar(layout, "History restored!");
+        Log.d("INFO89","history");
     }
 
     @Override
     public void onBillingError(int errorCode, @Nullable Throwable error) {
         Util.setSnackBar(layout, getString(R.string.error) + errorCode);
+        Log.d("INFO89","erro");
     }
 
     @Override
     public void onBillingInitialized() {
-        //Util.setSnackBar(layout, getString(R.string.escolha_opcao_ajude_manter_app));
+        Log.d("INFO89","billing initialized");
+    }
+
+    private void salvaPurchasedPref(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("purchased", true);
+        editor.apply();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (!bp.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    private void salvaClique() {
-
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("purchased", true); // Storing boolean - true/false
-        editor.apply(); // commit changes
     }
 
     @Override

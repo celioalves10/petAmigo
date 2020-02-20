@@ -163,14 +163,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.applovin.adview.AppLovinAdView
+    <!--com.applovin.adview.AppLovinAdView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        applovin:loadAdOnCreate="true" />
+        applovin:loadAdOnCreate="true" /-->
     <!--FrameLayout
         android:layout_width="match_parent"
         android:layout_height="53dp"

@@ -1,22 +1,18 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-
-import com.applovin.adview.AppLovinInterstitialAd;
-import com.applovin.adview.AppLovinInterstitialAdDialog;
-import com.applovin.sdk.AppLovinAd;
-import com.applovin.sdk.AppLovinAdLoadListener;
-import com.applovin.sdk.AppLovinAdSize;
-import com.applovin.sdk.AppLovinSdk;
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
@@ -49,24 +45,19 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
 import com.squareup.picasso.Picasso;
 
-import java.util.Calendar;
 import java.util.Objects;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth autenticacao;
     private NavigationView navigationView;
-    private ImageView imageViewPerfil;
+    private ImageView imageViewPerfil, imvAds;
     private View headerView;
-    private TextView txvUsuarios;
-    private AppLovinAd loadedAd;
-    //private InterstitialAd mInterstitialAd;
-    //private AdView adView;
-    //private int bannerPlacementId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +65,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        verificaUsuarioPRO();
 
         inicializarComponentes();
 
@@ -83,71 +76,11 @@ public class MainActivity extends AppCompatActivity
 
         //Notificações
         reconfiguraNotificacoes(this);
-
-        //JSONObject consentObject = new JSONObject();
-        /*try {
-            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, true);
-            consentObject.put("gdpr", "1");
-        } catch (JSONException exception) {
-            exception.printStackTrace();
-        }*/
-
-        //InMobiConsent.updateGDPRConsent(consentObject);
-
-        configuraAppLovinIntersticial();
-
-        //Propagandas
-        //configuraAdMob();
-
-        //AATKit
-        //configuraAATKit();
-        //bannerPlacementId = AATKit.createPlacement("Banner",
-        //        PlacementSize.Banner320x53);
     }
 
-    /*private void configuraAATKit() {
-
-        AATKitConfiguration configuration = new AATKitConfiguration( getApplication());
-        configuration.setUseDebugShake(false);
-        configuration.setDetailedConsent(new ConsentAutomatic());
-        configuration.setUseGeoLocation(true);
-
-        ///// TEST MODE //////////
-        //configuration.setTestModeAccountId(2052);
-        //////////////////////////
-        AATKit.init(configuration);
-    }
-
-    public int getBannerPlacementId() {
-        return bannerPlacementId;
-    }*/
-
-    public void configuraAppLovinIntersticial() {
-        AppLovinSdk.initializeSdk(getApplicationContext());
-        // Load an Interstitial Ad
-
-
-        AppLovinSdk.getInstance(this).getAdService().loadNextAd(AppLovinAdSize.INTERSTITIAL, new AppLovinAdLoadListener() {
-            @Override
-            public void adReceived(AppLovinAd ad) {
-                loadedAd = ad;
-            }
-
-            @Override
-            public void failedToReceiveAd(int errorCode) {
-                // Look at AppLovinErrorCodes.java for list of error codes.
-            }
-        });
-    }
-
-    public void mostraAppLovinIntersticial() {
-
-        AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
-        // Optional: Assign listeners
-        //interstitialAd.setAdDisplayListener( ... );
-        //interstitialAd.setAdClickListener( ... );
-        //interstitialAd.setAdVideoPlaybackListener( ... );
-        interstitialAd.showAndRender(loadedAd);
+    private void verificaUsuarioPRO() {
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        Constantes.isPRO = prefs.getBoolean("pro", false);
     }
 
     public static void reconfiguraNotificacoes(Context ctx) {
@@ -177,6 +110,26 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /*@SuppressLint("MissingSuperCall")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        try {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout_doacao);
+            if (fragment != null) {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+            if (resultCode != 0) {
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("purchased", true);
+                editor.apply();
+            }
+        } catch (Exception | Error e) {
+            e.printStackTrace();
+        }
+    }*/
+
     private void inicializarComponentes() {
 
         try {
@@ -191,14 +144,15 @@ public class MainActivity extends AppCompatActivity
             headerView = navigationView.getHeaderView(0);
 
             imageViewPerfil = headerView.findViewById(R.id.imageView_perfil);
+            imvAds = findViewById(R.id.imv_ads);
+            imvAds.setOnClickListener(view ->
+                    startActivity(new Intent(MainActivity.this, PROActivity.class)));
 
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                     this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             drawer.addDrawerListener(toggle);
             toggle.syncState();
-
-            txvUsuarios = findViewById(R.id.txvUsuarios);
 
             navigationView = findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
@@ -302,6 +256,7 @@ public class MainActivity extends AppCompatActivity
             MenuItem nav_meus_anuncios = menuNav.findItem(R.id.nav_meus_anuncios);
             MenuItem nav_pet_cad = menuNav.findItem(R.id.pet_cad);
             MenuItem nav_pet_adote = menuNav.findItem(R.id.pet_adote);
+            //MenuItem nav_pro = menuNav.findItem(R.id.nav_pro);
             //MenuItem nav_doacao = menuNav.findItem(R.id.doacao);
             //MenuItem nav_compartilhar_app = menuNav.findItem(R.id.nav_share_app);
             //MenuItem nav_conversar = menuNav.findItem(R.id.nav_conversar);
@@ -361,12 +316,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         try {
-            /*int bannerPlacementId = getBannerPlacementId();
-            AATKit.stopPlacementAutoReload(bannerPlacementId);
-            removePlacementView(bannerPlacementId);
-            AATKit.onActivityPause(this);*/
             super.onPause();
-            //IronSource.onPause(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -375,69 +325,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         try {
-            //IronSource.onResume(this);
             super.onResume();
-
             carregaDadosUsuario();
 
-            /*if (GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this) != ConnectionResult.SUCCESS) {
-                Dialog d = GoogleApiAvailability.getInstance().getErrorDialog(this,
-                        GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this), 4);
-                d.show();
+            if (Constantes.isPRO) {
+                imvAds.setImageResource(R.drawable.coroa_branca);
             }
-            AATKit.onActivityResume(this);
-            int bannerPlacementId = getBannerPlacementId();
-            addPlacementView(bannerPlacementId);
-            AATKit.startPlacementAutoReload(bannerPlacementId);*/
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        preencheQuantidadeUsuarios();
-    }
-
-    /*private void addPlacementView(int placementId) {
-        FrameLayout mainLayout = findViewById(R.id.frame_banner_main);
-        View placementView = AATKit.getPlacementView(placementId);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
-        mainLayout.addView(placementView, layoutParams);
-    }
-
-    private void removePlacementView(int placementId) {
-        View placementView = AATKit.getPlacementView(placementId);
-
-        if (placementView.getParent() != null) {
-            ViewGroup parent = (ViewGroup) placementView.getParent();
-            parent.removeView(placementView);
-        }
-    }*/
-
-    private void preencheQuantidadeUsuarios() {
-
-        Calendar rightNow = Calendar.getInstance();
-        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-        int usuarios;
-
-        if (hour < 8 || hour > 22) {
-            usuarios = Util.getRandomNumberInRange(50, 99);
-        } else if (hour < 18) {
-            usuarios = Util.getRandomNumberInRange(200, 300);
-        } else if (hour < 21) {
-            usuarios = Util.getRandomNumberInRange(250, 360);
-        } else {
-            usuarios = Util.getRandomNumberInRange(150, 250);
-        }
-
-        txvUsuarios.setText(String.valueOf(usuarios));
     }
 
     @Override
     protected void onDestroy() {
         try {
-
             super.onDestroy();
         } catch (Exception e) {
             e.printStackTrace();
@@ -473,6 +374,9 @@ public class MainActivity extends AppCompatActivity
                 // implementar funções na activit doação.
                 fragmentTransaction.replace(R.id.view_pager, new DoacaoFragment()).addToBackStack("tag").commit();
 
+            } else if (id == R.id.nav_pro) {
+                startActivity(new Intent(this, PROActivity.class));
+
             } else if (id == R.id.nav_share_app) {
 
                 try {
@@ -486,17 +390,8 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
-        /*else if (id == R.id.nav_conversar) {
 
-            fragmentTransaction.replace(R.id.view_pager, new MensagensFragment()).addToBackStack("tag").commit();
-            Toast.makeText(getApplicationContext(),
-                    "criar e implementar fragment messenger com chat" +
-                            " resumida a envio e recebimento de mensagens, " +
-                            "semelhante ao zap",
-                    Toast.LENGTH_SHORT).show();
-        }*/
             else if (id == R.id.nav_help) {
 
                 fragmentTransaction.replace(R.id.view_pager, new SobreAppFragment()).addToBackStack("tag").commit();
@@ -504,8 +399,6 @@ public class MainActivity extends AppCompatActivity
             } else if (id == R.id.nav_sair) {
 
                 startActivity(new Intent(this, LoginActivity.class));
-
-                //mostraAppLovinIntersticial();
 
                 if (ConfiguracaoFirebase.isUsuarioLogado()) {
                     autenticacao.signOut();
@@ -519,23 +412,9 @@ public class MainActivity extends AppCompatActivity
                 if (notificationManager != null) {
                     notificationManager.cancelAll();
                 }
-
                 finish();
             }
-        /*else if (id == R.id.pet_procurado) {
 
-            fragmentTransaction.replace(R.id.view_pager, new ProcuradoFragment()).addToBackStack("tag").commit();
-            Toast.makeText(getApplicationContext(),
-                    "implementar fragment cadastro de procurados" +
-                            "com objetivo de quem perdeu seu pet," +
-                            " oferecer recompensas a quem encontrar seu pet" +
-                            "ou não." +
-                            "os cadastros realizado nesta seçao, irão notificar" +
-                            "aqueles usuários proximos" +
-                            "afimde ajudar a achar o pet" +
-                            "perdido",
-                    Toast.LENGTH_SHORT).show();
-        }*/
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
         } catch (Exception e) {
@@ -543,109 +422,4 @@ public class MainActivity extends AppCompatActivity
         }
         return true;
     }
-
-    /*private void configuraAdMob() {
-
-        //AdView
-        try {
-
-            //admob
-            //MobileAds.initialize(getApplicationContext(), getString(R.string.admob_app_id));
-            MobileAds.initialize(this, new OnInitializationCompleteListener() {
-                @Override
-                public void onInitializationComplete(InitializationStatus initializationStatus) {
-                }
-            });
-            //teste Interstitial
-            //mInterstitialAd = new InterstitialAd(this);
-            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
-
-            //AdRequest.Builder adRequistBuilder = new AdRequest.Builder();
-            //AdRequest adIRequest = adRequistBuilder.build();
-            //mInterstitialAd.loadAd(adIRequest);
-
-            /*if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-            }*/
-
-            /*mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    Log.d("INFO22", "main int loaded");
-                    super.onAdLoaded();
-                    //mostraInterstitialAd();
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    Log.d("INFO22", "main int failed: " + errorCode);
-                }
-
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-
-                    Log.d("INFO22", "main int closed");
-                    prepareInterstitialAd();
-                }
-            });*/
-/*
-            prepareInterstitialAd();
-
-            //banner
-            adView = findViewById(R.id.banner_main);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            adView.loadAd(adRequest);
-
-            adView.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    Log.d("INFO22", "main ban loaded");
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    Log.d("INFO22", "main ban failed: " + errorCode);
-                }
-
-                @Override
-                public void onAdClosed() {
-                    Log.d("INFO22", "main ban closed");
-                    //adView.loadAd(adRequest);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("INFO22", "main ban exception " + e.getMessage());
-        }
-    }
-
-    private void prepareInterstitialAd() {
-
-        try {
-            //mInterstitialAd = new InterstitialAd(MainActivity.this);
-            //mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial3_id));
-            //mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("INFO22", "main int exception1 " + e.getMessage());
-        }
-    }*/
-
-    /*private void mostraInterstitialAd() {
-        try {
-            if (mInterstitialAd == null) {
-                prepareInterstitialAd();
-            }
-            if (mInterstitialAd.isLoaded()) {
-                mInterstitialAd.show();
-                Log.d("INFO22", "main int exibida");
-            }
-            prepareInterstitialAd();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("INFO22", "main int exception2 " + e.getMessage());
-        }
-    }*/
 }

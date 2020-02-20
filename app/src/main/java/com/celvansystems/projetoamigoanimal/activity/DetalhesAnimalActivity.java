@@ -22,6 +22,7 @@ import com.applovin.sdk.AppLovinAdSize;
 import com.applovin.sdk.AppLovinSdk;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
+import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.google.firebase.database.DataSnapshot;
@@ -124,10 +125,9 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                                         if (usuarios.child("telefone").getValue() != null) {
 
                                             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                                            //SharedPreferences.Editor editor = pref.edit();
                                             boolean purchased = pref.getBoolean("purchased", false); // getting boolean
 
-                                            if(purchased) {
+                                            if(purchased || Constantes.isPRO) {
                                                 final String telefone = Objects.requireNonNull(usuarios.child("telefone").getValue()).toString();
                                                 Intent i = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
                                                         telefone, null));
@@ -154,33 +154,42 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                 }
             });
         }
-        configuraAppLovinIntersticial();
+        if(!Constantes.isPRO) {
+            configuraAppLovinIntersticial();
+        }
     }
 
     public void configuraAppLovinIntersticial() {
-        AppLovinSdk.initializeSdk(this);
 
-        // Load an Interstitial Ad
-        AppLovinSdk.getInstance(this).getAdService().loadNextAd(AppLovinAdSize.INTERSTITIAL, new AppLovinAdLoadListener() {
-            @Override
-            public void adReceived(AppLovinAd ad) {
-                loadedAd = ad;
-            }
+        if(!Constantes.isPRO) {
 
-            @Override
-            public void failedToReceiveAd(int errorCode) {
-                // Look at AppLovinErrorCodes.java for list of error codes.
-            }
-        });
+            AppLovinSdk.initializeSdk(this);
+
+            // Load an Interstitial Ad
+            AppLovinSdk.getInstance(this).getAdService().loadNextAd(AppLovinAdSize.INTERSTITIAL, new AppLovinAdLoadListener() {
+                @Override
+                public void adReceived(AppLovinAd ad) {
+                    loadedAd = ad;
+                }
+
+                @Override
+                public void failedToReceiveAd(int errorCode) {
+                    // Look at AppLovinErrorCodes.java for list of error codes.
+                }
+            });
+        }
     }
 
     public void mostraAppLovinIntersticial() {
-        AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
-        // Optional: Assign listeners
-        //interstitialAd.setAdDisplayListener( ... );
-        //interstitialAd.setAdClickListener( ... );
-        //interstitialAd.setAdVideoPlaybackListener( ... );
-        interstitialAd.showAndRender(loadedAd);
+
+        if(!Constantes.isPRO) {
+            AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
+            // Optional: Assign listeners
+            //interstitialAd.setAdDisplayListener( ... );
+            //interstitialAd.setAdClickListener( ... );
+            //interstitialAd.setAdVideoPlaybackListener( ... );
+            interstitialAd.showAndRender(loadedAd);
+        }
     }
 
     private void configuraNavBar() {
@@ -195,18 +204,16 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
         }
     }
 
-
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //mostraAppLovinIntersticial();
+            mostraAppLovinIntersticial();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            //mostraAppLovinIntersticial();
+                mostraAppLovinIntersticial();
             finish();
             return true;
         }

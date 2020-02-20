@@ -220,9 +220,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onSuccess(LoginResult loginResult) {
 
                     handleFacebookAccessToken(loginResult.getAccessToken());
-
-                    //getFbInfo();
-                    //Util.setSnackBar(layout, "login result sucesso!");
                 }
 
                 @Override
@@ -256,8 +253,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
 
                                 concluiCadastroUsuario(user);
-
-                                //finish();
 
                                 Util.setSnackBar(layout, getString(R.string.login_sucesso));
                             } else {
@@ -398,8 +393,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                                 concluiCadastroUsuario(user);
 
-                                //finish();
-
                                 Util.setSnackBar(layout, getString(R.string.login_sucesso));
                             } else {
                                 Util.setSnackBar(layout, getString(R.string.falha_login));
@@ -468,15 +461,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
                     }
 
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Util.setSnackBar(layout, "12-" + databaseError.getMessage());
                     }
                 });
-
-                //finish();
-
             } catch (Exception e) {
                 e.printStackTrace();
                 Util.setSnackBar(layout, "13-" + e.getMessage());
@@ -525,7 +514,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         //criando usuario...
                                         Usuario usuario = new Usuario();
                                         usuario.setId(Objects.requireNonNull(Objects.requireNonNull(task.getResult()).getUser()).getUid());
-                                        // usuario.setNome(txiNome.getText().toString());
                                         usuario.setEmail(email);
                                         usuario.salvar();
 
@@ -623,7 +611,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -695,9 +682,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @SuppressLint("ObsoleteSdkInt")
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -719,8 +704,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
@@ -737,9 +720,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 ContactsContract.Contacts.Data.MIMETYPE +
                         " = ?", new String[]{ContactsContract.CommonDataKinds.Email
                 .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
 

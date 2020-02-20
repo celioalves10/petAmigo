@@ -19,7 +19,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_splashscreen);
+        try {
+            setContentView(R.layout.activity_splashscreen);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            mostrarLogin();
+        }
 
         inicializarComponentes();
 

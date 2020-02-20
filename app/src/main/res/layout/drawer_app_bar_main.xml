@@ -23,32 +23,8 @@
                 android:layout_height="wrap_content"
                 android:layoutDirection="ltr">
 
-                <ImageView
-                    android:id="@+id/imvUsuarios"
-                    android:layout_width="26dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@+id/imvUsuarios"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_remove_red_eye_black_24dp" />
-
                 <TextView
-                    android:id="@+id/txvUsuarios"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/zero"
-                    android:textColor="@color/backgroundcolor80p"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/imvUsuarios"
-                    app:layout_constraintEnd_toStartOf="@+id/imvUsuarios"
-                    app:layout_constraintTop_toTopOf="@+id/imvUsuarios" />
-
-                <TextView
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/application_name"
@@ -58,6 +34,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imv_ads"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:contentDescription="@+id/imv_ads"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ads2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

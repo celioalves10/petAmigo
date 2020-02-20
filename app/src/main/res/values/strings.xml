@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="application_name">Busca Pet</string>
     <string name="txt_entrar">Entrar</string>
     <string name="txt_sair">Sair</string>
@@ -168,13 +168,13 @@
     <string name="teste_fragment_cadasrtrar_ado_o">teste fragment cadasrtrar adoção</string>
     <string name="novo_comentario">Novo comentário sobre </string>
     <string name="fazer_login_facebook">Fazer login com o Facebook</string>
-    <string name="login_sucesso">Login realizado com sucesso!</string>
+    <string name="login_sucesso">Login realizado! Aguarde…</string>
     <string name="doe_um_lar_para_um_pet">Doe seu lar para um amigo</string>
     <string name="compartilhar">Compartilhar…</string>
     <string name="carregando_fotos">Carregando fotos…</string>
     <string name="cooperight">CelVanSystems® 2019</string>
     <string name="editar_perfil">Editar perfil</string>
-    <string name="coment_excluido"></string>
+    <string name="coment_excluido"> </string>
     <string name="conteudo">conteúdo</string>
     <string name="error">Erro!</string>
     <string name="busca_pet_promove">O App Busca Pet promove a vida incentivando a adoção responsável de animais de estimação.</string>
@@ -194,10 +194,16 @@
     <string name="txt_feedback_suges">Contribua com críticas, ideias e sugestões.</string>
     <string name="seguir_facebook">Seguir facebook</string>
     <string name="seguir_instagram">Seguir instagram</string>
-    <string name="deu_algo_errado" >Deu algo errado? Comunica a gente!</string>
+    <string name="deu_algo_errado">Deu algo errado? Comunica a gente!</string>
     <string name="srd">SRD</string>
     <string name="observacao_comentarios">Leia sempre o cadastro do Pet. Pode conter informações importantes como um número de telefone para contato em caso de dúvidas.</string>
     <string name="faca">Faça uma doação e tenha acesso aos números de telefone cadastrados pelos anunciantes!</string>
+    <string name="btn_pro">R$4,99</string>
+    <string name="pro_content">Versão PRO</string>
+    <string name="sem_propagandas_sem_limte">Sem propagandas, sem limite.</string>
+    <string name="versao_pro">Versão PRO</string>
+    <string name="voce_um_usuario_pro">Você é um usuário PRO!</string>
+    <string name="usuario_pro">Usuário PRO</string>
 
     <string-array name="idade">
         <item>0–3 meses</item>
