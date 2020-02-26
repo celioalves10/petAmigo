@@ -113,7 +113,7 @@ public class AdapterComentarios extends RecyclerView.Adapter<AdapterComentarios.
     /**
      *
      */
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView ttvTexto;
         TextView ttvDataHora;

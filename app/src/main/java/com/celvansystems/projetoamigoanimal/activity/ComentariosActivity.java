@@ -1,5 +1,6 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@SuppressLint("Registered")
 public class ComentariosActivity extends AppCompatActivity {
 
     private Animal anuncioSelecionado;

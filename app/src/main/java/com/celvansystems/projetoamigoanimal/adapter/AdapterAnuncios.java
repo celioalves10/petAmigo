@@ -28,6 +28,7 @@ import com.celvansystems.projetoamigoanimal.activity.ComentariosActivity;
 import com.celvansystems.projetoamigoanimal.activity.DetalhesAnimalActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
+import com.celvansystems.projetoamigoanimal.helper.GerenciadorPRO;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
@@ -63,18 +64,16 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
      * @param anuncios lista de animais
      */
     public AdapterAnuncios(List<Animal> anuncios) {
-
         this.anuncios = anuncios;
-
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View item = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_anuncios, viewGroup, false);
-            iniciarComponentes(item);
-            return new MyViewHolder(item);
+        View item = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_anuncios, viewGroup, false);
+        iniciarComponentes(item);
+        return new MyViewHolder(item);
     }
 
     private void iniciarComponentes(View item) {
@@ -99,38 +98,36 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, @SuppressLint("RecyclerView") int i) {
 
+        if (anuncios != null && i <= Constantes.LIMIT_TODOS) {
 
-            if (anuncios != null) {
+            final Animal anuncio = anuncios.get(i);
+            //anuncioComentado = anuncio;
+            if (anuncio != null) {
 
-                final Animal anuncio = anuncios.get(i);
-                //anuncioComentado = anuncio;
-                if (anuncio != null) {
+                configuracoesMaisOpcoes(myViewHolder);
 
-                    configuracoesMaisOpcoes(myViewHolder);
+                configuraViewHolder(anuncio, myViewHolder);
 
-                    configuraViewHolder(anuncio, myViewHolder);
+                configuraComentarios(anuncio, myViewHolder);
 
-                    configuraComentarios(anuncio, myViewHolder);
+                //curtidas
+                atualizaCurtidas(anuncio, myViewHolder);
+                //denuncias
+                //atualizaDenuncias(anuncio, myViewHolder);
+                //Foto do anúncio
+                configuraFotoAnuncio(anuncio, myViewHolder);
+                //Acoes dos botoes
+                configuraAcoes(myViewHolder, anuncio);
+                //Texto da quantidade de comentarios
+                configuraVisibilidadeCampoComentario(anuncio, myViewHolder);
 
-                    //curtidas
-                    atualizaCurtidas(anuncio, myViewHolder);
-                    //denuncias
-                    //atualizaDenuncias(anuncio, myViewHolder);
-                    //Foto do anúncio
-                    configuraFotoAnuncio(anuncio, myViewHolder);
-                    //Acoes dos botoes
-                    configuraAcoes(myViewHolder, anuncio);
-                    //Texto da quantidade de comentarios
-                    configuraVisibilidadeCampoComentario(anuncio, myViewHolder);
-
-                    if (anuncio.getListaComentarios() != null) {
-                        atualizaComentarios(anuncio.getListaComentarios().size(), anuncio, myViewHolder);
-                    } else {
-                        atualizaComentarios(0, anuncio, myViewHolder);
-                    }
+                if (anuncio.getListaComentarios() != null) {
+                    atualizaComentarios(anuncio.getListaComentarios().size(), anuncio, myViewHolder);
+                } else {
+                    atualizaComentarios(0, anuncio, myViewHolder);
                 }
             }
-
+        }
     }
 
     /**
@@ -176,19 +173,19 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
                         if (comentarios != null) {
 
-                            if(comentarios.child("datahora").getValue() != null) {
+                            if (comentarios.child("datahora").getValue() != null) {
                                 coment.setDatahora(Objects.requireNonNull(comentarios.child("datahora").getValue()).toString());
                             }
-                            if(comentarios.child("texto").getValue() != null) {
+                            if (comentarios.child("texto").getValue() != null) {
                                 coment.setTexto(Objects.requireNonNull(comentarios.child("texto").getValue()).toString());
                             }
 
                             Usuario usuario = new Usuario();
 
-                            if(comentarios.child("usuario").child("id").getValue() != null) {
+                            if (comentarios.child("usuario").child("id").getValue() != null) {
                                 usuario.setId(Objects.requireNonNull(comentarios.child("usuario").child("id").getValue()).toString());
                             }
-                            if(comentarios.child("usuario").child("nome").getValue() != null) {
+                            if (comentarios.child("usuario").child("nome").getValue() != null) {
                                 usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
                             }
                             coment.setUsuario(usuario);
@@ -472,37 +469,42 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
                                 UserInfo user = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
 
-                                if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(Objects.requireNonNull(user).getUid())) {
+                                String id = ConfiguracaoFirebase.getIdUsuario();
 
-                                    Usuario usuario = new Usuario();
-                                    usuario.setId(ConfiguracaoFirebase.getIdUsuario());
+                                if (usuarios.child("id").getValue() != null && user != null) {
 
-                                    //Dados fora do cadastro
-                                    String texto = myViewHolder.edtComentar.getText().toString();
+                                    if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(id)) {
 
-                                    if (usuarios.child("nome").getValue() != null) {
-                                        usuario.setNome(Objects.requireNonNull(usuarios.child("nome").getValue()).toString());
-                                    } else if (user.getDisplayName() != null) {
-                                        String nomeUsuario = user.getDisplayName();
-                                        usuario.setNome(nomeUsuario);
+                                        Usuario usuario = new Usuario();
+                                        usuario.setId(ConfiguracaoFirebase.getIdUsuario());
 
-                                    } else {
-                                        usuario.setNome(ctx.getString(R.string.anonimo));
-                                    }
+                                        //Dados fora do cadastro
+                                        String texto = myViewHolder.edtComentar.getText().toString();
 
-                                    //Inserindo o comentário
-                                    if (Util.validaTexto(texto)) {
+                                        if (usuarios.child("nome").getValue() != null) {
+                                            usuario.setNome(Objects.requireNonNull(usuarios.child("nome").getValue()).toString());
+                                        } else if (user.getDisplayName() != null) {
+                                            String nomeUsuario = user.getDisplayName();
+                                            usuario.setNome(nomeUsuario);
 
-                                        Comentario coment = new Comentario(usuario, texto, Util.getDataAtualBrasil());
+                                        } else {
+                                            usuario.setNome(ctx.getString(R.string.anonimo));
+                                        }
 
-                                        comentarioRef.push().setValue(coment)
-                                                .addOnCompleteListener(task -> {
+                                        //Inserindo o comentário
+                                        if (Util.validaTexto(texto)) {
 
-                                                    Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.comentario_inserido));
-                                                    myViewHolder.edtComentar.setText(null);
-                                                });
-                                    } else {
-                                        Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.comentario_invalido));
+                                            Comentario coment = new Comentario(usuario, texto, Util.getDataAtualBrasil());
+
+                                            comentarioRef.push().setValue(coment)
+                                                    .addOnCompleteListener(task -> {
+
+                                                        Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.comentario_inserido));
+                                                        myViewHolder.edtComentar.setText(null);
+                                                    });
+                                        } else {
+                                            Util.setSnackBar(myViewHolder.layout, ctx.getString(R.string.comentario_invalido));
+                                        }
                                     }
                                 }
                             }
@@ -648,26 +650,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        /*try {
-            Context ctx = myViewHolder.itemView.getContext();
-            Drawable mDrawable = myViewHolder.foto.getDrawable();
-            Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
-
-            String path = MediaStore.Images.Media.insertImage(myViewHolder.itemView.getContext()
-                    .getContentResolver(), mBitmap, null, null);
-            Uri uri = Uri.parse(path);
-
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("image/jpeg");
-            intent.putExtra(Intent.EXTRA_TEXT, ctx.getString(R.string.instale_e_conheca) + " " + anuncio.getNome() + ctx.getString(R.string.disponivel_em) +
-                    " https://play.google.com/store/apps/details?id=" + Constantes.APPLICATION_ID + "\n\n");
-            intent.putExtra(Intent.EXTRA_STREAM, uri);
-            myViewHolder.itemView.getContext().startActivity(Intent.createChooser(intent, ctx.getString(R.string.compartilhando_imagem)));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
 
     /**
@@ -709,36 +691,21 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
 
         if (anuncios != null) {
             //se nao for conta PRO, limita
-            if(!Constantes.isPRO) {
-                if (anuncios.size() > Constantes.LIMIT) {
-                    return Constantes.LIMIT;
-                } else {
-                    return anuncios.size();
-                }
+            if(!GerenciadorPRO.isPRO) {
+                return Math.min(anuncios.size(), Constantes.LIMIT);
                 // se for conta PRO, exibe todos os resultados
             } else {
-                if(anuncios.size() < Constantes.LIMIT_TODOS){
-                    return anuncios.size();
-                } else {
-                    return Constantes.LIMIT_TODOS;
-                }
+                return Math.min(anuncios.size(), Constantes.LIMIT_TODOS);
             }
         } else {
             return 0;
         }
-        /*int retorno = 0;
-        if (anuncios != null) {
-            retorno = anuncios.size();
-        }
-        return retorno;*/
     }
-
-
 
     /**
      * MyViewHolder
      */
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView dataCadastro;
         TextView nome;

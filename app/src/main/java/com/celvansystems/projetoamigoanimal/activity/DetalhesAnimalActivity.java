@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import com.applovin.sdk.AppLovinSdk;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
+import com.celvansystems.projetoamigoanimal.helper.GerenciadorPRO;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
 import com.google.firebase.database.DataSnapshot;
@@ -30,17 +32,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 //import com.ironsource.mediationsdk.IronSource;
+import com.mopub.common.MoPub;
+import com.mopub.common.SdkConfiguration;
+import com.mopub.common.SdkInitializationListener;
+import com.mopub.common.logging.MoPubLog;
+import com.mopub.mobileads.MoPubErrorCode;
+import com.mopub.mobileads.MoPubInterstitial;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
 import java.util.Objects;
 
-public class DetalhesAnimalActivity extends AppCompatActivity {
+public class DetalhesAnimalActivity extends AppCompatActivity implements MoPubInterstitial.InterstitialAdListener {
 
     private View layout;
     private Animal anuncioSelecionado;
     private AppLovinAd loadedAd;
+    private MoPubInterstitial mInterstitial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +65,8 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     }
 
     private void inicializarComponentes() {
+
+       configurarIntersticialMOPUB();
 
         CarouselView carouselView = findViewById(R.id.carouselView);
         TextView textNome = findViewById(R.id.txv_nome_meus_anuncios);
@@ -84,7 +95,6 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                 carouselView.setPageCount(anuncioSelecionado.getFotos().size());
             }
             carouselView.setImageListener(imageListener);
-
 
             //características do animal
             textNome.setText(anuncioSelecionado.getNome());
@@ -120,22 +130,22 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
 
                                     btnVerTelefone.setOnClickListener(v -> {
 
-                                        //mostraAppLovinIntersticial();
+                                        //showInterstitialMethod();
 
                                         if (usuarios.child("telefone").getValue() != null) {
 
                                             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
                                             boolean purchased = pref.getBoolean("purchased", false); // getting boolean
 
-                                            if(purchased || Constantes.isPRO) {
+                                            if(purchased || GerenciadorPRO.isPRO) {
                                                 final String telefone = Objects.requireNonNull(usuarios.child("telefone").getValue()).toString();
                                                 Intent i = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
                                                         telefone, null));
                                                 startActivity(i);
                                             } else {
                                                 //abre a main activity que abre o DoacaoFragment
-                                                Intent i = new Intent(DetalhesAnimalActivity.this, MainActivity.class);
-                                                i.putExtra("telefone", true);
+                                                Intent i = new Intent(DetalhesAnimalActivity.this, DoacaoActivity.class);
+                                                //i.putExtra("telefone", true);
                                                 startActivity(i);
                                             }
                                         } else {
@@ -154,14 +164,72 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
                 }
             });
         }
-        if(!Constantes.isPRO) {
+        if(!GerenciadorPRO.isPRO) {
             configuraAppLovinIntersticial();
         }
     }
 
+    private void configurarIntersticialMOPUB() {
+
+        try {
+            SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(Constantes.INTERSTICIAL1)
+
+                    .withLogLevel(MoPubLog.LogLevel.DEBUG)
+                    .withLegitimateInterestAllowed(false)
+                    .build();
+
+            MoPub.initializeSdk(this, sdkConfiguration, () -> {
+                Log.d("Mopub", "SDK initialized");
+
+                mInterstitial = new MoPubInterstitial(DetalhesAnimalActivity.this, Constantes.INTERSTICIAL1);
+                // Remember that "this" refers to your current activity.
+                mInterstitial.setInterstitialAdListener(DetalhesAnimalActivity.this);
+                mInterstitial.load();
+            });
+        } catch (Exception e) {e.printStackTrace();}
+    }
+
+    //////////////////////MOPUB/////////////////
+
+    // Defined by your application, indicating that you're ready to show an interstitial ad.
+    void showInterstitialMethod() {
+        if (mInterstitial.isReady()) {
+            mInterstitial.show();
+            mInterstitial.load();
+        } else {
+            Log.d("INFO77","not ready");
+            mInterstitial.load();
+        }
+    }
+
+    @Override
+    public void onInterstitialLoaded(MoPubInterstitial interstitial) {
+        Log.d("INFO77","loaded");
+    }
+
+    @Override
+    public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
+        Log.d("INFO77","failed");
+    }
+
+    @Override
+    public void onInterstitialShown(MoPubInterstitial interstitial) {
+        Log.d("INFO77","shown");
+    }
+
+    @Override
+    public void onInterstitialClicked(MoPubInterstitial interstitial) {
+        Log.d("INFO77","clicked");
+    }
+
+    @Override
+    public void onInterstitialDismissed(MoPubInterstitial interstitial) {
+        Log.d("INFO77","dismissed");
+    }
+
     public void configuraAppLovinIntersticial() {
 
-        if(!Constantes.isPRO) {
+        if(!GerenciadorPRO.isPRO) {
 
             AppLovinSdk.initializeSdk(this);
 
@@ -179,10 +247,11 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
             });
         }
     }
+//////////////////////////////////////////////////////////////////////////////////
 
     public void mostraAppLovinIntersticial() {
 
-        if(!Constantes.isPRO) {
+        if(!GerenciadorPRO.isPRO) {
             AppLovinInterstitialAdDialog interstitialAd = AppLovinInterstitialAd.create(AppLovinSdk.getInstance(this), this);
             // Optional: Assign listeners
             //interstitialAd.setAdDisplayListener( ... );
@@ -207,13 +276,17 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-            mostraAppLovinIntersticial();
+            //mostraAppLovinIntersticial();
+        showInterstitialMethod();
+        finish();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-                mostraAppLovinIntersticial();
+                //mostraAppLovinIntersticial();
+            showInterstitialMethod();
+
             finish();
             return true;
         }
@@ -223,12 +296,24 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //IronSource.onResume(this);
+        MoPub.onResume(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MoPub.onStop(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        //IronSource.onPause(this);
+        MoPub.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mInterstitial.destroy();
+        super.onDestroy();
     }
 }

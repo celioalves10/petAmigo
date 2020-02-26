@@ -19,6 +19,7 @@ import com.anjlab.android.iab.v3.TransactionDetails;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
+import com.celvansystems.projetoamigoanimal.helper.GerenciadorPRO;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.google.firebase.database.DatabaseReference;
 
@@ -38,7 +39,7 @@ public class PROActivity extends AppCompatActivity implements BillingProcessor.I
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(getSupportActionBar()).setTitle(getString(R.string.usuario_pro));
 
-        if (Constantes.isPRO) {
+        if (GerenciadorPRO.isPRO) {
             startActivity(new Intent(PROActivity.this, UsuarioPROActivity.class));
             finish();
         }
@@ -79,7 +80,7 @@ public class PROActivity extends AppCompatActivity implements BillingProcessor.I
             bp = new BillingProcessor(this, Constantes.LICENSE_KEY_GOOGLE_PLAY, this);
             bp.initialize();
 
-            layout = findViewById(R.id.frame_layout_doacao);
+            layout = findViewById(R.id.linear_layout_pro);
             btnPRO = findViewById(R.id.btn_pro);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -154,7 +155,7 @@ public class PROActivity extends AppCompatActivity implements BillingProcessor.I
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putBoolean("pro", true); // Storing boolean - true/false
                     editor.apply(); // commit changes
-                    Constantes.isPRO = true;
+                    GerenciadorPRO.isPRO = true;
                     startActivity(new Intent(PROActivity.this, UsuarioPROActivity.class));
                     Log.d("INFO89", "PRO true!");
                     finish();

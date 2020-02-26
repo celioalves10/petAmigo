@@ -3,7 +3,6 @@ package com.celvansystems.projetoamigoanimal.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.activity.MainActivity;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
@@ -41,18 +39,11 @@ import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
-import com.vansuita.pickimage.listeners.IPickCancel;
-import com.vansuita.pickimage.listeners.IPickClick;
-import com.vansuita.pickimage.listeners.IPickResult;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,8 +72,7 @@ public class CadastrarAnuncioFragment extends Fragment
     private android.app.AlertDialog dialog;
     private StorageReference storage;
     private int requisicao;
-    private View layout;
-    private View viewFragment;
+    private View layout, viewFragment;
     private Button btnCadastrarAnuncio;
     private ArrayAdapter<String> adapterEspecies, adapterIdades;
     private ArrayAdapter<String> adapterCidades, adapterSexos;
@@ -245,35 +235,30 @@ public class CadastrarAnuncioFragment extends Fragment
                 //imagem mark1
                 case 0:
                     try {
-                        imagem1.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Picasso.get().load(finalFotosAnuncioSelecionado[0])
-                                        .resize(imagem1.getWidth(), imagem1.getHeight())
-                                        .centerCrop()
-                                        .into(imagem1, new com.squareup.picasso.Callback() {
-                                            @Override
-                                            public void onSuccess() {
-                                                Drawable drawable = imagem1.getDrawable();
+                        imagem1.post(() -> Picasso.get().load(finalFotosAnuncioSelecionado[0])
+                                .resize(imagem1.getWidth(), imagem1.getHeight())
+                                .centerCrop()
+                                .into(imagem1, new com.squareup.picasso.Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Drawable drawable = imagem1.getDrawable();
 
-                                                Bitmap mBitmap = ((BitmapDrawable) drawable).getBitmap();
+                                        Bitmap mBitmap = ((BitmapDrawable) drawable).getBitmap();
 
-                                                String path = MediaStore.Images.Media.insertImage(ctx
-                                                        .getContentResolver(), mBitmap, null, null);
-                                                Uri uri = Uri.parse(path);
+                                        String path = MediaStore.Images.Media.insertImage(ctx
+                                                .getContentResolver(), mBitmap, null, null);
+                                        Uri uri = Uri.parse(path);
 
-                                                listaFotosRecuperadas.put(1, uri.toString());
-                                                dialog.dismiss();
-                                            }
+                                        listaFotosRecuperadas.put(1, uri.toString());
+                                        dialog.dismiss();
+                                    }
 
-                                            @Override
-                                            public void onError(Exception e) {
-                                                dialog.dismiss();
-                                                e.printStackTrace();
-                                            }
-                                        });
-                            }
-                        });
+                                    @Override
+                                    public void onError(Exception e) {
+                                        dialog.dismiss();
+                                        e.printStackTrace();
+                                    }
+                                }));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -282,35 +267,30 @@ public class CadastrarAnuncioFragment extends Fragment
                 //imagem mark2
                 case 1:
                     try {
-                        imagem2.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Picasso.get().load(finalFotosAnuncioSelecionado[1])
-                                        .resize(imagem2.getWidth(), imagem2.getHeight())
-                                        .centerCrop()
-                                        .into(imagem2, new com.squareup.picasso.Callback() {
-                                            @Override
-                                            public void onSuccess() {
-                                                Drawable drawable = imagem2.getDrawable();
+                        imagem2.post(() -> Picasso.get().load(finalFotosAnuncioSelecionado[1])
+                                .resize(imagem2.getWidth(), imagem2.getHeight())
+                                .centerCrop()
+                                .into(imagem2, new com.squareup.picasso.Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Drawable drawable = imagem2.getDrawable();
 
-                                                Bitmap mBitmap = ((BitmapDrawable) drawable).getBitmap();
+                                        Bitmap mBitmap = ((BitmapDrawable) drawable).getBitmap();
 
-                                                String path = MediaStore.Images.Media.insertImage(ctx
-                                                        .getContentResolver(), mBitmap, null, null);
-                                                Uri uri = Uri.parse(path);
+                                        String path = MediaStore.Images.Media.insertImage(ctx
+                                                .getContentResolver(), mBitmap, null, null);
+                                        Uri uri = Uri.parse(path);
 
-                                                listaFotosRecuperadas.put(2, uri.toString());
-                                                dialog.dismiss();
-                                            }
+                                        listaFotosRecuperadas.put(2, uri.toString());
+                                        dialog.dismiss();
+                                    }
 
-                                            @Override
-                                            public void onError(Exception e) {
-                                                dialog.dismiss();
-                                                e.printStackTrace();
-                                            }
-                                        });
-                            }
-                        });
+                                    @Override
+                                    public void onError(Exception e) {
+                                        dialog.dismiss();
+                                        e.printStackTrace();
+                                    }
+                                }));
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -321,35 +301,30 @@ public class CadastrarAnuncioFragment extends Fragment
                 case 2:
 
                     try {
-                        imagem3.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Picasso.get().load(finalFotosAnuncioSelecionado[2])
-                                        .resize(imagem3.getWidth(), imagem3.getHeight())
-                                        .centerCrop()
-                                        .into(imagem3, new com.squareup.picasso.Callback() {
-                                            @Override
-                                            public void onSuccess() {
-                                                Drawable drawable = imagem3.getDrawable();
-                                                // ...
-                                                Bitmap mBitmap = ((BitmapDrawable) drawable).getBitmap();
+                        imagem3.post(() -> Picasso.get().load(finalFotosAnuncioSelecionado[2])
+                                .resize(imagem3.getWidth(), imagem3.getHeight())
+                                .centerCrop()
+                                .into(imagem3, new com.squareup.picasso.Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Drawable drawable = imagem3.getDrawable();
+                                        // ...
+                                        Bitmap mBitmap = ((BitmapDrawable) drawable).getBitmap();
 
-                                                String path = MediaStore.Images.Media.insertImage(ctx
-                                                        .getContentResolver(), mBitmap, null, null);
-                                                Uri uri = Uri.parse(path);
+                                        String path = MediaStore.Images.Media.insertImage(ctx
+                                                .getContentResolver(), mBitmap, null, null);
+                                        Uri uri = Uri.parse(path);
 
-                                                listaFotosRecuperadas.put(3, uri.toString());
-                                                dialog.dismiss();
-                                            }
+                                        listaFotosRecuperadas.put(3, uri.toString());
+                                        dialog.dismiss();
+                                    }
 
-                                            @Override
-                                            public void onError(Exception e) {
-                                                dialog.dismiss();
-                                                e.printStackTrace();
-                                            }
-                                        });
-                            }
-                        });
+                                    @Override
+                                    public void onError(Exception e) {
+                                        dialog.dismiss();
+                                        e.printStackTrace();
+                                    }
+                                }));
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -427,44 +402,44 @@ public class CadastrarAnuncioFragment extends Fragment
 
             //imagem comprimida
             byte[] byteArray = comprimirImagem(selectedImage);
-            UploadTask uploadTask = imagemAnimal.putBytes(byteArray);
 
-            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+            if(byteArray != null) {
+
+                UploadTask uploadTask = imagemAnimal.putBytes(byteArray);
+
+                uploadTask.continueWithTask(task -> {
                     if (!task.isSuccessful()) {
                         throw Objects.requireNonNull(task.getException());
                     }
 
                     // Continue with the task to get the download URL
                     return imagemAnimal.getDownloadUrl();
-                }
-            }).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
+                }).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
 
-                    Uri firebaseUrl = task.getResult();
-                    String urlConvertida = Objects.requireNonNull(firebaseUrl).toString();
-                    listaURLFotos.add(urlConvertida);
+                        Uri firebaseUrl = task.getResult();
+                        String urlConvertida = Objects.requireNonNull(firebaseUrl).toString();
+                        listaURLFotos.add(urlConvertida);
 
-                    if (totalFotos == listaURLFotos.size()) {
-                        animal.setFotos(listaURLFotos);
-                        animal.salvar();
-                        Util.setSnackBar(layout, getString(R.string.sucesso_ao_fazer_upload));
+                        if (totalFotos == listaURLFotos.size()) {
+                            animal.setFotos(listaURLFotos);
+                            animal.salvar();
+                            Util.setSnackBar(layout, getString(R.string.sucesso_ao_fazer_upload));
 
-                        MainActivity.reconfiguraNotificacoes(getActivity());
+                            MainActivity.reconfiguraNotificacoes(getActivity());
 
-                        dialog.dismiss();
+                            dialog.dismiss();
 
-                        //redireciona para MeusAnunciosFragment
-                        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
-                        //mostraInterstitialAd();
+                            //redireciona para MeusAnunciosFragment
+                            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.view_pager, new MeusAnunciosFragment()).addToBackStack(null).commit();
+                        }
+                    } else {
+                        Util.setSnackBar(layout, getString(R.string.falha_upload));
                     }
-                } else {
-                    Util.setSnackBar(layout, getString(R.string.falha_upload));
-                }
-            });
+                });
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -492,10 +467,29 @@ public class CadastrarAnuncioFragment extends Fragment
 
             stream.close();
 
+        } catch (OutOfMemoryError error) {
+            exibirDialogMemoria();
+            error.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return byteArray;
+    }
+
+    private void exibirDialogMemoria() {
+
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
+            builder.setTitle(getString(R.string.erro_memoria));
+            builder.setMessage(getString(R.string.pouca_memoria));
+            builder.setCancelable(false);
+            builder.setPositiveButton(getString(R.string.ok), (dialog, which) -> dialog.dismiss());
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -551,22 +545,20 @@ public class CadastrarAnuncioFragment extends Fragment
         Animal animal = this.getAnimalDaActivity();
 
         if (listaFotosRecuperadas.size() != 0) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                if (!animal.getNome().isEmpty()) {
-                    if (!animal.getRaca().isEmpty()) {
-                        if (!animal.getDescricao().isEmpty()) {
+            if (!animal.getNome().isEmpty()) {
+                if (!animal.getRaca().isEmpty()) {
+                    if (!animal.getDescricao().isEmpty()) {
 
-                            salvarAnuncio(animal);
+                        salvarAnuncio(animal);
 
-                        } else {
-                            Util.setSnackBar(layout, getString(R.string.preencha_descricao));
-                        }
                     } else {
-                        Util.setSnackBar(layout, getString(R.string.preencha_raca));
+                        Util.setSnackBar(layout, getString(R.string.preencha_descricao));
                     }
                 } else {
-                    Util.setSnackBar(layout, getString(R.string.preencha_nome));
+                    Util.setSnackBar(layout, getString(R.string.preencha_raca));
                 }
+            } else {
+                Util.setSnackBar(layout, getString(R.string.preencha_nome));
             }
         } else {
             Util.setSnackBar(layout, getString(R.string.selecione_foto));
@@ -667,13 +659,7 @@ public class CadastrarAnuncioFragment extends Fragment
                             e.printStackTrace();
                         }
                     })
-                    .setOnPickCancel(new IPickCancel() {
-                        @Override
-                        public void onCancelClick() {
-                            Log.d("INFO91", "pick cancel");
-
-                        }
-                    }).show(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
+                    .setOnPickCancel(() -> Log.d("INFO91", "pick cancel")).show(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
         } catch (Exception e) {
             Log.d("INFO91", "erro final: " + e.getMessage());
             e.printStackTrace();
@@ -765,11 +751,8 @@ public class CadastrarAnuncioFragment extends Fragment
                 builder.setTitle(getString(R.string.permissoes_negadas));
                 builder.setMessage(getString(R.string.necessario_aceitar_permissoes));
                 builder.setCancelable(false);
-                builder.setPositiveButton(getString(R.string.confirmar), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //todo: implementar
-                    }
+                builder.setPositiveButton(getString(R.string.confirmar), (dialog, which) -> {
+
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
@@ -787,13 +770,10 @@ public class CadastrarAnuncioFragment extends Fragment
      */
     private static void hideKeyboard(Context context, View editText) {
         try {
-            InputMethodManager imm = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
-                imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                }
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
             }
         } catch (Exception e) {
             e.printStackTrace();

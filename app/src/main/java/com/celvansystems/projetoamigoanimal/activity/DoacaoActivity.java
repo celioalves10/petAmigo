@@ -1,21 +1,17 @@
-package com.celvansystems.projetoamigoanimal.fragment;
+package com.celvansystems.projetoamigoanimal.activity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.cardview.widget.CardView;
-
 import android.util.Log;
-import android.view.InflateException;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -25,34 +21,23 @@ import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 
-import java.util.Objects;
 import java.util.Random;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
+public class DoacaoActivity extends AppCompatActivity {
 
-public class DoacaoFragment extends Fragment implements BillingProcessor.IBillingHandler {
-
-    private View view;
+    //private View view;
     private BillingProcessor bp;
     private View layout;
     private ImageView imvDoacao;
     private Button btnDoar3, btnDoar5, btnDoar10, btnDoar50, btnDoar100;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        try {
-            view = inflater.inflate(R.layout.fragment_doacao, container, false);
-        } catch (InflateException e) {
-            Objects.requireNonNull(e.getCause()).printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_doacao);
 
         inializaComponentes();
         carregarFotoMarketing();
-        return view;
     }
 
     /**
@@ -83,21 +68,20 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
      */
     private void inializaComponentes() {
 
-        bp = new BillingProcessor(view.getContext(), Constantes.LICENSE_KEY_GOOGLE_PLAY, this);
-        bp.initialize();
+        iniciarBillingProcessor();
 
-        layout = view.findViewById(R.id.frame_layout_doacao);
+        layout = findViewById(R.id.linear_layout_doacao2);
 
-        imvDoacao = view.findViewById(R.id.imv_doacao);
+        imvDoacao = findViewById(R.id.imv_doacao_act);
 
-        btnDoar3 = view.findViewById(R.id.btn_doar3_reais);
-        btnDoar5 = view.findViewById(R.id.btn_doar5_reais);
-        btnDoar10 = view.findViewById(R.id.btn_doar10_reais);
-        btnDoar50 = view.findViewById(R.id.btn_doar50_reais);
-        btnDoar100 = view.findViewById(R.id.btn_doar100_reais);
-        //btnDoar500 = view.findViewById(R.id.btn_doar500_reais);
+        btnDoar3 = findViewById(R.id.btn_doar3_reais_act);
+        btnDoar5 = findViewById(R.id.btn_doar5_reais_act);
+        btnDoar10 = findViewById(R.id.btn_doar10_reais_act);
+        btnDoar50 = findViewById(R.id.btn_doar50_reais_act);
+        btnDoar100 = findViewById(R.id.btn_doar100_reais_act);
+        //btnDoar500 = findViewById(R.id.btn_doar500_reais);
 
-        Context ctx = view.getContext();
+        //Context ctx = view.getContext();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             btnDoar3.setElevation(10);
@@ -105,12 +89,41 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             btnDoar10.setElevation(10);
             btnDoar50.setElevation(10);
             btnDoar100.setElevation(10);
-            CardView card = view.findViewById(R.id.cardView_doacao);
-            card.setBackgroundTintList(ctx.getResources().getColorStateList(R.color.backgroundcolor));
+            CardView card = findViewById(R.id.cardView_doacao_act);
+            card.setBackgroundTintList(getResources().getColorStateList(R.color.backgroundcolor));
         }
 
         // ação dos botões de doação
         configuraAcoesBotoes();
+    }
+
+    private void iniciarBillingProcessor() {
+
+        bp = new BillingProcessor(DoacaoActivity.this, Constantes.LICENSE_KEY_GOOGLE_PLAY, new BillingProcessor.IBillingHandler(){
+
+            @Override
+            public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
+                Log.d("INFO79",productId);
+            }
+
+            @Override
+            public void onPurchaseHistoryRestored() {
+                Log.d("INFO79","history");
+            }
+
+            @Override
+            public void onBillingError(int errorCode, @Nullable Throwable error) {
+                Util.setSnackBar(layout, getString(R.string.error) + errorCode);
+                Log.d("INFO79","erro");
+            }
+
+            @Override
+            public void onBillingInitialized() {
+                Log.d("INFO79","billing initialized");
+            }
+        });
+
+        bp.initialize();
     }
 
     /**
@@ -123,7 +136,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             public void onClick(View view) {
                 salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_3_REAIS);
-                bp.purchase(getActivity(), Constantes.PRODUCT_ID_3_REAIS);
+                bp.purchase(DoacaoActivity.this, Constantes.PRODUCT_ID_3_REAIS);
             }
         });
 
@@ -131,8 +144,9 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             @Override
             public void onClick(View view) {
                 salvaPurchasedPref();
+                Log.d("INFO79","5");
                 bp.consumePurchase(Constantes.PRODUCT_ID_5_REAIS);
-                bp.purchase(getActivity(), Constantes.PRODUCT_ID_5_REAIS);
+                bp.purchase(DoacaoActivity.this, Constantes.PRODUCT_ID_5_REAIS);
             }
         });
 
@@ -141,7 +155,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             public void onClick(View view) {
                 salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_10_REAIS);
-                bp.purchase(getActivity(), Constantes.PRODUCT_ID_10_REAIS);
+                bp.purchase(DoacaoActivity.this, Constantes.PRODUCT_ID_10_REAIS);
             }
         });
 
@@ -150,7 +164,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             public void onClick(View view) {
                 salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_50_REAIS);
-                bp.purchase(getActivity(), Constantes.PRODUCT_ID_50_REAIS);
+                bp.purchase(DoacaoActivity.this, Constantes.PRODUCT_ID_50_REAIS);
             }
         });
 
@@ -159,7 +173,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
             public void onClick(View view) {
                 salvaPurchasedPref();
                 bp.consumePurchase(Constantes.PRODUCT_ID_100_REAIS);
-                bp.purchase(getActivity(), Constantes.PRODUCT_ID_100_REAIS);
+                bp.purchase(DoacaoActivity.this, Constantes.PRODUCT_ID_100_REAIS);
             }
         });
 
@@ -174,7 +188,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
         });*/
     }
 
-    @Override
+    /*@Override
     public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
         Log.d("INFO89",productId + details);
     }
@@ -193,7 +207,7 @@ public class DoacaoFragment extends Fragment implements BillingProcessor.IBillin
     @Override
     public void onBillingInitialized() {
         Log.d("INFO89","billing initialized");
-    }
+    }*/
 
     private void salvaPurchasedPref(){
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);

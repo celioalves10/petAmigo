@@ -7,8 +7,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 59
-        versionName "2.59.541"
+        versionCode 61
+        versionName "2.61.542"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -26,9 +26,10 @@ android {
         abortOnError false
     }
     buildToolsVersion '29.0.2'
+
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
@@ -53,6 +54,8 @@ configurations.all {
 repositories {
 
     maven {
+        jcenter() // includes the MoPub SDK and AVID library
+        maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
         url "https://dl.bintray.com/ironsource-mobile/android-sdk"
     }
     //maven { url 'http://android-sdk.aatkit.com/maven/' }
@@ -140,6 +143,17 @@ dependencies {
 
     //multidex
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    //MOPUB
+    implementation('com.mopub:mopub-sdk:5.11.1') {
+        transitive = true
+    }
+    // For interstitials
+    implementation('com.mopub:mopub-sdk-interstitial:5.11.1') {
+        transitive = true
+    }
+    implementation 'com.google.guava:guava:27.0.1-android'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

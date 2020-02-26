@@ -19,26 +19,32 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        boolean crash = false;
+
         try {
             setContentView(R.layout.activity_splashscreen);
         } catch (Exception e) {
+            crash = true;
             e.printStackTrace();
         } finally {
-            mostrarLogin();
+            if(crash) {
+                mostrarLogin();
+            }
         }
 
         inicializarComponentes();
 
+        login();
+
+    }
+
+    private void login() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             Handler handle = new Handler();
-            handle.postDelayed(this::mostrarLogin, 800);
+            handle.postDelayed(this::mostrarLogin, 600);
         } else {
             mostrarLogin();
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ImageView imvPegada = findViewById(R.id.imv_pegada2);
-            imvPegada.setElevation(35);
         }
     }
 
@@ -47,6 +53,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         TextView txvVersaoSplash = findViewById(R.id.txvVersaoSplash);
         if (txvVersaoSplash != null && txvVersaoSplash.getText() != null) {
             txvVersaoSplash.setText(String.format("%s %s", txvVersaoSplash.getText(), BuildConfig.VERSION_NAME));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ImageView imvPegada = findViewById(R.id.imv_pegada2);
+            imvPegada.setElevation(35);
         }
     }
 

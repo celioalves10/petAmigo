@@ -1,6 +1,5 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +9,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
+import com.celvansystems.projetoamigoanimal.helper.GerenciadorPRO;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.core.view.GravityCompat;
@@ -30,7 +29,6 @@ import android.widget.TextView;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.fragment.AnunciosFragment;
 import com.celvansystems.projetoamigoanimal.fragment.CadastrarAnuncioFragment;
-import com.celvansystems.projetoamigoanimal.fragment.DoacaoFragment;
 import com.celvansystems.projetoamigoanimal.fragment.MeusAnunciosFragment;
 import com.celvansystems.projetoamigoanimal.fragment.PerfilUsuarioFragment;
 import com.celvansystems.projetoamigoanimal.fragment.SobreAppFragment;
@@ -48,8 +46,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,11 +72,15 @@ public class MainActivity extends AppCompatActivity
 
         //Notificações
         reconfiguraNotificacoes(this);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.view_pager, new AnunciosFragment()).addToBackStack("tag").commit();
     }
 
     private void verificaUsuarioPRO() {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        Constantes.isPRO = prefs.getBoolean("pro", false);
+        GerenciadorPRO.isPRO = prefs.getBoolean("pro", false);
     }
 
     public static void reconfiguraNotificacoes(Context ctx) {
@@ -168,17 +168,6 @@ public class MainActivity extends AppCompatActivity
                     Util.setSnackBar(layout, getString(R.string.falha_excluir_usuario));
                 }
             }
-
-            boolean telefone = getIntent().getBooleanExtra("telefone", false);
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            if (telefone) {
-                fragmentTransaction.replace(R.id.view_pager, new DoacaoFragment()).commit();
-            } else {
-                fragmentTransaction.replace(R.id.view_pager, new AnunciosFragment()).commit();
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -328,7 +317,7 @@ public class MainActivity extends AppCompatActivity
             super.onResume();
             carregaDadosUsuario();
 
-            if (Constantes.isPRO) {
+            if (GerenciadorPRO.isPRO) {
                 imvAds.setImageResource(R.drawable.coroa_branca);
             }
         } catch (Exception e) {
@@ -372,7 +361,8 @@ public class MainActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.view_pager, new AnunciosFragment()).addToBackStack("tag").commit();
             } else if (id == R.id.doacao) {
                 // implementar funções na activit doação.
-                fragmentTransaction.replace(R.id.view_pager, new DoacaoFragment()).addToBackStack("tag").commit();
+                //fragmentTransaction.replace(R.id.view_pager, new DoacaoFragment()).addToBackStack("tag").commit();
+                startActivity(new Intent(this, DoacaoActivity.class));
 
             } else if (id == R.id.nav_pro) {
                 startActivity(new Intent(this, PROActivity.class));

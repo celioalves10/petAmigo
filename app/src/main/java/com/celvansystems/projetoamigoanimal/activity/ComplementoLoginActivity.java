@@ -1,6 +1,7 @@
 package com.celvansystems.projetoamigoanimal.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Constantes;
+import com.celvansystems.projetoamigoanimal.helper.GerenciadorPRO;
 import com.celvansystems.projetoamigoanimal.helper.Mask;
 import com.celvansystems.projetoamigoanimal.helper.Permissoes;
 import com.celvansystems.projetoamigoanimal.helper.Util;
@@ -51,6 +53,7 @@ import dmax.dialog.SpotsDialog;
 
 import static android.R.layout.simple_spinner_item;
 
+@SuppressLint("Registered")
 public class ComplementoLoginActivity extends AppCompatActivity {
 
     private ImageView imvFoto;
@@ -303,10 +306,10 @@ public class ComplementoLoginActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = pref.edit();
             if (pro) {
                 editor.putBoolean("pro", true);
-                Constantes.isPRO = true;
+                GerenciadorPRO.isPRO = true;
             } else {
                 editor.putBoolean("pro", false);
-                Constantes.isPRO = false;
+                GerenciadorPRO.isPRO = false;
             }
             editor.apply();
         } catch (Exception | Error e) {
