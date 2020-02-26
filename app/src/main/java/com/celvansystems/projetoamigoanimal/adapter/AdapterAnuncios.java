@@ -98,7 +98,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, @SuppressLint("RecyclerView") int i) {
 
-        if (anuncios != null && i <= Constantes.LIMIT_TODOS) {
+        if (anuncios != null && i <= Constantes.LIMIT_PRO) {
 
             final Animal anuncio = anuncios.get(i);
             //anuncioComentado = anuncio;
@@ -695,7 +695,7 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
                 return Math.min(anuncios.size(), Constantes.LIMIT);
                 // se for conta PRO, exibe todos os resultados
             } else {
-                return Math.min(anuncios.size(), Constantes.LIMIT_TODOS);
+                return Math.min(anuncios.size(), Constantes.LIMIT_PRO);
             }
         } else {
             return 0;

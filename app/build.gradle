@@ -7,8 +7,8 @@ android {
         applicationId "com.celvansystems.projetoamigoanimal"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 61
-        versionName "2.61.542"
+        versionCode 62
+        versionName "2.62.543"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
@@ -63,11 +63,6 @@ repositories {
 
 dependencies {
 
-    //AATKit
-    /*implementation ('com.intentsoftware.addapptr:AATKit:2.26.13') {
-        transitive = true
-    }*/
-
     //admob
     implementation 'com.google.android.gms:play-services-ads:18.3.0'
     implementation 'com.google.android.gms:play-services-measurement:17.2.2'
@@ -81,17 +76,16 @@ dependencies {
     implementation('com.facebook.android:audience-network-sdk:5.4.1') {
         exclude group: 'com.google.android.gms', module: 'play-services-ads'
     }
-    //inMob
-    //implementation 'com.google.ads.mediation:inmobi:7.2.9.0'
+
     implementation 'com.google.android.gms:play-services-basement:17.1.1'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
     //AppLovin
-    implementation 'com.applovin:applovin-sdk:9.11.2'
+    //implementation 'com.applovin:applovin-sdk:9.11.2'
 
     //ironsource
-    implementation 'com.google.ads.mediation:ironsource:6.9.0.0'
+    //implementation 'com.google.ads.mediation:ironsource:6.9.0.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.1.0'
@@ -150,6 +144,10 @@ dependencies {
     }
     // For interstitials
     implementation('com.mopub:mopub-sdk-interstitial:5.11.1') {
+        transitive = true
+    }
+    // For banners
+    implementation('com.mopub:mopub-sdk-banner:5.11.1') {
         transitive = true
     }
     implementation 'com.google.guava:guava:27.0.1-android'

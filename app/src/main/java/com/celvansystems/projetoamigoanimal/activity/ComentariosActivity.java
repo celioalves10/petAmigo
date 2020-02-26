@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ import android.widget.ImageView;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.adapter.AdapterComentarios;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
+import com.celvansystems.projetoamigoanimal.helper.Constantes;
+import com.celvansystems.projetoamigoanimal.helper.GerenciadorPRO;
 import com.celvansystems.projetoamigoanimal.helper.LinearLayoutManagerWrapper;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
@@ -30,6 +33,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.mopub.common.MoPub;
+import com.mopub.common.SdkConfiguration;
+import com.mopub.common.logging.MoPubLog;
+import com.mopub.mobileads.MoPubErrorCode;
+import com.mopub.mobileads.MoPubInterstitial;
 //import com.ironsource.mediationsdk.IronSource;
 
 import java.util.ArrayList;
@@ -37,19 +45,27 @@ import java.util.List;
 import java.util.Objects;
 
 @SuppressLint("Registered")
-public class ComentariosActivity extends AppCompatActivity {
+public class ComentariosActivity extends AppCompatActivity  implements MoPubInterstitial.InterstitialAdListener{
 
     private Animal anuncioSelecionado;
     private AdapterComentarios adapterComentarios;
     private EditText edtComentario;
     private RecyclerView recyclercomentarios;
-
+    private MoPubInterstitial mInterstitial;
     private View layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comentarios);
+
+        configurarIntersticialMOPUB();
+
+        configuracoesIniciais();
+    }
+
+    private void configuracoesIniciais() {
+
         try {
             //configurar toolbar
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -73,11 +89,7 @@ public class ComentariosActivity extends AppCompatActivity {
                 imvInfoComentarios.setImageTintList(getResources().getColorStateList(R.color.colorAccent));
             }
 
-            imbComentario.setOnClickListener(v -> {
-                comentarAnuncio(anuncioSelecionado);
-                //hideKeyboard();
-            });
-
+            imbComentario.setOnClickListener(v -> comentarAnuncio(anuncioSelecionado));
 
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManagerWrapper(this, LinearLayoutManager.VERTICAL, false);
             recyclercomentarios.setLayoutManager(mLayoutManager);
@@ -143,9 +155,10 @@ public class ComentariosActivity extends AppCompatActivity {
 
                         for (final DataSnapshot fotos : dataSnapshot.getChildren()) {
 
-                            String foto = Objects.requireNonNull(fotos.getValue()).toString();
-                            listaFotos.add(foto);
-                            //Log.d("INFO13", "foto: " + foto);
+                            if(fotos.getValue() != null) {
+                                String foto = Objects.requireNonNull(fotos.getValue()).toString();
+                                listaFotos.add(foto);
+                            }
                         }
                         anuncioSelecionado.setFotos(listaFotos);
                     }
@@ -166,13 +179,75 @@ public class ComentariosActivity extends AppCompatActivity {
                 recyclercomentarios.setAdapter(adapterComentarios);
 
                 updateRecycler(anuncioSelecionado);
-                //Log.i("INFO13", "anuncioselecionado != null");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void configurarIntersticialMOPUB() {
+
+        try {
+            SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(Constantes.INTERSTICIAL2)
+
+                    .withLogLevel(MoPubLog.LogLevel.DEBUG)
+                    .withLegitimateInterestAllowed(false)
+                    .build();
+
+            MoPub.initializeSdk(ComentariosActivity.this, sdkConfiguration, () -> {
+                Log.d("INFO77", "SDK initialized coment");
+
+                mInterstitial = new MoPubInterstitial(ComentariosActivity.this, Constantes.INTERSTICIAL2);
+                // Remember that "this" refers to your current activity.
+                mInterstitial.setInterstitialAdListener(ComentariosActivity.this);
+                mInterstitial.load();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //////////////////////MOPUB/////////////////
+
+    // Defined by your application, indicating that you're ready to show an interstitial ad.
+    void showInterstitialMethod() {
+
+        if (!GerenciadorPRO.isPRO) {
+            if (mInterstitial.isReady()) {
+                mInterstitial.show();
+                mInterstitial.load();
+                Log.d("INFO77", "show chamado");
+            } else {
+                Log.d("INFO77", "not ready coment");
+                mInterstitial.load();
+            }
+        }
+    }
+
+    @Override
+    public void onInterstitialLoaded(MoPubInterstitial interstitial) {
+        Log.d("INFO77", "loaded coment");
+    }
+
+    @Override
+    public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
+        Log.d("INFO77", "failed coment");
+    }
+
+    @Override
+    public void onInterstitialShown(MoPubInterstitial interstitial) {
+        Log.d("INFO77", "shown coment");
+    }
+
+    @Override
+    public void onInterstitialClicked(MoPubInterstitial interstitial) {
+        Log.d("INFO77", "clicked coment");
+    }
+
+    @Override
+    public void onInterstitialDismissed(MoPubInterstitial interstitial) {
+        Log.d("INFO77", "dismissed coment");
+    }
     /**
      * metodo que insere comentarios no firebase
      *
@@ -277,16 +352,25 @@ public class ComentariosActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     List<Comentario> comentsList = new ArrayList<>();
                     for (DataSnapshot comentarios : dataSnapshot.getChildren()) {
+
                         Comentario coment = new Comentario();
+
                         if (comentarios != null) {
 
                             Usuario usuario = new Usuario();
-                            usuario.setId(Objects.requireNonNull(comentarios.child("usuario").child("id").getValue()).toString());
-                            usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
-
+                            if(comentarios.child("usuario").child("id").getValue()!= null) {
+                                usuario.setId(Objects.requireNonNull(comentarios.child("usuario").child("id").getValue()).toString());
+                            }
+                            if(comentarios.child("usuario").child("nome").getValue() != null) {
+                                usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
+                            }
                             coment.setUsuario(usuario);
-                            coment.setDatahora(Objects.requireNonNull(comentarios.child("datahora").getValue()).toString());
-                            coment.setTexto(Objects.requireNonNull(comentarios.child("texto").getValue()).toString());
+                            if(comentarios.child("datahora").getValue()!=null) {
+                                coment.setDatahora(Objects.requireNonNull(comentarios.child("datahora").getValue()).toString());
+                            }
+                            if(comentarios.child("texto").getValue()!=null) {
+                                coment.setTexto(Objects.requireNonNull(comentarios.child("texto").getValue()).toString());
+                            }
                             comentsList.add(coment);
                             anuncio.setListaComentarios(comentsList);
                         }
@@ -306,30 +390,19 @@ public class ComentariosActivity extends AppCompatActivity {
         }
     }
 
-    /*public static void hideKeyboard() {
-        try {
-            InputMethodManager imm = null;
-            /*if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {
-                imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                }
-            }*/
-        /*} catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        showInterstitialMethod();
+        Log.d("INFO77", "back pressed coment");
         finish();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            showInterstitialMethod();
+            Log.d("INFO77", "home pressed coment");
             finish();
             return true;
         }
@@ -339,12 +412,24 @@ public class ComentariosActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //IronSource.onResume(this);
+        MoPub.onResume(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MoPub.onStop(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        //IronSource.onPause(this);
+        MoPub.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mInterstitial.destroy();
+        super.onDestroy();
     }
 }

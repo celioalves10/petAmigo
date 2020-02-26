@@ -207,6 +207,7 @@
     <string name="ok">Ok</string>
     <string name="pouca_memoria">O sistema está com pouca memória! Libere espaço fechando outros Apps ou apagando arquivos inúteis.</string>
     <string name="erro_memoria">Erro de memória</string>
+    <string name="doacoes">Doações</string>
 
     <string-array name="idade">
         <item>0–3 meses</item>

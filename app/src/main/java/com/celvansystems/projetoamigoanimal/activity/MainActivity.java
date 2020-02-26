@@ -20,6 +20,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,17 +44,23 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.mopub.common.MoPub;
+import com.mopub.common.SdkConfiguration;
+import com.mopub.common.logging.MoPubLog;
+import com.mopub.mobileads.MoPubErrorCode;
+import com.mopub.mobileads.MoPubView;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MoPubView.BannerAdListener {
 
     private FirebaseAuth autenticacao;
     private NavigationView navigationView;
     private ImageView imageViewPerfil, imvAds;
     private View headerView;
+    private MoPubView moPubView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,8 @@ public class MainActivity extends AppCompatActivity
 
         verificaUsuarioPRO();
 
+        configurarBannerMOPUB();
+
         inicializarComponentes();
 
         configuraNavBar();
@@ -72,6 +81,65 @@ public class MainActivity extends AppCompatActivity
 
         //Notificações
         reconfiguraNotificacoes(this);
+
+       chamarAnunciosFragment();
+    }
+
+    private void configurarBannerMOPUB() {
+
+        try {
+            if (!GerenciadorPRO.isPRO) {
+
+                SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(Constantes.BANNER_MAIN)
+
+                        .withLogLevel(MoPubLog.LogLevel.DEBUG)
+                        .withLegitimateInterestAllowed(false)
+                        .build();
+
+                MoPub.initializeSdk(this, sdkConfiguration, () -> {
+                    Log.d("Mopub", "SDK initialized");
+
+                    moPubView = findViewById(R.id.banner_main);
+                    moPubView.setAdUnitId(Constantes.BANNER_MAIN); // Enter your Ad Unit ID from www.mopub.com
+                    moPubView.setAdSize(MoPubView.MoPubAdSize.HEIGHT_50); // Call this if you are not setting the ad size in XML or wish to use an ad size other than what has been set in the XML. Note that multiple calls to `setAdSize()` will override one another, and the MoPub SDK only considers the most recent one.
+                    moPubView.setBannerAdListener(this);
+                    moPubView.setAutorefreshEnabled(true);
+                    //moPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_50); // Call this if you are not calling setAdSize() or setting the size in XML, or if you are using the ad size that has not already been set through either setAdSize() or in the XML
+                    moPubView.loadAd();
+                });
+            }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+
+    }
+
+    @Override
+    public void onBannerLoaded(MoPubView banner) {
+        Log.d("INFO77","loaded banner");
+    }
+
+    @Override
+    public void onBannerFailed(MoPubView banner, MoPubErrorCode errorCode) {
+        Log.d("INFO77","failed banner");
+    }
+
+    @Override
+    public void onBannerClicked(MoPubView banner) {
+        Log.d("INFO77","clicked banner");
+    }
+
+    @Override
+    public void onBannerExpanded(MoPubView banner) {
+        Log.d("INFO77","expanded banner");
+    }
+
+    @Override
+    public void onBannerCollapsed(MoPubView banner) {
+        Log.d("INFO77","collpased banner");
+    }
+
+    private void chamarAnunciosFragment() {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -110,27 +178,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /*@SuppressLint("MissingSuperCall")
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        try {
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_layout_doacao);
-            if (fragment != null) {
-                fragment.onActivityResult(requestCode, resultCode, data);
-            }
-            if (resultCode != 0) {
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putBoolean("purchased", true);
-                editor.apply();
-            }
-        } catch (Exception | Error e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    private void inicializarComponentes() {
+       private void inicializarComponentes() {
 
         try {
             Toolbar toolbar = findViewById(R.id.toolbar);
@@ -306,6 +354,7 @@ public class MainActivity extends AppCompatActivity
     protected void onPause() {
         try {
             super.onPause();
+            MoPub.onPause(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -315,6 +364,7 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         try {
             super.onResume();
+            MoPub.onResume(this);
             carregaDadosUsuario();
 
             if (GerenciadorPRO.isPRO) {
@@ -328,6 +378,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         try {
+            if(moPubView!=null){
+                moPubView.destroy();
+            }
+            MoPub.onDestroy(this);
             super.onDestroy();
         } catch (Exception e) {
             e.printStackTrace();

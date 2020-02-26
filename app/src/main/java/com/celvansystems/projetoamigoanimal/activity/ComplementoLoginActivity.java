@@ -352,32 +352,34 @@ public class ComplementoLoginActivity extends AppCompatActivity {
 
             btnFinalizarComplemento.setOnClickListener(v -> {
 
-                //Id
-                usuario.setId(ConfiguracaoFirebase.getIdUsuario());
-                //Email
-                String email = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getEmail();
-                if (email != null) {
-                    usuario.setEmail(email);
-                }
-                //Nome
-                if (edtNome.getText() != null && !edtNome.getText().toString().equalsIgnoreCase("")) {
-                    usuario.setNome(edtNome.getText().toString());
-                }
-                //Telefone
-                if (edtTelefone.getText() != null && !edtTelefone.getText().toString().equalsIgnoreCase("")) {
-                    usuario.setTelefone(edtTelefone.getText().toString());
-                }
-                //Pais
-                usuario.setPais(spnPais.getSelectedItem().toString());
-                //Estado
-                if (spnEstado.getSelectedItem() != null && !spnEstado.getSelectedItem().toString().equalsIgnoreCase("")) {
-                    //Cidade
-                    if (spnCidade.getSelectedItem() != null && !spnCidade.getSelectedItem().toString().equalsIgnoreCase("")) {
-                        usuario.setUf(spnEstado.getSelectedItem().toString());
-                        usuario.setCidade(spnCidade.getSelectedItem().toString());
+                if(ConfiguracaoFirebase.isUsuarioLogado()) {
+                    //Id
+                    usuario.setId(ConfiguracaoFirebase.getIdUsuario());
+                    //Email
+                    String email = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getEmail();
+                    if (email != null) {
+                        usuario.setEmail(email);
                     }
+                    //Nome
+                    if (edtNome.getText() != null && !edtNome.getText().toString().equalsIgnoreCase("")) {
+                        usuario.setNome(edtNome.getText().toString());
+                    }
+                    //Telefone
+                    if (edtTelefone.getText() != null && !edtTelefone.getText().toString().equalsIgnoreCase("")) {
+                        usuario.setTelefone(edtTelefone.getText().toString());
+                    }
+                    //Pais
+                    usuario.setPais(spnPais.getSelectedItem().toString());
+                    //Estado
+                    if (spnEstado.getSelectedItem() != null && !spnEstado.getSelectedItem().toString().equalsIgnoreCase("")) {
+                        //Cidade
+                        if (spnCidade.getSelectedItem() != null && !spnCidade.getSelectedItem().toString().equalsIgnoreCase("")) {
+                            usuario.setUf(spnEstado.getSelectedItem().toString());
+                            usuario.setCidade(spnCidade.getSelectedItem().toString());
+                        }
+                    }
+                    salvarUsuario(usuario);
                 }
-                salvarUsuario(usuario);
             });
 
             imvFoto.setOnClickListener((View v) -> escolherImagem());

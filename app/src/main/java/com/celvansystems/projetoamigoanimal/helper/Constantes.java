@@ -2,8 +2,8 @@ package com.celvansystems.projetoamigoanimal.helper;
 
 public class Constantes {
 
-    public static int LIMIT = 1;
-    public static int LIMIT_TODOS = 1;
+    public static int LIMIT = 30;
+    public static int LIMIT_PRO = 51;
     //google login
     public static int GOOGLE_REQUEST_CODE = 100;
 
@@ -31,7 +31,12 @@ public class Constantes {
     public static String ENDERECO_INSTAGRAM = "https://www.instagram.com/animal_friend_jc";
 
     //MOPub
+    public static String PUBLISHER_ID = "f50e8c4f0d7b4b7abcaab5121396798d";
     public static String INTERSTICIAL1 = "c494561838314614a65c2ccd1f4b6b6b";
+    public static String INTERSTICIAL2 = "05300cbbc7c54a07ae1a74c99d5cc448";
+    public static String BANNER_MAIN = "d68f3e4ca36342d394c9496ed479cbcf";
+    public static String BANNER_DOACAO = "63f1b9bbd203410e8ebf461576779cb8";
+
     //AdMob
 
     //public static String ADMOB_APP_ID = "ca-app-pub-6718857112988900~9519509403";
