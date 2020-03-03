@@ -23,6 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.celvansystems.projetoamigoanimal.R;
 import com.celvansystems.projetoamigoanimal.adapter.AdapterAnuncios;
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
+import com.celvansystems.projetoamigoanimal.helper.Constantes;
 import com.celvansystems.projetoamigoanimal.helper.LinearLayoutManagerWrapper;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.celvansystems.projetoamigoanimal.model.Animal;
@@ -57,6 +58,7 @@ public class AnunciosFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView txvSemAnuncios;
     private View view;
+    private boolean primeiro;
     //private View layout;
 
     public AnunciosFragment() {
@@ -79,6 +81,8 @@ public class AnunciosFragment extends Fragment {
     private void inicializarComponentes() {
 
         try {
+            primeiro = true;
+
             anunciosPublicosRef = ConfiguracaoFirebase.getFirebase()
                     .child("meus_animais");
 
@@ -92,7 +96,7 @@ public class AnunciosFragment extends Fragment {
             btnEspecie = view.findViewById(R.id.btnEspecie);
 
             txvSemAnuncios = view.findViewById(R.id.txv_sem_anuncios);
-            txvSemAnuncios.setText(Objects.requireNonNull(getContext()).getString(R.string.nenhum_pet_encontrado));
+            //txvSemAnuncios.setText(Objects.requireNonNull(getContext()).getString(R.string.nenhum_pet_encontrado));
             txvSemAnuncios.setTextSize(15);
             txvSemAnuncios.setVisibility(View.GONE);
 
@@ -135,6 +139,7 @@ public class AnunciosFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private boolean isListaAnunciosPopulada() {
@@ -147,6 +152,17 @@ public class AnunciosFragment extends Fragment {
     private void refreshRecyclerAnuncios() {
 
         try {
+            if(primeiro) {
+                Constantes.LIMIT = 0;
+                Constantes.LIMIT_PRO = 0;
+                txvSemAnuncios.setText(R.string.escolha_cidade_especie);
+                primeiro = false;
+            } else {
+                Constantes.LIMIT = 15;
+                Constantes.LIMIT_PRO = 25;
+                txvSemAnuncios.setText(Objects.requireNonNull(getContext()).getString(R.string.nenhum_pet_encontrado));
+            }
+
             txvSemAnuncios.setVisibility(View.INVISIBLE);
             listaAnuncios.clear();
 

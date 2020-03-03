@@ -13,6 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/txv_sem_anuncios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center_vertical|center|center_horizontal"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:textAlignment="gravity"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
             android:id="@+id/linearLayoutBotoes"
             android:layout_width="match_parent"
@@ -61,20 +75,6 @@
                 android:textColorLink="@color/colorPrimaryDark"
                 tools:ignore="OnClick" />
         </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints">
-
-            <TextView
-                android:id="@+id/txv_sem_anuncios"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
-                android:layout_marginTop="300dp"
-                android:visibility="gone" />
-        </RelativeLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"

@@ -179,7 +179,7 @@ public class DoacaoActivity extends AppCompatActivity implements MoPubView.Banne
 
             @Override
             public void onBillingError(int errorCode, @Nullable Throwable error) {
-                Util.setSnackBar(layout, getString(R.string.error) + errorCode);
+                Util.setSnackBar(layout, getString(R.string.operacao_nao_realizada));
                 Log.d("INFO79", "erro");
             }
 

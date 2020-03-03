@@ -9,6 +9,7 @@
     tools:context=".activity.MainActivity"
     tools:showIn="@layout/drawer_app_bar_main">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view_pager"
         android:layout_width="0dp"
@@ -17,12 +18,11 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".activity.Main2Activity">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        app:layout_constraintVertical_bias="0.0"
+        tools:context=".activity.Main2Activity"/>
 
     <com.mopub.mobileads.MoPubView
         android:id="@+id/banner_main"
