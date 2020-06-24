@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class AnunciosFragment extends Fragment {
     private TextView txvSemAnuncios;
     private View view;
     private boolean primeiro;
+    private ImageView imvDog;
     //private View layout;
 
     public AnunciosFragment() {
@@ -95,10 +97,11 @@ public class AnunciosFragment extends Fragment {
             btnLocal = view.findViewById(R.id.btnCidade);
             btnEspecie = view.findViewById(R.id.btnEspecie);
 
+            imvDog = view.findViewById(R.id.imvDog);
             txvSemAnuncios = view.findViewById(R.id.txv_sem_anuncios);
-            //txvSemAnuncios.setText(Objects.requireNonNull(getContext()).getString(R.string.nenhum_pet_encontrado));
-            txvSemAnuncios.setTextSize(15);
-            txvSemAnuncios.setVisibility(View.GONE);
+            txvSemAnuncios.setText(Objects.requireNonNull(getContext()).getString(R.string.nenhum_pet_encontrado));
+            txvSemAnuncios.setTextSize(18);
+            txvSemAnuncios.setVisibility(View.INVISIBLE);
 
             btnLocal.setOnClickListener(this::filtraPorCidade);
             btnEspecie.setOnClickListener(this::filtraPorEspecie);
@@ -156,11 +159,13 @@ public class AnunciosFragment extends Fragment {
                 Constantes.LIMIT = 0;
                 Constantes.LIMIT_PRO = 0;
                 txvSemAnuncios.setText(R.string.escolha_cidade_especie);
+                imvDog.setVisibility(View.VISIBLE);
                 primeiro = false;
             } else {
                 Constantes.LIMIT = 15;
                 Constantes.LIMIT_PRO = 25;
                 txvSemAnuncios.setText(Objects.requireNonNull(getContext()).getString(R.string.nenhum_pet_encontrado));
+                imvDog.setVisibility(View.GONE);
             }
 
             txvSemAnuncios.setVisibility(View.INVISIBLE);

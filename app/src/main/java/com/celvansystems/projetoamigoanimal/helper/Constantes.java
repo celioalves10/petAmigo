@@ -2,14 +2,15 @@ package com.celvansystems.projetoamigoanimal.helper;
 
 public class Constantes {
 
-    public static int LIMIT = 0;
-    public static int LIMIT_PRO = 0;
+    public static int LIMIT = 15;
+    public static int LIMIT_PRO = 40;
+    public static int MAX_DIAS_ANUNCIOS = 80;
     //google login
     public static int GOOGLE_REQUEST_CODE = 100;
 
     //imagem
     public static int PICK_MAX_SIZE = 500;
-    public static int QUALIDADE_IMAGEM = 40;
+    public static int QUALIDADE_IMAGEM = 35;
 
     //denuncias
     public static int MAX_DENUNCIAS = 10;

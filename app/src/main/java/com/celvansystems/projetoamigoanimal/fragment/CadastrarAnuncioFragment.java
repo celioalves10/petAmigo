@@ -44,7 +44,9 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -281,6 +283,7 @@ public class CadastrarAnuncioFragment extends Fragment
                                                 .getContentResolver(), mBitmap, null, null);
                                         Uri uri = Uri.parse(path);
 
+
                                         listaFotosRecuperadas.put(2, uri.toString());
                                         dialog.dismiss();
                                     }
@@ -390,6 +393,7 @@ public class CadastrarAnuncioFragment extends Fragment
      */
     private void salvarFotosStorage(final Animal animal, String url, final int totalFotos, int contador) {
 
+
         try {
             //cria nó do storage
             final StorageReference imagemAnimal = storage
@@ -429,6 +433,7 @@ public class CadastrarAnuncioFragment extends Fragment
                             MainActivity.reconfiguraNotificacoes(getActivity());
 
                             dialog.dismiss();
+
 
                             //redireciona para MeusAnunciosFragment
                             FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();

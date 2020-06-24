@@ -1,5 +1,7 @@
 package com.celvansystems.projetoamigoanimal.model;
 
+import android.util.Log;
+
 import com.celvansystems.projetoamigoanimal.helper.ConfiguracaoFirebase;
 import com.celvansystems.projetoamigoanimal.helper.Util;
 import com.google.firebase.database.DatabaseReference;
@@ -65,6 +67,7 @@ public class Animal implements Serializable {
                     .child(getIdAnimal());
 
             animalRef.removeValue().addOnSuccessListener(aVoid -> apagarFotosStorage());
+            Log.d("INFO45", "removido "+getIdAnimal());
         } catch (Exception e){e.printStackTrace();}
     }
 

@@ -119,6 +119,7 @@ public class MeusAnunciosFragment extends Fragment {
             fabCadastrar.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View view) {
+
                     FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.view_pager, new CadastrarAnuncioFragment()).addToBackStack("tag").commit();
@@ -138,7 +139,6 @@ public class MeusAnunciosFragment extends Fragment {
 
             adapterMeusAnuncios = new AdapterMeusAnuncios(anuncios);
             recyclerMeusAnuncios.setAdapter(adapterMeusAnuncios);
-
 
             //recupera anuncios para o usuario
             recuperarAnuncios();

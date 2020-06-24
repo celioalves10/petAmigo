@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorNotificacoes;
 import com.celvansystems.projetoamigoanimal.helper.GerenciadorPRO;
 import com.google.android.material.navigation.NavigationView;
@@ -50,7 +51,6 @@ import com.mopub.common.logging.MoPubLog;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubView;
 import com.squareup.picasso.Picasso;
-
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
+
         verificaUsuarioPRO();
 
         configurarBannerMOPUB();
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         reconfiguraNotificacoes(this);
 
        chamarAnunciosFragment();
+
     }
 
     private void configurarBannerMOPUB() {
@@ -111,7 +113,6 @@ public class MainActivity extends AppCompatActivity
             } catch(Exception e){
                 e.printStackTrace();
             }
-
     }
 
     @Override

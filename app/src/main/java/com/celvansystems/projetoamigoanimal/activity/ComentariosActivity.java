@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Objects;
 
 @SuppressLint("Registered")
-public class ComentariosActivity extends AppCompatActivity  implements MoPubInterstitial.InterstitialAdListener{
+public class ComentariosActivity extends AppCompatActivity implements MoPubInterstitial.InterstitialAdListener {
 
     private Animal anuncioSelecionado;
     private AdapterComentarios adapterComentarios;
@@ -155,7 +155,7 @@ public class ComentariosActivity extends AppCompatActivity  implements MoPubInte
 
                         for (final DataSnapshot fotos : dataSnapshot.getChildren()) {
 
-                            if(fotos.getValue() != null) {
+                            if (fotos.getValue() != null) {
                                 String foto = Objects.requireNonNull(fotos.getValue()).toString();
                                 listaFotos.add(foto);
                             }
@@ -248,6 +248,7 @@ public class ComentariosActivity extends AppCompatActivity  implements MoPubInte
     public void onInterstitialDismissed(MoPubInterstitial interstitial) {
         Log.d("INFO77", "dismissed coment");
     }
+
     /**
      * metodo que insere comentarios no firebase
      *
@@ -280,42 +281,45 @@ public class ComentariosActivity extends AppCompatActivity  implements MoPubInte
 
                                     UserInfo user = ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser();
 
-                                    if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(Objects.requireNonNull(user).getUid())) {
+                                    if (usuarios.child("id").getValue() != null && user != null) {
 
-                                        Usuario usuario = new Usuario();
-                                        usuario.setId(ConfiguracaoFirebase.getIdUsuario());
+                                        if (Objects.requireNonNull(usuarios.child("id").getValue()).toString().equalsIgnoreCase(Objects.requireNonNull(user).getUid())) {
 
-                                        //Dados fora do cadastro
-                                        String texto = edtComentario.getText().toString();
-
-                                        if (usuarios.child("nome").getValue() != null) {
-                                            usuario.setNome(Objects.requireNonNull(usuarios.child("nome").getValue()).toString());
-                                        } else {
-                                            String nomeUsuario = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getDisplayName();
-                                            if (nomeUsuario != null) {
-                                                usuario.setNome(nomeUsuario);
-                                            }
-                                        }
-                                        if (usuarios.child("foto").getValue() != null) {
-                                            usuario.setFoto(Objects.requireNonNull(usuarios.child("foto").getValue()).toString());
-                                        }
-
-                                        //Inserindo o comentário
-                                        if (Util.validaTexto(texto)) {
+                                            Usuario usuario = new Usuario();
                                             usuario.setId(ConfiguracaoFirebase.getIdUsuario());
-                                            Comentario coment = new Comentario(usuario, texto, Util.getDataAtualBrasil());
 
-                                            comentarioRef.push().setValue(coment)
-                                                    .addOnCompleteListener(task -> {
+                                            //Dados fora do cadastro
+                                            String texto = edtComentario.getText().toString();
 
-                                                        Util.setSnackBar(layout, getString(R.string.comentario_inserido));
-                                                        edtComentario.setText(null);
-                                                    });
-                                        } else {
-                                            Util.setSnackBar(layout, ctx.getString(R.string.insira_comentario_valido));
+                                            if (usuarios.child("nome").getValue() != null) {
+                                                usuario.setNome(Objects.requireNonNull(usuarios.child("nome").getValue()).toString());
+                                            } else {
+                                                String nomeUsuario = Objects.requireNonNull(ConfiguracaoFirebase.getFirebaseAutenticacao().getCurrentUser()).getDisplayName();
+                                                if (nomeUsuario != null) {
+                                                    usuario.setNome(nomeUsuario);
+                                                }
+                                            }
+                                            if (usuarios.child("foto").getValue() != null) {
+                                                usuario.setFoto(Objects.requireNonNull(usuarios.child("foto").getValue()).toString());
+                                            }
+
+                                            //Inserindo o comentário
+                                            if (Util.validaTexto(texto)) {
+                                                usuario.setId(ConfiguracaoFirebase.getIdUsuario());
+                                                Comentario coment = new Comentario(usuario, texto, Util.getDataAtualBrasil());
+
+                                                comentarioRef.push().setValue(coment)
+                                                        .addOnCompleteListener(task -> {
+
+                                                            Util.setSnackBar(layout, getString(R.string.comentario_inserido));
+                                                            edtComentario.setText(null);
+                                                        });
+                                            } else {
+                                                Util.setSnackBar(layout, ctx.getString(R.string.insira_comentario_valido));
+                                            }
+
+                                            updateRecycler(anuncio);
                                         }
-
-                                        updateRecycler(anuncio);
                                     }
                                 }
                             }
@@ -358,17 +362,17 @@ public class ComentariosActivity extends AppCompatActivity  implements MoPubInte
                         if (comentarios != null) {
 
                             Usuario usuario = new Usuario();
-                            if(comentarios.child("usuario").child("id").getValue()!= null) {
+                            if (comentarios.child("usuario").child("id").getValue() != null) {
                                 usuario.setId(Objects.requireNonNull(comentarios.child("usuario").child("id").getValue()).toString());
                             }
-                            if(comentarios.child("usuario").child("nome").getValue() != null) {
+                            if (comentarios.child("usuario").child("nome").getValue() != null) {
                                 usuario.setNome(Objects.requireNonNull(comentarios.child("usuario").child("nome").getValue()).toString());
                             }
                             coment.setUsuario(usuario);
-                            if(comentarios.child("datahora").getValue()!=null) {
+                            if (comentarios.child("datahora").getValue() != null) {
                                 coment.setDatahora(Objects.requireNonNull(comentarios.child("datahora").getValue()).toString());
                             }
-                            if(comentarios.child("texto").getValue()!=null) {
+                            if (comentarios.child("texto").getValue() != null) {
                                 coment.setTexto(Objects.requireNonNull(comentarios.child("texto").getValue()).toString());
                             }
                             comentsList.add(coment);

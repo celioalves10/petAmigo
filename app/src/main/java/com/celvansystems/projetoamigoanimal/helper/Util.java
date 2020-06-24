@@ -2,12 +2,10 @@ package com.celvansystems.projetoamigoanimal.helper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-
-import com.google.android.material.snackbar.Snackbar;
-
 import android.view.View;
 
 import com.celvansystems.projetoamigoanimal.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;

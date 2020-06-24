@@ -200,7 +200,7 @@
     <string name="faca">Faça uma doação e tenha acesso aos números de telefone cadastrados pelos anunciantes!</string>
     <string name="btn_pro">R$4,99</string>
     <string name="pro_content">Versão PRO</string>
-    <string name="sem_propagandas_sem_limte">Sem propagandas, sem limite.</string>
+    <string name="sem_propagandas_sem_limte">Sem propagandas, sem limite.\n\nAjude a manter este App do bem!</string>
     <string name="versao_pro">Versão PRO</string>
     <string name="voce_um_usuario_pro">Você é um usuário PRO!</string>
     <string name="usuario_pro">Usuário PRO</string>
@@ -209,7 +209,7 @@
     <string name="erro_memoria">Erro de memória</string>
     <string name="doacoes">Doações</string>
     <string name="operacao_nao_realizada">Operação não realizada!</string>
-    <string name="escolha_cidade_especie">Escolha a cidade e espécie desejadas.</string>
+    <string name="escolha_cidade_especie"> Cadastre seu Pet para doação ou escolha a cidade e espécie desejadas! </string>
 
     <string-array name="idade">
         <item>0–3 meses</item>
